@@ -14,12 +14,12 @@
 Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
-Version:	1.1.5
+Version:	1.1.6
 Release:	1
 License:	LGPL
 Group:		Applications/Databases
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/1.1/%{name}-%{version}.tar.bz2
-# Source0-md5:	b08d701b53052dafed1009119a5a11be
+# Source0-md5:	971142a54704f73224b0d49d7e5b10ad
 #Source0:	ftp://ftp.gnome-db.org/pub/gnome-db/sources/v%{version}/%{name}-%{version}.tar.gz
 Patch0:		%{name}-locale-names.patch
 Patch1:		%{name}-gcc34.patch
