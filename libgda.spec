@@ -1,13 +1,14 @@
 #
 # Conditional build:
-# _without_firebird - build without freetds plugin
-# _without_freetds  - build without freetds plugin
-# _without_ldap     - build without ldap plugin
-# _without_mysql    - build without MySQL plugin
-# _without_odbc     - build without unixODBC
-# _without_pgsql    - build without PostgreSQL plugin
-# _without_sqlite   - build without sqlite plugin
-#
+%bcond_without firebird		# build without freetds plugin
+%bcond_without freetds		# build without freetds plugin
+%bcond_without ldap		# build without ldap plugin
+%bcond_without mysql		# build without MySQL plugin
+%bcond_without odbc		# build without unixODBC
+%bcond_without pgsql		# build without PostgreSQL plugin
+%bcond_without sqlite		# build without sqlite plugin
+%bcond_without mdb		# build without MDB plugin
+
 %ifnarch %{ix86}
 %define _without_firebird 1
 %endif
@@ -20,10 +21,11 @@ License:	LGPL
 Group:		Applications/Databases
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/1.0/%{name}-%{version}.tar.bz2
 # Source0-md5:	c84cad90fb721c41fc6c47ee2829f4f0
-%{!?_without_firebird:BuildRequires:	Firebird-devel}
+Patch0:		%{name}-mdb.patch
+%{?with_firebird:BuildRequires:	Firebird-devel}
 BuildRequires:	autoconf
 BuildRequires:	automake
-%{!?_without_freetds:BuildRequires:	freetds-devel >= 0.61}
+%{?with_freetds:BuildRequires:	freetds-devel >= 0.61}
 BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel >= 2.2.0
 BuildRequires:	gnome-common
@@ -31,12 +33,13 @@ BuildRequires:	gtk-doc
 BuildRequires:	libtool
 BuildRequires:	libxml2-devel
 BuildRequires:	libxslt-devel >= 1.0.9
-%{!?_without_mysql:BuildRequires:	mysql-devel}
-%{!?_without_ldap:BuildRequires:	openldap-devel}
-%{!?_without_pgsql:BuildRequires:	postgresql-devel}
+%{?with_mdb:BuildRequires:	mdbtools-devel}
+%{?with_mysql:BuildRequires:	mysql-devel}
+%{?with_ldap:BuildRequires:	openldap-devel}
+%{?with_pgsql:BuildRequires:	postgresql-devel}
 BuildRequires:	scrollkeeper
-%{!?_without_sqlite:BuildRequires:	sqlite-devel}
-%{!?_without_odbc:BuildRequires:	unixODBC-devel}
+%{?with_sqlite:BuildRequires:	sqlite-devel}
+%{?with_odbc:BuildRequires:	unixODBC-devel}
 Requires(post,postun):	/sbin/ldconfig
 Requires(post,postun):	scrollkeeper
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -130,6 +133,18 @@ This package contains the GDA LDAP provider.
 %description -n gda-ldap -l pl
 Pakiet dostarczaj±cy dane z LDAP dla GDA
 
+%package -n gda-mdb
+Summary:	GDA MDB provider
+Summary(pl):	¬ród³o danych MDB
+Group:		Applications/Database
+Requires:	%{name} = %{version}
+
+%description -n gda-mdb
+This package contains the GDA MDB provider.
+
+%description -n gda-mdb -l pl
+Pakiet dostarczaj±cy dane z MDB dla GDA.
+
 %package -n gda-mysql
 Summary:	GDA MySQL provider
 Summary(pl):	¬ród³o danych MySQL dla GDA
@@ -182,6 +197,7 @@ Pakiet dostarczaj±cy dane z SQLite dla GDA.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
@@ -191,20 +207,22 @@ CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
 %configure \
 			--enable-gtk-doc \
 			--with-html-dir=%{_gtkdocdir} \
-%{?_without_firebird:	--without-firebird} \
-%{!?_without_firebird:	--with-firebird} \
-%{?_without_ldap:	--without-ldap} \
-%{!?_without_ldap:	--with-ldap} \
-%{?_without_mysql:	--without-mysql} \
-%{!?_without_mysql:	--with-mysql} \
-%{?_without_odbc:	--without-odbc} \
-%{!?_without_odbc:	--with-odbc} \
-%{?_without_pgsql:	--without-postgres} \
-%{!?_without_pgsql:	--with-postgres} \
-%{?_without_sqlite:	--without-sqlite} \
-%{!?_without_sqlite:	--with-sqlite} \
-%{?_without_freetds:	--without-tds} \
-%{!?_without_freetds:	--with-tds} \
+%{!?with_firebird:	--without-firebird} \
+%{?with_firebird:	--with-firebird} \
+%{!?with_ldap:		--without-ldap} \
+%{?with_ldap:		--with-ldap} \
+%{!?with_mysql:		--without-mysql} \
+%{?with_mysql:		--with-mysql} \
+%{!?with_odbc:		--without-odbc} \
+%{?with_odbc:		--with-odbc} \
+%{!?with_pgsql:		--without-postgres} \
+%{?with_pgsql:		--with-postgres} \
+%{!?with_sqlite:	--without-sqlite} \
+%{?with_sqlite:		--with-sqlite} \
+%{!?with_freetds:	--without-tds} \
+%{?with_freetds:	--with-tds} \
+%{!?with_mdb:		--without-mdb } \
+%{?with_mdb:		--with-mdb} \
 			--without-oracle
 
 # Generate file probably accidentally (?) not included in sources
@@ -273,43 +291,49 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/lib*.a
 
-%if %{!?_without_firebird:1}0
+%if %{with firebird}
 %files -n gda-firebird
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libgda/providers/libgda-firebird.so
 %endif
 
-%if %{!?_without_freetds:1}0
+%if %{with freetds}
 %files -n gda-freetds
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libgda/providers/libgda-freetds.so
 %endif
 
-%if %{!?_without_ldap:1}0
+%if %{with ldap}
 %files -n gda-ldap
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libgda/providers/libgda-ldap.so
 %endif
 
-%if %{!?_without_mysql:1}0
+%if %{with mdb}
+%files -n gda-mdb
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libgda/providers/libgda-mdb.so
+%endif
+
+%if %{with mysql}
 %files -n gda-mysql
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libgda/providers/libgda-mysql.so
 %endif
 
-%if %{!?_without_odbc:1}0
+%if %{with odbc}
 %files -n gda-odbc
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libgda/providers/libgda-odbc.so
 %endif
 
-%if %{!?_without_pgsql:1}0
+%if %{with pgsql}
 %files -n gda-postgres
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libgda/providers/libgda-postgres.so
 %endif
 
-%if %{!?_without_sqlite:1}0
+%if %{with sqlite}
 %files -n gda-sqlite
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libgda/providers/libgda-sqlite.so
