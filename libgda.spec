@@ -10,7 +10,7 @@
 %bcond_without sqlite		# build without sqlite plugin
 %bcond_without xbase		# build without xbase plugin
 #
-%ifnarch %{ix86}
+%ifnarch %{ix86} sparc sparcv9 ppc
 %undefine	with_firebird
 %endif
 Summary:	GNU Data Access library
