@@ -210,6 +210,7 @@ mv po/{no,nb}.po
 
 %build
 CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
+%{__libtoolize}
 %{__aclocal} -I %{_aclocaldir}/gnome2-macros
 %{__autoconf}
 %{__automake}
