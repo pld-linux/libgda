@@ -63,7 +63,7 @@ to allow non-GNOME applications to be developed based on it.
 %description -l pl
 GNU Data Access to próba zapewnienia jednolitego dostêpu do ró¿nych
 ¼róde³ danych (bazy danych, serwery informacji, katalogi z poczt±
-itp.). Jest kompletn± architektuj± dostarczaj±c± wszystko co
+itp.). Jest kompletn± architektur± dostarczaj±c± wszystko, czego
 potrzebujesz do dostêpu do danych.
 
 libgda by³a czê¶ci± projektu GNOME-DB, ale zosta³a wydzielona, aby
@@ -88,7 +88,7 @@ access your data. This subpackage contains development files.
 %description devel -l pl
 GNU Data Access to próba zapewnienia jednolitego dostêpu do ró¿nych
 ¼róde³ danych (bazy danych, serwery informacji, katalogi z poczt±
-itp.). Jest kompletn± architektuj± dostarczaj±c± wszystko co
+itp.). Jest kompletn± architektur± dostarczaj±c± wszystko, czego
 potrzebujesz do dostêpu do danych. Ten podpakiet zawiera pliki dla
 programistów u¿ywaj±cych libgda.
 
@@ -114,7 +114,7 @@ Requires:	%{name} = %{version}-%{release}
 This package contains the GDA Firebird provider.
 
 %description -n gda-firebird -l pl
-Pakiet dostaczaj±cy dane z Firebird dla GDA.
+Pakiet dostarczaj±cy dane z Firebird dla GDA.
 
 %package -n gda-freetds
 Summary:	GDA FreeTDS provider
@@ -175,7 +175,7 @@ Requires:	%{name} = %{version}-%{release}
 This package contains the GDA ODBC provider.
 
 %description -n gda-odbc -l pl
-Pakiet dostaczaj±cy dane z ODBC dla GDA.
+Pakiet dostarczaj±cy dane z ODBC dla GDA.
 
 %package -n gda-postgres
 Summary:	GDA PostgreSQL provider
