@@ -1,17 +1,23 @@
 Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
-Version:	0.1.0
-Release:	2
-License:	GPL
+Version:	0.2.93
+Release:	1
+License:	LGPL
 Group:		Applications/Databases
 Group(de):	Applikationen/Dateibanken
 Group(pl):	Aplikacje/Bazy danych
-Source0:	ftp://ftp.gnome.org/pub/GNOME/stable/sources/gnome-db/%{name}-%{version}.tar.gz
-Patch0:		%{name}-shared_libmysqlclient.patch
-Patch1:		%{name}-DESTDIR.patch
-Patch2:		%{name}-GNU_GETTEXT.patch
-URL:		http://www.gnome.org/projects/gnome-db/
+Source0:	ftp://ftp.gnome-db.org/pub/gnome-db/sources/latest/%{name}-%{version}.tar.gz
+Patch0:		%{name}-GNU_GETTEXT.patch
+URL:		http://www.gnome-db.org/
+BuildRequires:	glib-devel >= 1.2.0
+BuildRequires:	gtk+-devel >= 1.0.0
+BuildRequires:	ORBit-devel
+BuildRequires:	bonobo-devel
+BuildRequires:	libxml-devel
+BuildRequires:	libxml2-devel
+BuildRequires:	libxslt-devel
+BuildRequires:	gtk-doc
 BuildRequires:	GConf-devel
 BuildRequires:	gettext-devel
 BuildRequires:	gnome-libs-devel
@@ -28,6 +34,7 @@ BuildRequires:	libtool
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define 	_prefix		/usr/X11R6
+%define         _sysconfdir     /etc/X11/GNOME
 
 %description
 GNU Data Access is an attempt to provide uniform access to different
@@ -191,8 +198,6 @@ Pakiet dostarczaj±cy dane z LDAP dla GDA.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
-%patch2 -p1
 
 %build
 rm -f missing
