@@ -1,0 +1,24 @@
+diff -urN aa/libgda-1.2.0/providers/freetds/gda-freetds-provider.c libgda-1.2.0/providers/freetds/gda-freetds-provider.c
+--- aa/libgda-1.2.0/providers/freetds/gda-freetds-provider.c	2004-12-28 14:14:03.000000000 +0100
++++ libgda-1.2.0/providers/freetds/gda-freetds-provider.c	2005-02-04 17:20:53.155918344 +0100
+@@ -803,7 +803,7 @@
+ 
+ 	/* there should not be any result tokens */
+ #ifdef HAVE_FREETDS_VER0_6X
+-	while ((tds_cnc->rc = tds_process_result_tokens (tds_cnc->tds, &tds_cnc->result_type))
++	while ((tds_cnc->rc = tds_process_result_tokens (tds_cnc->tds, &tds_cnc->result_type, NULL))
+ #else
+ 	while ((tds_cnc->rc = tds_process_result_tokens (tds_cnc->tds)) 
+ #endif
+diff -urN aa/libgda-1.2.0/providers/freetds/gda-freetds-recordset.c libgda-1.2.0/providers/freetds/gda-freetds-recordset.c
+--- aa/libgda-1.2.0/providers/freetds/gda-freetds-recordset.c	2004-12-28 14:12:43.000000000 +0100
++++ libgda-1.2.0/providers/freetds/gda-freetds-recordset.c	2005-02-04 17:29:02.227568152 +0100
+@@ -341,7 +341,7 @@
+ 
+ #ifdef HAVE_FREETDS_VER0_6X
+ 	while ((tds_cnc->rc = tds_process_result_tokens (tds_cnc->tds,
+-							 &tds_cnc->result_type))
++							 &tds_cnc->result_type, NULL))
+ 	       == TDS_SUCCEED) {
+ 		if (tds_cnc->result_type == TDS_ROW_RESULT) {
+ 			gint row_type, compute_id;
