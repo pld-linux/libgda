@@ -17,7 +17,7 @@ Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
 Version:	1.0.4
-Release:	1
+Release:	2
 License:	LGPL
 Group:		Applications/Databases
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/1.0/%{name}-%{version}.tar.bz2
@@ -27,6 +27,7 @@ Patch1:		%{name}-freetds.patch
 Patch2:		%{name}-docbook.patch
 Patch3:		%{name}-xbase.patch
 Patch4:		%{name}-gcc34.patch
+Patch5:		%{name}-locale-names.patch
 %{?with_firebird:BuildRequires:	Firebird-devel}
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -220,6 +221,9 @@ Pakiet dostarczaj±cy dane z xBase (dBase, Clippera, FoxPro) dla GDA.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
+
+mv -f po/{no,nb}.po
 
 %build
 CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
@@ -228,27 +232,18 @@ CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
 %{__autoconf}
 %{__automake}
 %configure \
-			--enable-gtk-doc \
-			--with-html-dir=%{_gtkdocdir} \
-%{!?with_firebird:	--without-firebird} \
-%{?with_firebird:	--with-firebird} \
-%{!?with_ldap:		--without-ldap} \
-%{?with_ldap:		--with-ldap} \
-%{!?with_mdb:		--without-mdb } \
-%{?with_mdb:		--with-mdb} \
-%{!?with_mysql:		--without-mysql} \
-%{?with_mysql:		--with-mysql} \
-%{!?with_odbc:		--without-odbc} \
-%{?with_odbc:		--with-odbc} \
-%{!?with_pgsql:		--without-postgres} \
-%{?with_pgsql:		--with-postgres} \
-%{!?with_sqlite:	--without-sqlite} \
-%{?with_sqlite:		--with-sqlite} \
-%{!?with_freetds:	--without-tds} \
-%{?with_freetds:	--with-tds} \
-%{!?with_xbase:		--without-xbase} \
-%{?with_xbase:		--with-xbase} \
-			--without-oracle
+	--enable-gtk-doc \
+	--with-html-dir=%{_gtkdocdir} \
+	--with%{!?with_firebird:out}-firebird \
+	--with%{!?with_ldap:out}-ldap \
+	--with%{!?with_mdb:out}-mdb \
+	--with%{!?with_mysql:out}-mysql \
+	--with%{!?with_odbc:out}-odbc \
+	--with%{!?with_pgsql:out}-postgres \
+	--with%{!?with_sqlite:out}-sqlite \
+	--with%{!?with_freetds:out}-tds \
+	--with%{!?with_xbase:out}-xbase \
+	--without-oracle
 
 # Generate file probably accidentally (?) not included in sources
 cd libgda
