@@ -16,7 +16,7 @@ Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
 Version:	1.0.3
-Release:	1
+Release:	2
 License:	LGPL
 Group:		Applications/Databases
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/1.0/%{name}-%{version}.tar.bz2
@@ -67,7 +67,7 @@ pozwoliæ na u¿ywanie przez niegnomowe aplikacje.
 Summary:	GNU Data Access development
 Summary(pl):	Dla programistów GNU Data Access
 Group:		Development/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 Requires:	glib2-devel >= 2.2.0
 Requires:	gtk-doc-common
 Requires:	libxslt-devel >= 1.0.9
@@ -90,7 +90,7 @@ programistów u¿ywaj±cych libgda.
 Summary:	GNU Data Access static libraries
 Summary(pl):	Statyczne biblioteki GNU Data Access
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}
+Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
 GNU Data Access static libraries.
@@ -102,7 +102,7 @@ Statyczne biblioteki GNU Data Access.
 Summary:	GDA Firebird provider
 Summary(pl):	¬ród³o danych Firebird dla GDA
 Group:		Applications/Databases
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description -n gda-firebird
 This package contains the GDA Firebird provider.
@@ -114,7 +114,7 @@ Pakiet dostaczaj±cy dane z Firebird dla GDA.
 Summary:	GDA FreeTDS provider
 Summary(pl):	¬ród³o danych FreeTDS dla GDA
 Group:		Applications/Databases
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description -n gda-freetds
 This package contains the GDA FreeTDS provider.
@@ -126,7 +126,7 @@ Pakiet dostarczaj±cy dane z FreeTDS dla GDA.
 Summary:	GDA LDAP provider
 Summary(pl):	¬ród³o danych LDAP dla GDA
 Group:		Applications/Database
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description -n gda-ldap
 This package contains the GDA LDAP provider.
@@ -138,7 +138,7 @@ Pakiet dostarczaj±cy dane z LDAP dla GDA
 Summary:	GDA MDB provider
 Summary(pl):	¬ród³o danych MDB
 Group:		Applications/Database
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description -n gda-mdb
 This package contains the GDA MDB provider.
@@ -150,7 +150,7 @@ Pakiet dostarczaj±cy dane z MDB dla GDA.
 Summary:	GDA MySQL provider
 Summary(pl):	¬ród³o danych MySQL dla GDA
 Group:		Applications/Databases
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 Obsoletes:	libgda-mysql0
 
 %description -n gda-mysql
@@ -163,7 +163,7 @@ Pakiet dostarczaj±cy dane z MySQL dla GDA.
 Summary:	GDA ODBC provider
 Summary(pl):	¬ród³o danych ODBC dla GDA
 Group:		Applications/Databases
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description -n gda-odbc
 This package contains the GDA ODBC provider.
@@ -175,7 +175,7 @@ Pakiet dostaczaj±cy dane z ODBC dla GDA.
 Summary:	GDA PostgreSQL provider
 Summary(pl):	¬ród³o danych PostgreSQL dla GDA
 Group:		Applications/Databases
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 Obsoletes:	libgda-postgres0
 
 %description -n gda-postgres
@@ -188,7 +188,7 @@ Pakiet dostarczaj±cy dane z PostgreSQL dla GDA.
 Summary:	GDA SQLite provider
 Summary(pl):	¬ród³o danych SQLite dla GDA
 Group:		Applications/Databases
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description -n gda-sqlite
 This package contains the GDA SQLite provider.
