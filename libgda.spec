@@ -126,7 +126,7 @@ This package contains the GDA LDAP provider.
 gettextize --copy --force
 automake
 autoconf
-CXXFLAGS="%{!?debug:$RPM_OPT_FLAGS -fno-rtti -fno-exceptions}%{?debug:-O -g}"
+CXXFLAGS="%{!?debug:$RPM_OPT_FLAGS -fno-rtti -fno-exceptions}%{?debug:-O0 -g}"
 %configure \
 	--with-odbc \
 	--with-postgres \
