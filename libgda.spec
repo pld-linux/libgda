@@ -5,7 +5,7 @@ Version:	0.10.0
 Release:	1
 License:	LGPL
 Group:		Applications/Databases
-Source0:	ftp://ftp.gnome-db.org/pub/gnome-db/sources/%{version}/%{name}-%{version}.tar.gz
+Source0:	ftp://ftp.gnome-db.org/pub/gnome-db/sources/v%{version}/%{name}-%{version}.tar.gz
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	freetds-devel
