@@ -26,6 +26,7 @@ Patch0:		%{name}-mdb.patch
 Patch1:		%{name}-freetds.patch
 Patch2:		%{name}-docbook.patch
 Patch3:		%{name}-xbase.patch
+Patch4:		%{name}-gcc34.patch
 %{?with_firebird:BuildRequires:	Firebird-devel}
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -218,6 +219,7 @@ Pakiet dostarczaj±cy dane z xBase (dBase, Clippera, FoxPro) dla GDA.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
