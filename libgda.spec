@@ -14,12 +14,13 @@
 Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
-Version:	0.90.0
+Version:	0.91.0
 Release:	1
 License:	LGPL
 Group:		Applications/Databases
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/libgda/0.90/%{name}-%{version}.tar.bz2
-# Source0-md5:	1a2571c4bffd95bb0edb3d63189c93b4
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/libgda/0.91/%{name}-%{version}.tar.bz2
+# Source0-md5:	fcb413d3f26724ff3f6d459c79fa4453
+Patch0:		%{name}-configure.patch
 %{!?_without_firebird:BuildRequires:	Firebird-devel}
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -178,9 +179,13 @@ Pakiet dostarczaj±cy dane z SQLite dla GDA.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
+%{__aclocal}
+%{__autoconf}
+%{__automake}
 %configure \
 			--enable-gtk-doc \
 			--with-html-dir=%{_gtkdocdir} \
@@ -232,8 +237,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libgdasql.so.*.*
 %dir %{_libdir}/libgda
 %dir %{_libdir}/libgda/providers
-%attr(755,root,root) %{_libdir}/libgda/providers/libgda-default.so
-%{_libdir}/libgda/providers/libgda-default.la
+%attr(755,root,root) %{_libdir}/libgda/providers/libgda-xml.so
+%{_libdir}/libgda/providers/libgda-xml.la
 %{_datadir}/libgda
 %{_omf_dest_dir}/%{name}
 %{_mandir}/man5/*
