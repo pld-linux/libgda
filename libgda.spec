@@ -14,17 +14,18 @@
 Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
-Version:	1.1.99
+Version:	1.2.0
 Release:	1
 License:	LGPL
 Group:		Applications/Databases
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/1.1/%{name}-%{version}.tar.bz2
-# Source0-md5:	ca7cb079d48988cb8495a8be9a3b88c1
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/1.2/%{name}-%{version}.tar.bz2
+# Source0-md5:	c18ac2dc6484c58cc9f72387abb9a10c
 #Source0:	ftp://ftp.gnome-db.org/pub/gnome-db/sources/v%{version}/%{name}-%{version}.tar.gz
 Patch0:		%{name}-gcc34.patch
+Patch1:		%{name}-freetds_buildfix.patch
 %{?with_firebird:BuildRequires:	Firebird-devel}
-BuildRequires:	autoconf >= 2.52
-BuildRequires:	automake
+BuildRequires:	autoconf >= 2.59
+BuildRequires:	automake >= 1.8
 BuildRequires:	bison
 BuildRequires:	db-devel
 BuildRequires:	flex
@@ -205,6 +206,7 @@ Pakiet dostarczaj±cy dane z SQLite dla GDA.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 cp /usr/share/automake/mkinstalldirs .
@@ -285,7 +287,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libgda-2.la
 %{_libdir}/libgda-report-2.la
 %{_libdir}/libgdasql.la
-%{_includedir}/libgda-1.1
+%{_includedir}/libgda-1.2
 %{_pkgconfigdir}/*
 %{_mandir}/man1/*
 %{_gtkdocdir}/*
