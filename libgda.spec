@@ -1,13 +1,11 @@
 #
-# TODO: fix freetds plugin
-#
 # Conditional build:
-# --without freetds  - build without freetds plugin
-# --without ldap     - build without ldap plugin
-# --without mysql    - build without MySQL plugin
-# --without odbc     - build without unixODBC
-# --without pgsql    - build without PostgreSQL plugin
-# --without sqlite   - build without sqlite plugin
+# _without_freetds  - build without freetds plugin
+# _without_ldap     - build without ldap plugin
+# _without_mysql    - build without MySQL plugin
+# _without_odbc     - build without unixODBC
+# _without_pgsql    - build without PostgreSQL plugin
+# _without_sqlite   - build without sqlite plugin
 #
 Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
@@ -32,7 +30,8 @@ BuildRequires:	libxslt-devel >= 1.0.9
 BuildRequires:	scrollkeeper
 %{!?_without_sqlite:BuildRequires:	sqlite-devel}
 %{!?_without_odbc:BuildRequires:	unixODBC-devel}
-Prereq:         scrollkeeper
+Requires(post,postun):	/sbin/ldconfig
+Requires(post,postun):	scrollkeeper
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -211,6 +210,10 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libgda-2.so.*.*
 %attr(755,root,root) %{_libdir}/libgda-report-2.so.*.*
 %attr(755,root,root) %{_libdir}/libgdasql.so.*.*
+%dir %{_libdir}/libgda
+%dir %{_libdir}/libgda/providers
+%attr(755,root,root) %{_libdir}/libgda/providers/libgda-default.so
+%{_libdir}/libgda/providers/libgda-default.la
 %{_datadir}/libgda
 %{_omf_dest_dir}/%{name}
 %{_mandir}/man5/*
@@ -224,10 +227,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libgda-2.so
 %attr(755,root,root) %{_libdir}/libgda-report-2.so
 %attr(755,root,root) %{_libdir}/libgdasql.so
-%dir %{_libdir}/libgda
-%dir %{_libdir}/libgda/providers
-%attr(755,root,root) %{_libdir}/libgda/providers/libgda-default.so
-%{_libdir}/libgda/providers/libgda-default.la
 %{_libdir}/libgda-2.la
 %{_libdir}/libgda-report-2.la
 %{_libdir}/libgdasql.la
