@@ -2,7 +2,7 @@ Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
 Version:	0.2.96
-Release:	1
+Release:	2
 License:	LGPL
 Group:		Applications/Databases
 Source0:	ftp://ftp.gnome-db.org/pub/gnome-db/sources/latest/%{name}-%{version}.tar.gz
@@ -30,12 +30,15 @@ BuildRequires:	mysql-devel
 BuildRequires:	oaf-devel
 BuildRequires:	openldap-devel >= 2.0.0
 BuildRequires:	postgresql-devel
+BuildRequires:	scrollkeeper
 BuildRequires:	unixODBC-devel
+Prereq:         scrollkeeper
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	libgda0
 
 %define 	_prefix		/usr/X11R6
 %define         _sysconfdir     /etc/X11/GNOME
+%define		_omf_dest_dir   %(scrollkeeper-config --omfdir)
 
 %description
 GNU Data Access is an attempt to provide uniform access to different
@@ -192,7 +195,9 @@ LD_LIBRARY_PATH=$(pwd)/lib/gda-common/.libs; export LD_LIBRARY_PATH
 rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT
+	DESTDIR=$RPM_BUILD_ROOT \
+	omf_dest_dir=%{_omf_dest_dir}/%{name}
+
 
 gzip -9nf AUTHORS ChangeLog NEWS README
 
@@ -201,8 +206,13 @@ gzip -9nf AUTHORS ChangeLog NEWS README
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post   -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
+%post
+/sbin/ldconfig
+/usr/bin/scrollkeeper-update
+
+%postun
+/sbin/ldconfig
+/usr/bin/scrollkeeper-update
 
 %post	clientcpp -p /sbin/ldconfig
 %postun	clientcpp -p /sbin/ldconfig
@@ -213,6 +223,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libgda-client.so.*.*
 %attr(755,root,root) %{_libdir}/libgda-server.so.*.*
 %{_datadir}/gda
+%{_datadir}/idl/*
+%{_omf_dest_dir}/%{name}
 
 %files devel -f %{name}.lang
 %defattr(644,root,root,755)
@@ -228,8 +240,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libgda-server.la
 %dir %{_includedir}/%{name}-%{version}/
 %{_includedir}/%{name}-%{version}/gda
-%{_datadir}/idl/*
-%{_datadir}/omf/%{name}
 
 %files static
 %defattr(644,root,root,755)
