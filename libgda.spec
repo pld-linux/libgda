@@ -14,12 +14,12 @@
 Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
-Version:	1.1.3
+Version:	1.1.4
 Release:	1
 License:	LGPL
 Group:		Applications/Databases
 Source0:	ftp://ftp.gnome-db.org/pub/gnome-db/sources/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	3e848f37b35d9a6cf3535a44e2792da2
+# Source0-md5:	3ffd428100e131da2c56697c9d162515
 #Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/1.1/%{name}-%{version}.tar.bz2
 Patch0:		%{name}-locale-names.patch
 %{?with_firebird:BuildRequires:	Firebird-devel}
@@ -37,7 +37,7 @@ BuildRequires:	intltool
 BuildRequires:	libtool
 BuildRequires:	libxml2-devel
 BuildRequires:	libxslt-devel >= 1.0.9
-##%{?with_mysql:BuildRequires:	mysql-devel}
+%{?with_mysql:BuildRequires:	mysql-devel}
 %{?with_ldap:BuildRequires:	openldap-devel}
 BuildRequires:	perl-base
 BuildRequires:	popt-devel
@@ -317,11 +317,11 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libgda/providers/libgda-ldap.so
 %endif
 
-##%if %{with mysql}
-##%files -n gda-mysql
-##%defattr(644,root,root,755)
-##%attr(755,root,root) %{_libdir}/libgda/providers/libgda-mysql.so
-##%endif
+%if %{with mysql}
+%files -n gda-mysql
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libgda/providers/libgda-mysql.so
+%endif
 
 %if %{with odbc}
 %files -n gda-odbc
