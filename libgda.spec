@@ -1,14 +1,17 @@
+#
+# TODO: fix freetds plugin
+#
 Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
-Version:	0.10.0
+Version:	0.11.0
 Release:	1
 License:	LGPL
 Group:		Applications/Databases
 Source0:	ftp://ftp.gnome-db.org/pub/gnome-db/sources/v%{version}/%{name}-%{version}.tar.gz
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	freetds-devel
+#BuildRequires:	freetds-devel
 BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel
 BuildRequires:	gtk-doc
@@ -161,7 +164,8 @@ CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
 	--with-mysql \
 	--with-sqlite \
 	--with-ldap \
-	--without-oracle
+	--without-oracle \
+	--without-tds
 
 %{__make}
 
@@ -243,10 +247,10 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libgda/providers/libgda-sqlite.so
 %{_libdir}/libgda/providers/libgda-sqlite.la
 
-%files -n gda-freetds
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libgda/providers/libgda-freetds.so
-%{_libdir}/libgda/providers/libgda-freetds.la
+#%%files -n gda-freetds
+#%%defattr(644,root,root,755)
+#%%attr(755,root,root) %{_libdir}/libgda/providers/libgda-freetds.so
+#%%{_libdir}/libgda/providers/libgda-freetds.la
 
 %files -n gda-ldap
 %defattr(644,root,root,755)
