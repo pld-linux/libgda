@@ -1,0 +1,12 @@
+diff -urN libgda-0.2.93.org/providers/gda-ldap-server/Makefile.am libgda-0.2.93/providers/gda-ldap-server/Makefile.am
+--- libgda-0.2.93.org/providers/gda-ldap-server/Makefile.am	Thu Jan 10 01:59:54 2002
++++ libgda-0.2.93/providers/gda-ldap-server/Makefile.am	Thu Jan 10 11:25:57 2002
+@@ -23,7 +23,7 @@
+ 	gda-ldap-recordset.c \
+ 	gda-ldap.h
+ 
+-oafdir=$(DESTDIR)$(GDA_oafdir)
++oafdir=$(GDA_oafdir)
+ 
+ oaf_in_files = GNOME_GDA_Provider_LDAP.oaf.in
+ oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
