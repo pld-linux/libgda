@@ -215,7 +215,6 @@ CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
 %{__aclocal} -I %{_aclocaldir}/gnome2-macros
 %{__autoconf}
 %{__automake}
-# Temporary disabled gtk-doc building - it doesn't build
 %configure \
 			--enable-gtk-doc \
 			--with-html-dir=%{_gtkdocdir} \
