@@ -1,0 +1,87 @@
+diff -Nuard libgda-0.2.96.orig/doc/libgda-C.omf libgda-0.2.96/doc/libgda-C.omf
+--- libgda-0.2.96.orig/doc/libgda-C.omf	Wed Oct 17 19:28:11 2001
++++ libgda-0.2.96/doc/libgda-C.omf	Wed Oct  2 14:47:40 2002
+@@ -1,14 +1,22 @@
+ <?xml version="1.0" standalone="no"?>
++<!DOCTYPE omf PUBLIC "-//OMF//DTD Scrollkeeper OMF Variant V1.0//EN" "http://scrollkeeper.sourceforge.net/dtds/scrollkeeper-omf-1.0/scrollkeeper-omf.dtd">
+ <omf>
+   <resource>
++    <creator/>
+     <title>
+       GDA Manual
+     </title>
+-    <subject>
+-      <category>GNOME|Applications</category>
+-    </subject>
++    <date>
++	2002-10-02
++    </date>
++    <version identifier="0.2.96" date="2002-10-02"/>
++    <subject category="GNOME|Applications"/>
++    <description/>
++    <type/>
+     <format mime="text/sgml"/>
+     <identifier url="file:/usr/share/gnome/help/libgda/C/libgda.sgml"/>
+     <language code="C"/>
++    <relation seriesid="db01782a-d604-11d6-8341-afc66dd492e6"/>
++    <rights type="GNU GPL" license.version="2" license="http://www.gnu.org/licenses/gpl.html"/>
+   </resource>
+ </omf>
+diff -Nuard libgda-0.2.96.orig/doc/libgda-es.omf libgda-0.2.96/doc/libgda-es.omf
+--- libgda-0.2.96.orig/doc/libgda-es.omf	Wed Oct 17 19:28:39 2001
++++ libgda-0.2.96/doc/libgda-es.omf	Wed Oct  2 14:49:30 2002
+@@ -1,14 +1,22 @@
+ <?xml version="1.0" standalone="no"?>
++<!DOCTYPE omf PUBLIC "-//OMF//DTD Scrollkeeper OMF Variant V1.0//EN" "http://scrollkeeper.sourceforge.net/dtds/scrollkeeper-omf-1.0/scrollkeeper-omf.dtd">
+ <omf>
+   <resource>
++    <creator/>
+     <title>
+       Manual GDA
+     </title>
+-    <subject>
+-      <category>GNOME|Applications</category>
+-    </subject>
++    <date>
++	2002-10-02
++    </date>
++    <version identifier="0.2.96" date="2002-10-02"/>
++    <subject category="GNOME|Applications"/>
++    <description/>
++    <type/>
+     <format mime="text/sgml"/>
+     <identifier url="file:/usr/share/gnome/help/libgda/es/libgda.sgml"/>
+     <language code="es"/>
++    <relation seriesid="db01782a-d604-11d6-8341-afc66dd492e6"/>
++    <rights type="GNU GPL" license.version="2" license="http://www.gnu.org/licenses/gpl.html"/>
+   </resource>
+ </omf>
+diff -Nuard libgda-0.2.96.orig/doc/libgda-pt_BR.omf libgda-0.2.96/doc/libgda-pt_BR.omf
+--- libgda-0.2.96.orig/doc/libgda-pt_BR.omf	Wed Oct 17 19:29:02 2001
++++ libgda-0.2.96/doc/libgda-pt_BR.omf	Wed Oct  2 14:50:50 2002
+@@ -1,14 +1,22 @@
+ <?xml version="1.0" standalone="no"?>
++<!DOCTYPE omf PUBLIC "-//OMF//DTD Scrollkeeper OMF Variant V1.0//EN" "http://scrollkeeper.sourceforge.net/dtds/scrollkeeper-omf-1.0/scrollkeeper-omf.dtd">
+ <omf>
+   <resource>
++    <creator/>
+     <title>
+       GNOME-DB Manual
+     </title>
+-    <subject>
+-      <category>GNOME|Applications</category>
+-    </subject>
++    <date>
++	2002-10-02
++    </date>
++    <version identifier="0.2.96" date="2002-10-02"/>
++    <subject category="GNOME|Applications"/>
++    <description/>
++    <type/>
+     <format mime="text/sgml"/>
+     <identifier url="file:/usr/share/gnome/help/libgda/pt_BR/libgda.sgml"/>
+     <language code="pt_BR"/>
++    <relation seriesid="db01782a-d604-11d6-8341-afc66dd492e6"/>
++    <rights type="GNU GPL" license.version="2" license="http://www.gnu.org/licenses/gpl.html"/>
+   </resource>
+ </omf>
