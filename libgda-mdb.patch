@@ -1,0 +1,21 @@
+diff -Nru libgda-1.0.2.orig/configure.in libgda-1.0.2/configure.in
+--- libgda-1.0.2.orig/configure.in	2003-10-12 17:35:16.000000000 +0200
++++ libgda-1.0.2/configure.in	2003-12-02 13:06:48.114199000 +0100
+@@ -743,7 +743,7 @@
+ 	mdbdir=""
+ 	for d in $dir /usr /usr/local /opt/gnome
+ 	do
+-		if test -f $d/include/mdbtools.h -a -f $d/$lib/libmdbsql.so
++		if test -f $d/include/mdb/mdbtools.h -a -f $d/$lib/libmdbsql.so
+ 		then
+ 			AC_MSG_RESULT(found MDB Tools in $d)
+ 			mdbdir=$d
+@@ -754,7 +754,7 @@
+ 	then
+ 		AC_MSG_WARN(MDB backend not used)
+ 	else
+-		MDB_CFLAGS=-I${mdbdir}/include
++		MDB_CFLAGS=-I${mdbdir}/include/mdb
+ 		MDB_LIBS="-L${mdbdir}/lib -lmdb -lmdbsql"
+ 		AC_DEFINE(HAVE_MDB)
+ 	fi
