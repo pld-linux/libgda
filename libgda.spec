@@ -23,6 +23,7 @@ Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/1.0/%{name}-%{version}.t
 # Source0-md5:	eb571389cd7624f362315d5180298263
 Patch0:		%{name}-mdb.patch
 Patch1:		%{name}-freetds.patch
+Patch2:		%{name}-docbook.patch
 %{?with_firebird:BuildRequires:	Firebird-devel}
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -200,6 +201,7 @@ Pakiet dostarczaj±cy dane z SQLite dla GDA.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
