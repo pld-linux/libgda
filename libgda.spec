@@ -1,8 +1,8 @@
 Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
-Version:	0.2.95
-Release:	2
+Version:	0.2.96
+Release:	1
 License:	LGPL
 Group:		Applications/Databases
 Source0:	ftp://ftp.gnome-db.org/pub/gnome-db/sources/latest/%{name}-%{version}.tar.gz
@@ -176,7 +176,7 @@ gettextize --copy --force
 libtoolize --copy --force
 aclocal -I macros
 autoconf
-automake -a -c
+automake -a -c -f
 CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
 %configure \
 	--disable-gtk-doc \
