@@ -5,12 +5,6 @@ Version:	0.2.95
 Release:	2
 License:	LGPL
 Group:		Applications/Databases
-Group(de):	Applikationen/Datenbanken
-Group(es):	Aplicaciones/Bases de Datos
-Group(fr):	Applications/Bases de DonnИes
-Group(pl):	Aplikacje/Bazy Danych
-Group(pt):	AplicaГУes/Bases de Dados
-Group(ru):	Приложения/Базы данных
 Source0:	ftp://ftp.gnome-db.org/pub/gnome-db/sources/latest/%{name}-%{version}.tar.gz
 Patch0:		%{name}-GNU_GETTEXT.patch
 Patch1:		%{name}-openldap.patch
@@ -65,14 +59,6 @@ pozwoliФ na u©ywanie przez niegnomowe aplikacje.
 Summary:	GNU Data Access development
 Summary(pl):	Dla programistСw GNU Data Access
 Group:		Development/Libraries
-Group(de):	Entwicklung/Bibliotheken
-Group(es):	Desarrollo/Bibliotecas
-Group(fr):	Development/Librairies
-Group(pl):	Programowanie/Biblioteki
-Group(pt_BR):	Desenvolvimento/Bibliotecas
-Group(pt):	Desenvolvimento/Bibliotecas
-Group(ru):	Разработка/Библиотеки
-Group(uk):	Розробка/Б╕бл╕отеки
 Requires:	%{name} = %{version}
 Obsoletes:	libgda0-devel
 
@@ -93,14 +79,6 @@ programistСw u©ywaj╠cych libgda.
 Summary:	GNU Data Access static libraries
 Summary(pl):	Statyczne biblioteki GNU Data Access
 Group:		Development/Libraries
-Group(de):	Entwicklung/Bibliotheken
-Group(es):	Desarrollo/Bibliotecas
-Group(fr):	Development/Librairies
-Group(pl):	Programowanie/Biblioteki
-Group(pt_BR):	Desenvolvimento/Bibliotecas
-Group(pt):	Desenvolvimento/Bibliotecas
-Group(ru):	Разработка/Библиотеки
-Group(uk):	Розробка/Б╕бл╕отеки
 Requires:	%{name}-devel = %{version}
 
 %description static
@@ -113,14 +91,6 @@ Statyczne biblioteki GNU Data Access.
 Summary:	GNU Data Access C++ client library
 Summary(pl):	Biblioteka kliecka C++ do GNU Data Access
 Group:		Development/Libraries
-Group(de):	Entwicklung/Bibliotheken
-Group(es):	Desarrollo/Bibliotecas
-Group(fr):	Development/Librairies
-Group(pl):	Programowanie/Biblioteki
-Group(pt_BR):	Desenvolvimento/Bibliotecas
-Group(pt):	Desenvolvimento/Bibliotecas
-Group(ru):	Разработка/Библиотеки
-Group(uk):	Розробка/Б╕бл╕отеки
 Requires:	%{name} = %{version}
 
 %description clientcpp
@@ -133,14 +103,6 @@ Biblioteka kliencka C++ do GNU Data Access.
 Summary:	GNU Data Access C++ client library development
 Summary(pl):	Dla programistСw biblioteki klienckiej C++ do GDA
 Group:		Development/Libraries
-Group(de):	Entwicklung/Bibliotheken
-Group(es):	Desarrollo/Bibliotecas
-Group(fr):	Development/Librairies
-Group(pl):	Programowanie/Biblioteki
-Group(pt_BR):	Desenvolvimento/Bibliotecas
-Group(pt):	Desenvolvimento/Bibliotecas
-Group(ru):	Разработка/Библиотеки
-Group(uk):	Розробка/Б╕бл╕отеки
 Requires:	%{name}-devel = %{version}
 Prereq:		%{name}-devel
 
@@ -155,12 +117,6 @@ Data Access.
 Summary:	GDA ODBC provider
 Summary(pl):	╛rСdЁo danych ODBC dla GDA
 Group:		Applications/Databases
-Group(de):	Applikationen/Datenbanken
-Group(es):	Aplicaciones/Bases de Datos
-Group(fr):	Applications/Bases de DonnИes
-Group(pl):	Aplikacje/Bazy Danych
-Group(pt):	AplicaГУes/Bases de Dados
-Group(ru):	Приложения/Базы данных
 Requires:	%{name} = %{version}
 
 %description -n gda-odbc
@@ -173,12 +129,6 @@ Pakiet dostaczaj╠cy dane z ODBC dla GDA.
 Summary:	GDA PostgreSQL provider
 Summary(pl):	╛rСdЁo danych PostgreSQL dla GDA
 Group:		Applications/Databases
-Group(de):	Applikationen/Datenbanken
-Group(es):	Aplicaciones/Bases de Datos
-Group(fr):	Applications/Bases de DonnИes
-Group(pl):	Aplikacje/Bazy Danych
-Group(pt):	AplicaГУes/Bases de Dados
-Group(ru):	Приложения/Базы данных
 Requires:	%{name} = %{version}
 Obsoletes:	libgda-postgres0
 
@@ -192,12 +142,6 @@ Pakiet dostarczaj╠cy dane z PostgreSQL dla GDA.
 Summary:	GDA MySQL provider
 Summary(pl):	╛rСdЁo danych MySQL dla GDA
 Group:		Applications/Databases
-Group(de):	Applikationen/Datenbanken
-Group(es):	Aplicaciones/Bases de Datos
-Group(fr):	Applications/Bases de DonnИes
-Group(pl):	Aplikacje/Bazy Danych
-Group(pt):	AplicaГУes/Bases de Dados
-Group(ru):	Приложения/Базы данных
 Requires:	%{name} = %{version}
 Obsoletes:	libgda-mysql0
 
@@ -211,12 +155,6 @@ Pakiet dostarczaj╠cy dane z MySQL dla GDA.
 Summary:	GDA LDAP provider
 Summary(pl):	╛rСdЁo danych LDAP dla GDA
 Group:		Applications/Databases
-Group(de):	Applikationen/Datenbanken
-Group(es):	Aplicaciones/Bases de Datos
-Group(fr):	Applications/Bases de DonnИes
-Group(pl):	Aplikacje/Bazy Danych
-Group(pt):	AplicaГУes/Bases de Dados
-Group(ru):	Приложения/Базы данных
 Requires:	%{name} = %{version}
 
 %description -n gda-ldap
