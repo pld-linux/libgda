@@ -1,7 +1,7 @@
 Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
-Version:	0.9.0
+Version:	0.10.0
 Release:	1
 License:	LGPL
 Group:		Applications/Databases
@@ -135,6 +135,18 @@ This package contains the GDA FreeTDS provider.
 %description -n gda-freetds -l pl
 Pakiet dostarczaj±cy dane z FreeTDS dla GDA.
 
+%package -n gda-ldap
+Summary:	GDA LDAP provider
+Summary(pl):	¬ród³o danych LDAP dla GDA
+Group:		Applications/Database
+Requires:	%{name} = %{version}
+
+%description -n gda-ldap
+This package contains the GDA LDAP provider.
+
+%description -n gda-ldap -l pl
+Pakiet dostarczaj±cy dane z LDAP dla GDA
+
 %prep
 %setup -q
 
@@ -177,9 +189,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libgda-2.so.*.*
 %attr(755,root,root) %{_libdir}/libgda-report-2.so.*.*
 %attr(755,root,root) %{_libdir}/libgdasql.so.*.*
-%{_datadir}/idl/*
 %{_datadir}/libgda
 %{_omf_dest_dir}/%{name}
+%{_mandir}/man5/*
 
 %files devel -f %{name}.lang
 %defattr(644,root,root,755)
@@ -231,3 +243,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libgda/providers/libgda-freetds.so
 %{_libdir}/libgda/providers/libgda-freetds.la
+
+%files -n gda-ldap
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libgda/providers/libgda-ldap.so
+%{_libdir}/libgda/providers/libgda-ldap.la
