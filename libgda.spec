@@ -212,6 +212,7 @@ autoconf
 automake -a -c
 CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
 %configure \
+	--disable-gtk-doc \
 	--with-odbc \
 	--with-postgres \
 	--with-mysql \
