@@ -179,7 +179,7 @@ Pakiet dostarczaj±cy dane z LDAP dla GDA.
 rm -f missing
 %{__gettextize}
 %{__libtoolize}
-aclocal -I macros
+%{__aclocal} -I macros
 %{__autoconf}
 %{__automake}
 CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
