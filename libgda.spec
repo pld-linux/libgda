@@ -26,6 +26,7 @@ BuildRequires:	automake
 %{!?_without_freetds:BuildRequires:	freetds-devel >= 0.61}
 BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel
+BuildRequires:	gnome-common
 BuildRequires:	gtk-doc
 BuildRequires:	libtool
 BuildRequires:	libxml2-devel
