@@ -2,10 +2,11 @@ Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
 Version:	0.2.96
-Release:	5
+Release:	6
 License:	LGPL
 Group:		Applications/Databases
 Source0:	ftp://ftp.gnome-db.org/pub/gnome-db/sources/latest/%{name}-%{version}.tar.gz
+# Source0-md5:	7c52b9a76b8b7669b795393de1ddc322
 Patch0:		%{name}-GNU_GETTEXT.patch
 Patch1:		%{name}-openldap.patch
 Patch2:		%{name}-DESTDIR.patch
