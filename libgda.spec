@@ -14,6 +14,7 @@ BuildRequires:	automake
 BuildRequires:	gettext-devel
 BuildRequires:	gnome-libs-devel
 BuildRequires:	libxml-devel
+BuildRequires:	libstdc++-devel
 BuildRequires:	mysql-devel
 BuildRequires:	oaf-devel
 BuildRequires:	openldap-devel
