@@ -1,6 +1,14 @@
 #
 # TODO: fix freetds plugin
 #
+# Conditional build:
+# --without freetds  - build without freetds plugin
+# --without ldap     - build without ldap plugin
+# --without mysql    - build without MySQL plugin
+# --without odbc     - build without unixODBC
+# --without pgsql    - build without PostgreSQL plugin
+# --without sqlite   - build without sqlite plugin
+#
 Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
@@ -11,19 +19,19 @@ Group:		Applications/Databases
 Source0:	ftp://ftp.gnome-db.org/pub/gnome-db/sources/v%{version}/%{name}-%{version}.tar.gz
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	freetds-devel >= 0.61
+%{!?_without_freetds:BuildRequires:	freetds-devel >= 0.61}
 BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel
 BuildRequires:	gtk-doc
 BuildRequires:	libtool
 BuildRequires:	libxml2-devel
 BuildRequires:	libxslt-devel >= 1.0.9
-BuildRequires:	mysql-devel
-BuildRequires:	openldap-devel
-BuildRequires:	postgresql-devel
+%{!?_without_mysql:BuildRequires:	mysql-devel}
+%{!?_without_ldap:BuildRequires:	openldap-devel}
+%{!?_without_pgsql:BuildRequires:	postgresql-devel}
 BuildRequires:	scrollkeeper
-BuildRequires:	sqlite-devel
-BuildRequires:	unixODBC-devel
+%{!?_without_sqlite:BuildRequires:	sqlite-devel}
+%{!?_without_odbc:BuildRequires:	unixODBC-devel}
 Prereq:         scrollkeeper
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -157,14 +165,21 @@ Pakiet dostarczaj±cy dane z LDAP dla GDA
 %build
 CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
 %configure \
-	--enable-gtk-doc \
-	--with-html-dir=%{_gtkdocdir} \
-	--with-odbc \
-	--with-postgres \
-	--with-mysql \
-	--with-sqlite \
-	--with-ldap \
-	--without-oracle
+			--enable-gtk-doc \
+			--with-html-dir=%{_gtkdocdir} \
+%{?_without_freetds:	--without-tds} \
+%{!?_without_freetds:	--with-tds} \
+%{?_without_odbc:	--without-odbc} \
+%{!?_without_odbc:	--with-odbc} \
+%{?_without_pgsql:	--without-postgres} \
+%{!?_without_pgsql:	--with-postgres} \
+%{?_without_mysql:	--without-mysql} \
+%{!?_without_mysql:	--with-mysql} \
+%{?_without_sqlite:	--without-sqlite} \
+%{!?_without_sqlite:	--with-sqlite} \
+%{?_without_ldap:	--without-ldap} \
+%{!?_without_ldap:	--with-ldap} \
+			--without-oracle
 
 %{__make}
 
@@ -226,32 +241,44 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/lib*.a
 
+%if %{!?_without_odbc:1}0
 %files -n gda-odbc
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libgda/providers/libgda-odbc.so
 %{_libdir}/libgda/providers/libgda-odbc.la
+%endif
 
+%if %{!?_without_pgsql:1}0
 %files -n gda-postgres
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libgda/providers/libgda-postgres.so
 %{_libdir}/libgda/providers/libgda-postgres.la
+%endif
 
+%if %{!?_without_mysql:1}0
 %files -n gda-mysql
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libgda/providers/libgda-mysql.so
 %{_libdir}/libgda/providers/libgda-mysql.la
+%endif
 
+%if %{!?_without_sqlite:1}0
 %files -n gda-sqlite
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libgda/providers/libgda-sqlite.so
 %{_libdir}/libgda/providers/libgda-sqlite.la
+%endif
 
+%if %{!?_without_freetds:1}0
 %files -n gda-freetds
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libgda/providers/libgda-freetds.so
 %{_libdir}/libgda/providers/libgda-freetds.la
+%endif
 
+%if %{!?_without_ldap:1}0
 %files -n gda-ldap
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libgda/providers/libgda-ldap.so
 %{_libdir}/libgda/providers/libgda-ldap.la
+%endif
