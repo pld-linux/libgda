@@ -16,6 +16,7 @@ BuildRequires:	libtool
 BuildRequires:	libxml2-devel
 BuildRequires:	libxslt-devel >= 1.0.9
 BuildRequires:	mysql-devel
+BuildRequires:	openldap-devel
 BuildRequires:	postgresql-devel
 BuildRequires:	scrollkeeper
 BuildRequires:	sqlite-devel
@@ -157,7 +158,10 @@ CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
 	--with-html-dir=%{_gtkdocdir} \
 	--with-odbc \
 	--with-postgres \
-	--with-mysql
+	--with-mysql \
+	--with-sqlite \
+	--with-ldap \
+	--without-oracle
 
 %{__make}
 
