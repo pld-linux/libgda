@@ -617,3 +617,94 @@ diff -urN libgda-0.2.95/bindings/c++/gdaValue.h libgda-new/bindings/c++/gdaValue
  		void set (gfloat a);
  		//void set (gint16 a); // CORBA_short
  		void set (gulong a);
+--- libgda-0.2.96/bindings/c++/gdaBatch.cpp.orig	Tue May 21 11:35:44 2002
++++ libgda-0.2.96/bindings/c++/gdaBatch.cpp	Tue May 21 11:36:11 2002
+@@ -127,7 +127,7 @@
+ }
+ 
+ GdaBatch*
+-Batch::getCStruct (bool refn = true) const
++Batch::getCStruct (bool refn ) const
+ {
+ 	if (refn)
+ 	  ref ();
+--- libgda-0.2.96/bindings/c++/gdaCommand.cpp.orig	Tue May 21 11:52:38 2002
++++ libgda-0.2.96/bindings/c++/gdaCommand.cpp	Tue May 21 11:53:54 2002
+@@ -139,7 +139,7 @@
+ */
+ 
+ GdaCommand*
+-Command::getCStruct (bool refn = true) const
++Command::getCStruct (bool refn ) const
+ {
+ 	if (refn)
+ 		ref ();
+@@ -148,10 +148,10 @@
+ }
+ 
+ 
+-void
++	void
+ Command::setCStruct (GdaCommand *cmd)
+ {
+-    unref ();
++	unref ();
+ 	_gda_command = cmd;
+ }
+ 
+@@ -177,9 +177,9 @@
+ 		}
+ #endif
+ 	}
+-	}
++}
+ 
+-void
++	void
+ Command::unref ()
+ {
+ 	if (_gda_command != NULL) {
+--- libgda-0.2.96/bindings/c++/gdaConnection.cpp.orig	Tue May 21 11:58:00 2002
++++ libgda-0.2.96/bindings/c++/gdaConnection.cpp	Tue May 21 11:59:04 2002
+@@ -294,7 +294,7 @@
+ 	return gda_connection_get_version (_gda_connection);
+ }
+ 
+-GdaConnection* Connection::getCStruct (bool refn = true) const
++GdaConnection* Connection::getCStruct (bool refn ) const
+ {
+ 	if (refn) ref ();
+ 	return _gda_connection;
+--- libgda-0.2.96/bindings/c++/gdaError.cpp.orig	Tue May 21 12:02:25 2002
++++ libgda-0.2.96/bindings/c++/gdaError.cpp	Tue May 21 12:02:50 2002
+@@ -98,7 +98,7 @@
+ }
+ 
+ GdaError*
+-Error::getCStruct (bool refn = true) const
++Error::getCStruct (bool refn ) const
+ {
+ 	if (refn) ref ();
+ 	return _gda_error;
+--- libgda-0.2.96/bindings/c++/gdaField.cpp.orig	Tue May 21 12:09:20 2002
++++ libgda-0.2.96/bindings/c++/gdaField.cpp	Tue May 21 12:10:04 2002
+@@ -428,7 +428,7 @@
+ }
+ 
+ GdaField*
+-Field::getCStruct (bool refn = true) const
++Field::getCStruct (bool refn ) const
+ {
+ 	if (refn) ref ();
+ 	return _gda_field;
+--- libgda-0.2.96/bindings/c++/gdaRecordset.cpp.orig	Tue May 21 12:12:27 2002
++++ libgda-0.2.96/bindings/c++/gdaRecordset.cpp	Tue May 21 12:12:56 2002
+@@ -254,7 +254,7 @@
+ }
+ 
+ GdaRecordset*
+-Recordset::getCStruct (bool refn = true) const
++Recordset::getCStruct (bool refn ) const
+ {
+ 	if (refn) ref ();
+ 	return _gda_recordset;
