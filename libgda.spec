@@ -1,5 +1,6 @@
 #
 # Conditional build:
+# _without_firebird - build without freetds plugin
 # _without_freetds  - build without freetds plugin
 # _without_ldap     - build without ldap plugin
 # _without_mysql    - build without MySQL plugin
@@ -11,11 +12,12 @@ Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
 Version:	0.12.1
-Release:	1
+Release:	2
 License:	LGPL
 Group:		Applications/Databases
 Source0:	ftp://ftp.gnome-db.org/pub/gnome-db/sources/v%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	b593e9a81565fa94903bdd5eb12095ff
+%{!?_without_firebird:BuildRequires:	Firebird-devel}
 BuildRequires:	autoconf
 BuildRequires:	automake
 %{!?_without_freetds:BuildRequires:	freetds-devel >= 0.61}
@@ -85,55 +87,17 @@ GNU Data Access static libraries.
 %description static -l pl
 Statyczne biblioteki GNU Data Access.
 
-%package -n gda-odbc
-Summary:	GDA ODBC provider
-Summary(pl):	¬ród³o danych ODBC dla GDA
+%package -n gda-firebird
+Summary:	GDA Firebird provider
+Summary(pl):	¬ród³o danych Firebird dla GDA
 Group:		Applications/Databases
 Requires:	%{name} = %{version}
 
-%description -n gda-odbc
-This package contains the GDA ODBC provider.
+%description -n gda-firebird
+This package contains the GDA Firebird provider.
 
-%description -n gda-odbc -l pl
-Pakiet dostaczaj±cy dane z ODBC dla GDA.
-
-%package -n gda-postgres
-Summary:	GDA PostgreSQL provider
-Summary(pl):	¬ród³o danych PostgreSQL dla GDA
-Group:		Applications/Databases
-Requires:	%{name} = %{version}
-Obsoletes:	libgda-postgres0
-
-%description -n gda-postgres
-This package contains the GDA PostgreSQL provider.
-
-%description -n gda-postgres -l pl
-Pakiet dostarczaj±cy dane z PostgreSQL dla GDA.
-
-%package -n gda-mysql
-Summary:	GDA MySQL provider
-Summary(pl):	¬ród³o danych MySQL dla GDA
-Group:		Applications/Databases
-Requires:	%{name} = %{version}
-Obsoletes:	libgda-mysql0
-
-%description -n gda-mysql
-This package contains the GDA MySQL provider.
-
-%description -n gda-mysql -l pl
-Pakiet dostarczaj±cy dane z MySQL dla GDA.
-
-%package -n gda-sqlite
-Summary:	GDA SQLite provider
-Summary(pl):	¬ród³o danych SQLite dla GDA
-Group:		Applications/Databases
-Requires:	%{name} = %{version}
-
-%description -n gda-sqlite
-This package contains the GDA SQLite provider.
-
-%description -n gda-sqlite -l pl
-Pakiet dostarczaj±cy dane z SQLite dla GDA.
+%description -n gda-firebird -l pl
+Pakiet dostaczaj±cy dane z Firebird dla GDA.
 
 %package -n gda-freetds
 Summary:	GDA FreeTDS provider
@@ -159,6 +123,56 @@ This package contains the GDA LDAP provider.
 %description -n gda-ldap -l pl
 Pakiet dostarczaj±cy dane z LDAP dla GDA
 
+%package -n gda-mysql
+Summary:	GDA MySQL provider
+Summary(pl):	¬ród³o danych MySQL dla GDA
+Group:		Applications/Databases
+Requires:	%{name} = %{version}
+Obsoletes:	libgda-mysql0
+
+%description -n gda-mysql
+This package contains the GDA MySQL provider.
+
+%description -n gda-mysql -l pl
+Pakiet dostarczaj±cy dane z MySQL dla GDA.
+
+%package -n gda-odbc
+Summary:	GDA ODBC provider
+Summary(pl):	¬ród³o danych ODBC dla GDA
+Group:		Applications/Databases
+Requires:	%{name} = %{version}
+
+%description -n gda-odbc
+This package contains the GDA ODBC provider.
+
+%description -n gda-odbc -l pl
+Pakiet dostaczaj±cy dane z ODBC dla GDA.
+
+%package -n gda-postgres
+Summary:	GDA PostgreSQL provider
+Summary(pl):	¬ród³o danych PostgreSQL dla GDA
+Group:		Applications/Databases
+Requires:	%{name} = %{version}
+Obsoletes:	libgda-postgres0
+
+%description -n gda-postgres
+This package contains the GDA PostgreSQL provider.
+
+%description -n gda-postgres -l pl
+Pakiet dostarczaj±cy dane z PostgreSQL dla GDA.
+
+%package -n gda-sqlite
+Summary:	GDA SQLite provider
+Summary(pl):	¬ród³o danych SQLite dla GDA
+Group:		Applications/Databases
+Requires:	%{name} = %{version}
+
+%description -n gda-sqlite
+This package contains the GDA SQLite provider.
+
+%description -n gda-sqlite -l pl
+Pakiet dostarczaj±cy dane z SQLite dla GDA.
+
 %prep
 %setup -q
 
@@ -167,18 +181,20 @@ CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
 %configure \
 			--enable-gtk-doc \
 			--with-html-dir=%{_gtkdocdir} \
-%{?_without_freetds:	--without-tds} \
-%{!?_without_freetds:	--with-tds} \
+%{?_without_firebird:	--without-firebird} \
+%{!?_without_firebird:	--with-firebird} \
+%{?_without_ldap:	--without-ldap} \
+%{!?_without_ldap:	--with-ldap} \
+%{?_without_mysql:	--without-mysql} \
+%{!?_without_mysql:	--with-mysql} \
 %{?_without_odbc:	--without-odbc} \
 %{!?_without_odbc:	--with-odbc} \
 %{?_without_pgsql:	--without-postgres} \
 %{!?_without_pgsql:	--with-postgres} \
-%{?_without_mysql:	--without-mysql} \
-%{!?_without_mysql:	--with-mysql} \
 %{?_without_sqlite:	--without-sqlite} \
 %{!?_without_sqlite:	--with-sqlite} \
-%{?_without_ldap:	--without-ldap} \
-%{!?_without_ldap:	--with-ldap} \
+%{?_without_freetds:	--without-tds} \
+%{!?_without_freetds:	--with-tds} \
 			--without-oracle
 
 %{__make}
@@ -241,32 +257,11 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/lib*.a
 
-%if %{!?_without_odbc:1}0
-%files -n gda-odbc
+%if %{!?_without_firebird:1}0
+%files -n gda-firebird
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libgda/providers/libgda-odbc.so
-%{_libdir}/libgda/providers/libgda-odbc.la
-%endif
-
-%if %{!?_without_pgsql:1}0
-%files -n gda-postgres
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libgda/providers/libgda-postgres.so
-%{_libdir}/libgda/providers/libgda-postgres.la
-%endif
-
-%if %{!?_without_mysql:1}0
-%files -n gda-mysql
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libgda/providers/libgda-mysql.so
-%{_libdir}/libgda/providers/libgda-mysql.la
-%endif
-
-%if %{!?_without_sqlite:1}0
-%files -n gda-sqlite
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libgda/providers/libgda-sqlite.so
-%{_libdir}/libgda/providers/libgda-sqlite.la
+%attr(755,root,root) %{_libdir}/libgda/providers/libgda-firebird.so
+%{_libdir}/libgda/providers/libgda-firebird.la
 %endif
 
 %if %{!?_without_freetds:1}0
@@ -281,4 +276,32 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libgda/providers/libgda-ldap.so
 %{_libdir}/libgda/providers/libgda-ldap.la
+%endif
+
+%if %{!?_without_mysql:1}0
+%files -n gda-mysql
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libgda/providers/libgda-mysql.so
+%{_libdir}/libgda/providers/libgda-mysql.la
+%endif
+
+%if %{!?_without_odbc:1}0
+%files -n gda-odbc
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libgda/providers/libgda-odbc.so
+%{_libdir}/libgda/providers/libgda-odbc.la
+%endif
+
+%if %{!?_without_pgsql:1}0
+%files -n gda-postgres
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libgda/providers/libgda-postgres.so
+%{_libdir}/libgda/providers/libgda-postgres.la
+%endif
+
+%if %{!?_without_sqlite:1}0
+%files -n gda-sqlite
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libgda/providers/libgda-sqlite.so
+%{_libdir}/libgda/providers/libgda-sqlite.la
 %endif
