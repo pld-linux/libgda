@@ -1,16 +1,16 @@
 #
 # Conditional build:
-%bcond_without firebird		# build without freetds plugin
+%bcond_without firebird		# build without firebird plugin
 %bcond_without freetds		# build without freetds plugin
 %bcond_without ldap		# build without ldap plugin
+%bcond_without mdb		# build without MDB plugin
 %bcond_without mysql		# build without MySQL plugin
 %bcond_without odbc		# build without unixODBC
 %bcond_without pgsql		# build without PostgreSQL plugin
 %bcond_without sqlite		# build without sqlite plugin
-%bcond_without mdb		# build without MDB plugin
-
+#
 %ifnarch %{ix86}
-%define _without_firebird 1
+%undefine	with_firebird
 %endif
 Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
