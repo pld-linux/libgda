@@ -20,7 +20,7 @@ Version:	1.2.1
 Release:	1
 License:	LGPL
 Group:		Applications/Databases
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/1.2/%{name}-%{version}.tar.bz2
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/intltool/1.2/%{name}-%{version}.tar.bz2
 # Source0-md5:	513a3b7adb66fa5641bae5394f60c017
 Patch0:		%{name}-gcc34.patch
 Patch1:		%{name}-freetds_buildfix.patch
