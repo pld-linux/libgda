@@ -225,8 +225,11 @@ Pakiet dostarczaj±cy dane z xBase (dBase, Clippera, FoxPro) dla GDA.
 
 mv -f po/{no,nb}.po
 
+# Remove a deprecated macro
+%{__perl} -pi -e 's/GNOME_PLATFORM_GNOME_2.*//' configure.in
+
 %build
-CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
+CXXFLAGS="%{rpmcxxflags} -fno-rtti -fno-exceptions"
 %{__libtoolize}
 %{__aclocal}
 %{__autoconf}
