@@ -14,15 +14,14 @@
 Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
-Version:	1.1.1
+Version:	1.1.2
 Release:	1
 License:	LGPL
 Group:		Applications/Databases
 Source0:	ftp://ftp.gnome-db.org/pub/gnome-db/sources/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	b3553fcaad311f16322e7ed1b2ed83ce
+# Source0-md5:	72ad6e242c1e72e2d0b415597b119b38
 #Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/1.1/%{name}-%{version}.tar.bz2
 Patch0:		%{name}-locale-names.patch
-Patch1:		%{name}-freetds.patch
 %{?with_firebird:BuildRequires:	Firebird-devel}
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -206,7 +205,6 @@ Pakiet dostarczaj±cy dane z SQLite dla GDA.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
 
 mv po/{no,nb}.po
 
