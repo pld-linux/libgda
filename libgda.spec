@@ -16,35 +16,39 @@
 Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
-Version:	1.0.4
-Release:	4
+Version:	1.2.1
+Release:	1
 License:	LGPL
 Group:		Applications/Databases
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/1.0/%{name}-%{version}.tar.bz2
-# Source0-md5:	c13d884dc61a3819c91422880147864d
-Patch0:		%{name}-mdb.patch
-Patch1:		%{name}-freetds.patch
-Patch2:		%{name}-docbook.patch
-Patch3:		%{name}-xbase.patch
-Patch4:		%{name}-gcc34.patch
-Patch5:		%{name}-locale-names.patch
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/1.2/%{name}-%{version}.tar.bz2
+# Source0-md5:	513a3b7adb66fa5641bae5394f60c017
+Patch0:		%{name}-gcc34.patch
+Patch1:		%{name}-freetds_buildfix.patch
+Patch2:		%{name}-mdb.patch
 %{?with_firebird:BuildRequires:	Firebird-devel}
-BuildRequires:	autoconf
-BuildRequires:	automake
-%{?with_freetds:BuildRequires:	freetds-devel >= 0.61.1}
+BuildRequires:	autoconf >= 2.59
+BuildRequires:	automake >= 1.8
+BuildRequires:	bison
+BuildRequires:	db-devel
+BuildRequires:	flex
+%{?with_freetds:BuildRequires:	freetds-devel >= 0.62.1}
 BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel >= 2.2.0
 BuildRequires:	gnome-common >= 2.8.0
-BuildRequires:	gtk-doc
-BuildRequires:	libtool >= 1:1.4.2-9
+BuildRequires:	gtk-doc >= 1.0
+BuildRequires:	intltool >= 0.30
+BuildRequires:	libtool
 BuildRequires:	libxml2-devel
 BuildRequires:	libxslt-devel >= 1.0.9
 %{?with_mdb:BuildRequires:	mdbtools-devel}
 %{?with_mysql:BuildRequires:	mysql-devel}
 %{?with_ldap:BuildRequires:	openldap-devel}
+BuildRequires:	perl-base
+BuildRequires:	popt-devel
 %{?with_pgsql:BuildRequires:	postgresql-devel}
+BuildRequires:	readline-devel
 BuildRequires:	scrollkeeper
-%{?with_sqlite:BuildRequires:	sqlite-devel}
+%{?with_sqlite:BuildRequires:	sqlite3-devel}
 %{?with_odbc:BuildRequires:	unixODBC-devel}
 %{?with_xbase:BuildRequires:	xbase-devel >= 2.0.0}
 Requires(post,postun):	/sbin/ldconfig
@@ -76,6 +80,7 @@ Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	glib2-devel >= 2.2.0
 Requires:	gtk-doc-common
+Requires:	libxml2-devel
 Requires:	libxslt-devel >= 1.0.9
 Obsoletes:	libgda0-devel
 
@@ -103,6 +108,18 @@ GNU Data Access static libraries.
 
 %description static -l pl
 Statyczne biblioteki GNU Data Access.
+
+%package -n gda-db
+Summary:	GDA Berkeley DB provider
+Summary(pl):	¬ród³o danych Berkeley DB dla GDA
+Group:		Applications/Databases
+Requires:	%{name} = %{version}-%{release}
+
+%description -n gda-db
+This package contains the GDA Berkeley DB provider.
+
+%description -n gda-db -l pl
+Pakiet dostaczaj±cy dane z Berkeley DB dla GDA.
 
 %package -n gda-firebird
 Summary:	GDA Firebird provider
@@ -219,16 +236,9 @@ Pakiet dostarczaj±cy dane z xBase (dBase, Clippera, FoxPro) dla GDA.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-
-mv -f po/{no,nb}.po
-
-# Remove a deprecated macro
-%{__perl} -pi -e 's/GNOME_PLATFORM_GNOME_2.*//' configure.in
 
 %build
+cp /usr/share/automake/mkinstalldirs .
 CXXFLAGS="%{rpmcxxflags} -fno-rtti -fno-exceptions"
 %{__libtoolize}
 %{__aclocal}
@@ -248,11 +258,6 @@ CXXFLAGS="%{rpmcxxflags} -fno-rtti -fno-exceptions"
 	--with%{!?with_xbase:out}-xbase \
 	--without-oracle
 
-# Generate file probably accidentally (?) not included in sources
-cd libgda
-/usr/bin/glib-genmarshal gda-marshal.list --body --prefix=gda_marshal > gda-marshal.c
-cd ..
-
 %{__make}
 
 %install
@@ -264,6 +269,8 @@ rm -rf $RPM_BUILD_ROOT
 
 # modules dlopened by *.so through libgmodule
 rm -f $RPM_BUILD_ROOT%{_libdir}/libgda/providers/*.{a,la}
+
+rm -r $RPM_BUILD_ROOT%{_datadir}/locale/no
 
 %find_lang %{name} --with-gnome --all-name
 
@@ -306,14 +313,17 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libgda-2.la
 %{_libdir}/libgda-report-2.la
 %{_libdir}/libgdasql.la
-%{_includedir}/libgda
-%{_includedir}/libgda-report
+%{_includedir}/libgda-1.2
 %{_pkgconfigdir}/*
 %{_gtkdocdir}/*
 
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/lib*.a
+
+%files -n gda-db
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libgda/providers/libgda-bdb.so
 
 %if %{with firebird}
 %files -n gda-firebird
