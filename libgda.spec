@@ -6,7 +6,7 @@ License:	GPL
 Group:		Applications/Databases
 Group(de):	Applikationen/Dateibanken
 Group(pl):	Aplikacje/Bazy danych
-Source0:	ftp://ftp.gnome.org/pub/GNOME/sources/gnome-db/%{name}-%{version}.tar.gz
+Source0:	ftp://ftp.gnome.org/pub/GNOME/stable/sources/gnome-db/%{name}-%{version}.tar.gz
 Patch0:		%{name}-shared_libmysqlclient.patch
 PAtch1:		%{name}-DESTDIR.patch
 URL:		http://www.gnome.org/projects/gnome-db/
