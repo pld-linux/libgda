@@ -14,13 +14,12 @@
 Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
-Version:	0.91.0
+Version:	0.99.0
 Release:	1
 License:	LGPL
 Group:		Applications/Databases
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/libgda/0.91/%{name}-%{version}.tar.bz2
-# Source0-md5:	fcb413d3f26724ff3f6d459c79fa4453
-Patch0:		%{name}-configure.patch
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/libgda/0.99/%{name}-%{version}.tar.bz2
+# Source0-md5:	3af521982e8a4ff5a705db038c52dd99
 %{!?_without_firebird:BuildRequires:	Firebird-devel}
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -179,11 +178,10 @@ Pakiet dostarczaj±cy dane z SQLite dla GDA.
 
 %prep
 %setup -q
-%patch0 -p1
 
 %build
 CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
-%{__aclocal}
+%{__aclocal} -I %{_aclocaldir}/gnome2-macros
 %{__autoconf}
 %{__automake}
 %configure \
@@ -212,9 +210,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
-	HTML_DIR=%{_gtkdocdir} \
-	pkgconfigdir=%{_pkgconfigdir} \
-	omf_dest_dir=%{_omf_dest_dir}/%{name}
+	HTML_DIR=%{_gtkdocdir} 
 
 %find_lang %{name} --with-gnome --all-name
 
@@ -247,6 +243,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README
 %attr(755,root,root) %{_bindir}/gda-config-tool
+%attr(755,root,root) %{_bindir}/gda-report-test
 %attr(755,root,root) %{_bindir}/gda-run
 %attr(755,root,root) %{_bindir}/gda-test
 %attr(755,root,root) %{_libdir}/libgda-2.so
