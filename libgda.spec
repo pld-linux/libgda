@@ -22,6 +22,7 @@ Group:		Applications/Databases
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/1.0/%{name}-%{version}.tar.bz2
 # Source0-md5:	c84cad90fb721c41fc6c47ee2829f4f0
 Patch0:		%{name}-mdb.patch
+Patch1:		%{name}-noc99.patch
 %{?with_firebird:BuildRequires:	Firebird-devel}
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -30,7 +31,7 @@ BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel >= 2.2.0
 BuildRequires:	gnome-common
 BuildRequires:	gtk-doc
-BuildRequires:	libtool
+BuildRequires:	libtool >= 1:1.4.2-9
 BuildRequires:	libxml2-devel
 BuildRequires:	libxslt-devel >= 1.0.9
 %{?with_mdb:BuildRequires:	mdbtools-devel}
@@ -198,9 +199,11 @@ Pakiet dostarczaj±cy dane z SQLite dla GDA.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
+%{__libtoolize}
 %{__aclocal} -I %{_aclocaldir}/gnome2-macros
 %{__autoconf}
 %{__automake}
