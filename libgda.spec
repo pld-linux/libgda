@@ -1,4 +1,5 @@
 Summary:	GNU Data Access library
+Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
 Version:	0.1.0
 Release:	2
@@ -12,7 +13,6 @@ Patch1:		%{name}-DESTDIR.patch
 Patch2:		%{name}-GNU_GETTEXT.patch
 URL:		http://www.gnome.org/projects/gnome-db/
 BuildRequires:	GConf-devel
-BuildRequires:	automake
 BuildRequires:	gettext-devel
 BuildRequires:	gnome-libs-devel
 BuildRequires:	libxml-devel
@@ -24,6 +24,7 @@ BuildRequires:	postgresql-devel
 BuildRequires:	unixODBC-devel
 BuildRequires:	automake
 BuildRequires:	autoconf
+BuildRequires:	libtool
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define 	_prefix		/usr/X11R6
@@ -37,56 +38,103 @@ access your data.
 libgda was part of the GNOME-DB project but has been separated from it
 to allow non-GNOME applications to be developed based on it.
 
+%description -l pl
+GNU Data Access to próba zapewnienia jednolitego dostêpu do ró¿nych
+¼róde³ danych (bazy danych, serwery informacji, katalogi z poczt±
+itp.). Jest kompletn± architektuj± dostarczaj±c± wszystko co
+potrzebujesz do dostêpu do danych.
+
+libgda by³a czê¶ci± projektu GNOME-DB, ale zosta³a wydzielona, aby
+pozwoliæ na u¿ywanie przez niegnomowe aplikacje.
+
 %package devel
 Summary:	GNU Data Access development
+Summary(pl):	Dla programistów GNU Data Access
 Group:		Development/Libraries
 Group(de):	Entwicklung/Libraries
+Group(es):	Desarrollo/Bibliotecas
 Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
+Group(pt_BR):	Desenvolvimento/Bibliotecas
+Group(ru):	òÁÚÒÁÂÏÔËÁ/âÉÂÌÉÏÔÅËÉ
+Group(uk):	òÏÚÒÏÂËÁ/â¦ÂÌ¦ÏÔÅËÉ
 Requires:	%{name} = %{version}
 
 %description devel
 GNU Data Access is an attempt to provide uniform access to different
 kinds of data sources (databases, information servers, mail spools,
 etc). It is a complete architecture that provides all you need to
-access your data.
+access your data. This subpackage contains development files.
+
+%description devel -l pl
+GNU Data Access to próba zapewnienia jednolitego dostêpu do ró¿nych
+¼róde³ danych (bazy danych, serwery informacji, katalogi z poczt±
+itp.). Jest kompletn± architektuj± dostarczaj±c± wszystko co
+potrzebujesz do dostêpu do danych. Ten podpakiet zawiera pliki dla
+programistów u¿ywaj±cych libgda.
 
 %package static
 Summary:	GNU Data Access static libraries
+Summary(pl):	Statyczne biblioteki GNU Data Access
 Group:		Development/Libraries
 Group(de):	Entwicklung/Libraries
+Group(es):	Desarrollo/Bibliotecas
 Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
+Group(pt_BR):	Desenvolvimento/Bibliotecas
+Group(ru):	òÁÚÒÁÂÏÔËÁ/âÉÂÌÉÏÔÅËÉ
+Group(uk):	òÏÚÒÏÂËÁ/â¦ÂÌ¦ÏÔÅËÉ
 Requires:	%{name}-devel = %{version}
 
 %description static
 GNU Data Access static libraries.
 
+%description static -l pl
+Statyczne biblioteki GNU Data Access.
+
 %package clientcpp
 Summary:	GNU Data Access C++ client library
+Summary(pl):	Biblioteka kliecka C++ do GNU Data Access
 Group:		Development/Libraries
 Group(de):	Entwicklung/Libraries
+Group(es):	Desarrollo/Bibliotecas
 Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
+Group(pt_BR):	Desenvolvimento/Bibliotecas
+Group(ru):	òÁÚÒÁÂÏÔËÁ/âÉÂÌÉÏÔÅËÉ
+Group(uk):	òÏÚÒÏÂËÁ/â¦ÂÌ¦ÏÔÅËÉ
 Requires:	%{name} = %{version}
 
 %description clientcpp
 GNU Data Access C++ client library.
 
+%description clientcpp -l pl
+Biblioteka kliencka C++ do GNU Data Access.
+
 %package clientcpp-devel
 Summary:	GNU Data Access C++ client library development
+Summary(pl):	Dla programistów biblioteki klienckiej C++ do GDA
 Group:		Development/Libraries
 Group(de):	Entwicklung/Libraries
+Group(es):	Desarrollo/Bibliotecas
 Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
+Group(pt_BR):	Desenvolvimento/Bibliotecas
+Group(ru):	òÁÚÒÁÂÏÔËÁ/âÉÂÌÉÏÔÅËÉ
+Group(uk):	òÏÚÒÏÂËÁ/â¦ÂÌ¦ÏÔÅËÉ
 Requires:	%{name}-devel = %{version}
 Prereq:		%{name}-devel
 
 %description clientcpp-devel
 GNU Data Access C++ client library.
 
+%description clientcpp-devel -l pl
+Pakiet dla programistów u¿ywaj±cych biblioteki klienckiej C++ do GNU
+Data Access.
+
 %package -n gda-odbc
 Summary:	GDA ODBC provider
+Summary(pl):	¬ród³o danych ODBC dla GDA
 Group:		Applications/Databases
 Group(de):	Applikationen/Dateibanken
 Group(pl):	Aplikacje/Bazy danych
@@ -95,8 +143,12 @@ Requires:	%{name} = %{version}
 %description -n gda-odbc
 This package contains the GDA ODBC provider.
 
+%description -n gda-odbc -l pl
+Pakiet dostaczaj±cy dane z ODBC dla GDA.
+
 %package -n gda-postgres
 Summary:	GDA PostgreSQL provider
+Summary(pl):	¬ród³o danych PostgreSQL dla GDA
 Group:		Applications/Databases
 Group(de):	Applikationen/Dateibanken
 Group(pl):	Aplikacje/Bazy danych
@@ -105,8 +157,12 @@ Requires:	%{name} = %{version}
 %description -n gda-postgres
 This package contains the GDA PostgreSQL provider.
 
+%description -n gda-postgres -l pl
+Pakiet dostarczaj±cy dane z PostgreSQL dla GDA.
+
 %package -n gda-mysql
 Summary:	GDA MySQL provider
+Summary(pl):	¬ród³o danych MySQL dla GDA
 Group:		Applications/Databases
 Group(de):	Applikationen/Dateibanken
 Group(pl):	Aplikacje/Bazy danych
@@ -115,8 +171,12 @@ Requires:	%{name} = %{version}
 %description -n gda-mysql
 This package contains the GDA MySQL provider.
 
+%description -n gda-mysql -l pl
+Pakiet dostarczaj±cy dane z MySQL dla GDA.
+
 %package -n gda-ldap
 Summary:	GDA LDAP provider
+Summary(pl):	¬ród³o danych LDAP dla GDA
 Group:		Applications/Databases
 Group(de):	Applikationen/Dateibanken
 Group(pl):	Aplikacje/Bazy danych
@@ -124,6 +184,9 @@ Requires:	%{name} = %{version}
 
 %description -n gda-ldap
 This package contains the GDA LDAP provider.
+
+%description -n gda-ldap -l pl
+Pakiet dostarczaj±cy dane z LDAP dla GDA.
 
 %prep
 %setup -q
