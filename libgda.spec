@@ -14,18 +14,18 @@
 Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
-Version:	1.0.1
+Version:	1.1.0
 Release:	1
 License:	LGPL
 Group:		Applications/Databases
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/1.0/%{name}-%{version}.tar.bz2
-# Source0-md5:	a3f7c8aed0d85e68e1dd8ae3343ce476
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/1.1/%{name}-%{version}.tar.bz2
+# Source0-md5:	e3191fee866702dc77bafdc002dcadc6
 %{!?_without_firebird:BuildRequires:	Firebird-devel}
 BuildRequires:	autoconf
 BuildRequires:	automake
 %{!?_without_freetds:BuildRequires:	freetds-devel >= 0.61}
 BuildRequires:	gettext-devel
-BuildRequires:	glib2-devel
+BuildRequires:	glib2-devel >= 2.2.0
 BuildRequires:	gnome-common
 BuildRequires:	gtk-doc
 BuildRequires:	libtool
@@ -64,7 +64,7 @@ Summary:	GNU Data Access development
 Summary(pl):	Dla programistów GNU Data Access
 Group:		Development/Libraries
 Requires:	%{name} = %{version}
-Requires:	glib2-devel
+Requires:	glib2-devel >= 2.2.0
 Requires:	gtk-doc-common
 Requires:	libxslt-devel >= 1.0.9
 Obsoletes:	libgda0-devel
@@ -206,11 +206,6 @@ CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
 %{?_without_freetds:	--without-tds} \
 %{!?_without_freetds:	--with-tds} \
 			--without-oracle
-
-# Generate file probably accidentally (?) not included in sources
-cd libgda
-/usr/bin/glib-genmarshal gda-marshal.list --body --prefix=gda_marshal > gda-marshal.c
-cd ..
 
 %{__make}
 
