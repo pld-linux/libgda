@@ -1,14 +1,14 @@
 #
 # Conditional build:
-%bcond_without firebird		# build without firebird plugin
-%bcond_without freetds		# build without freetds plugin
-%bcond_without ldap		# build without ldap plugin
-%bcond_without mdb		# build without MDB plugin
-%bcond_without mysql		# build without MySQL plugin
-%bcond_without odbc		# build without unixODBC
-%bcond_without pgsql		# build without PostgreSQL plugin
-%bcond_without sqlite		# build without sqlite plugin
-%bcond_without xbase		# build without xbase plugin
+%bcond_without	firebird	# build without firebird plugin
+%bcond_without	freetds		# build without freetds plugin
+%bcond_without	ldap		# build without ldap plugin
+%bcond_without	mdb		# build without MDB plugin
+%bcond_without	mysql		# build without MySQL plugin
+%bcond_without	odbc		# build without unixODBC
+%bcond_without	pgsql		# build without PostgreSQL plugin
+%bcond_without	sqlite		# build without sqlite plugin
+%bcond_without	xbase		# build without xbase plugin
 #
 %ifnarch %{ix86} amd64 sparc sparcv9 alpha ppc
 %undefine	with_firebird
@@ -20,7 +20,7 @@ Version:	1.2.1
 Release:	1
 License:	LGPL
 Group:		Applications/Databases
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/intltool/1.2/%{name}-%{version}.tar.bz2
+Source0:	http://ftp.gnome.org/pub/gnome/sources/libgda/1.2/%{name}-%{version}.tar.bz2
 # Source0-md5:	513a3b7adb66fa5641bae5394f60c017
 Patch0:		%{name}-gcc34.patch
 Patch1:		%{name}-freetds_buildfix.patch
@@ -257,7 +257,6 @@ CXXFLAGS="%{rpmcxxflags} -fno-rtti -fno-exceptions"
 	--with%{!?with_freetds:out}-tds \
 	--with%{!?with_xbase:out}-xbase \
 	--without-oracle
-
 %{__make}
 
 %install
