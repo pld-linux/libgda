@@ -34,7 +34,7 @@ BuildRequires:	automake
 %{?with_freetds:BuildRequires:	freetds-devel >= 0.61.1}
 BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel >= 2.2.0
-BuildRequires:	gnome-common
+BuildRequires:	gnome-common >= 2.8.0
 BuildRequires:	gtk-doc
 BuildRequires:	libtool >= 1:1.4.2-9
 BuildRequires:	libxml2-devel
@@ -228,7 +228,7 @@ mv -f po/{no,nb}.po
 %build
 CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
 %{__libtoolize}
-%{__aclocal} -I %{_aclocaldir}/gnome2-macros
+%{__aclocal}
 %{__autoconf}
 %{__automake}
 %configure \
