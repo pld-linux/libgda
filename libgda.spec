@@ -11,7 +11,7 @@ Group:		Applications/Databases
 Source0:	ftp://ftp.gnome-db.org/pub/gnome-db/sources/v%{version}/%{name}-%{version}.tar.gz
 BuildRequires:	autoconf
 BuildRequires:	automake
-#BuildRequires:	freetds-devel
+BuildRequires:	freetds-devel >= 0.61
 BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel
 BuildRequires:	gtk-doc
@@ -164,8 +164,7 @@ CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
 	--with-mysql \
 	--with-sqlite \
 	--with-ldap \
-	--without-oracle \
-	--without-tds
+	--without-oracle
 
 %{__make}
 
@@ -247,10 +246,10 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libgda/providers/libgda-sqlite.so
 %{_libdir}/libgda/providers/libgda-sqlite.la
 
-#%%files -n gda-freetds
-#%%defattr(644,root,root,755)
-#%%attr(755,root,root) %{_libdir}/libgda/providers/libgda-freetds.so
-#%%{_libdir}/libgda/providers/libgda-freetds.la
+%files -n gda-freetds
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libgda/providers/libgda-freetds.so
+%{_libdir}/libgda/providers/libgda-freetds.la
 
 %files -n gda-ldap
 %defattr(644,root,root,755)
