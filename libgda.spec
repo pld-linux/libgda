@@ -64,6 +64,9 @@ Summary:	GNU Data Access development
 Summary(pl):	Dla programistów GNU Data Access
 Group:		Development/Libraries
 Requires:	%{name} = %{version}
+Requires:	glib2-devel
+Requires:	gtk-doc-common
+Requires:	libxslt-devel >= 1.0.9
 Obsoletes:	libgda0-devel
 
 %description devel
@@ -213,6 +216,9 @@ rm -rf $RPM_BUILD_ROOT
 	DESTDIR=$RPM_BUILD_ROOT \
 	HTML_DIR=%{_gtkdocdir} 
 
+# modules dlopened by *.so through libgmodule
+rm -f $RPM_BUILD_ROOT%{_libdir}/libgda/providers/*.{a,la}
+
 %find_lang %{name} --with-gnome --all-name
 
 %clean
@@ -235,7 +241,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/libgda
 %dir %{_libdir}/libgda/providers
 %attr(755,root,root) %{_libdir}/libgda/providers/libgda-xml.so
-%{_libdir}/libgda/providers/libgda-xml.la
 %{_datadir}/libgda
 %{_omf_dest_dir}/%{name}
 %{_mandir}/man5/*
@@ -267,47 +272,40 @@ rm -rf $RPM_BUILD_ROOT
 %files -n gda-firebird
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libgda/providers/libgda-firebird.so
-%{_libdir}/libgda/providers/libgda-firebird.la
 %endif
 
 %if %{!?_without_freetds:1}0
 %files -n gda-freetds
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libgda/providers/libgda-freetds.so
-%{_libdir}/libgda/providers/libgda-freetds.la
 %endif
 
 %if %{!?_without_ldap:1}0
 %files -n gda-ldap
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libgda/providers/libgda-ldap.so
-%{_libdir}/libgda/providers/libgda-ldap.la
 %endif
 
 %if %{!?_without_mysql:1}0
 %files -n gda-mysql
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libgda/providers/libgda-mysql.so
-%{_libdir}/libgda/providers/libgda-mysql.la
 %endif
 
 %if %{!?_without_odbc:1}0
 %files -n gda-odbc
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libgda/providers/libgda-odbc.so
-%{_libdir}/libgda/providers/libgda-odbc.la
 %endif
 
 %if %{!?_without_pgsql:1}0
 %files -n gda-postgres
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libgda/providers/libgda-postgres.so
-%{_libdir}/libgda/providers/libgda-postgres.la
 %endif
 
 %if %{!?_without_sqlite:1}0
 %files -n gda-sqlite
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libgda/providers/libgda-sqlite.so
-%{_libdir}/libgda/providers/libgda-sqlite.la
 %endif
