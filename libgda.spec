@@ -8,6 +8,7 @@
 %bcond_without odbc		# build without unixODBC
 %bcond_without pgsql		# build without PostgreSQL plugin
 %bcond_without sqlite		# build without sqlite plugin
+%bcond_without xbase		# build without xbase plugin
 #
 %ifnarch %{ix86}
 %undefine	with_firebird
@@ -16,7 +17,7 @@ Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
 Version:	1.0.3
-Release:	2
+Release:	3
 License:	LGPL
 Group:		Applications/Databases
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/1.0/%{name}-%{version}.tar.bz2
@@ -24,6 +25,7 @@ Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/1.0/%{name}-%{version}.t
 Patch0:		%{name}-mdb.patch
 Patch1:		%{name}-freetds.patch
 Patch2:		%{name}-docbook.patch
+Patch3:		%{name}-xbase.patch
 %{?with_firebird:BuildRequires:	Firebird-devel}
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -42,6 +44,7 @@ BuildRequires:	libxslt-devel >= 1.0.9
 BuildRequires:	scrollkeeper
 %{?with_sqlite:BuildRequires:	sqlite-devel}
 %{?with_odbc:BuildRequires:	unixODBC-devel}
+%{?with_xbase:BuildRequires:	xbase-devel >= 2.0.0}
 Requires(post,postun):	/sbin/ldconfig
 Requires(post,postun):	scrollkeeper
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -197,11 +200,24 @@ This package contains the GDA SQLite provider.
 %description -n gda-sqlite -l pl
 Pakiet dostarczaj±cy dane z SQLite dla GDA.
 
+%package -n gda-xbase
+Summary:	GDA xBase provider
+Summary(pl):	¬ród³o danych xBase dla GDA
+Group:		Applications/Databases
+Requires:	%{name} = %{version}-%{release}
+
+%description -n gda-xbase
+This package contains the GDA xBase (dBase, Clipper, FoxPro) provider.
+
+%description -n gda-xbase -l pl
+Pakiet dostarczaj±cy dane z xBase (dBase, Clippera, FoxPro) dla GDA.
+
 %prep
 %setup -q
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
@@ -216,6 +232,8 @@ CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
 %{?with_firebird:	--with-firebird} \
 %{!?with_ldap:		--without-ldap} \
 %{?with_ldap:		--with-ldap} \
+%{!?with_mdb:		--without-mdb } \
+%{?with_mdb:		--with-mdb} \
 %{!?with_mysql:		--without-mysql} \
 %{?with_mysql:		--with-mysql} \
 %{!?with_odbc:		--without-odbc} \
@@ -226,8 +244,8 @@ CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
 %{?with_sqlite:		--with-sqlite} \
 %{!?with_freetds:	--without-tds} \
 %{?with_freetds:	--with-tds} \
-%{!?with_mdb:		--without-mdb } \
-%{?with_mdb:		--with-mdb} \
+%{!?with_xbase:		--without-xbase} \
+%{?with_xbase:		--with-xbase} \
 			--without-oracle
 
 # Generate file probably accidentally (?) not included in sources
@@ -343,4 +361,10 @@ rm -rf $RPM_BUILD_ROOT
 %files -n gda-sqlite
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libgda/providers/libgda-sqlite.so
+%endif
+
+%if %{with xbase}
+%files -n gda-xbase
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libgda/providers/libgda-xbase.so
 %endif
