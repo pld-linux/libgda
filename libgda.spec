@@ -25,7 +25,7 @@ Patch1:		%{name}-freetds.patch
 %{!?_without_firebird:BuildRequires:	Firebird-devel}
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	byacc
+BuildRequires:	bison
 BuildRequires:	flex
 %{!?_without_freetds:BuildRequires:	freetds-devel >= 0.62.1}
 BuildRequires:	gettext-devel
