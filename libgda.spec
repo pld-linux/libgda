@@ -2,10 +2,10 @@
 # Conditional build:
 %bcond_without	firebird	- build without freetds plugin
 %bcond_without	freetds		- build without freetds plugin
-%bcond_without	ldap			- build without ldap plugin
-%bcond_without	mysql			- build without MySQL plugin
-%bcond_without	odbc			- build without unixODBC
-%bcond_without	pgsql			- build without PostgreSQL plugin
+%bcond_without	ldap		- build without ldap plugin
+%bcond_without	mysql		- build without MySQL plugin
+%bcond_without	odbc		- build without unixODBC
+%bcond_without	pgsql		- build without PostgreSQL plugin
 %bcond_without	sqlite		- build without sqlite plugin
 #
 %ifnarch %{ix86}
@@ -14,16 +14,17 @@
 Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
-Version:	1.1.4
+Version:	1.1.5
 Release:	1
 License:	LGPL
 Group:		Applications/Databases
-Source0:	ftp://ftp.gnome-db.org/pub/gnome-db/sources/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	3ffd428100e131da2c56697c9d162515
-#Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/1.1/%{name}-%{version}.tar.bz2
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/1.1/%{name}-%{version}.tar.bz2
+# Source0-md5:	b08d701b53052dafed1009119a5a11be
+#Source0:	ftp://ftp.gnome-db.org/pub/gnome-db/sources/v%{version}/%{name}-%{version}.tar.gz
 Patch0:		%{name}-locale-names.patch
+Patch1:		%{name}-gcc34.patch
 %{?with_firebird:BuildRequires:	Firebird-devel}
-BuildRequires:	autoconf
+BuildRequires:	autoconf >= 2.52
 BuildRequires:	automake
 BuildRequires:	bison
 BuildRequires:	db-devel
@@ -205,6 +206,7 @@ Pakiet dostarczaj±cy dane z SQLite dla GDA.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 mv po/{no,nb}.po
 
@@ -221,15 +223,15 @@ CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
 %{?without_firebird:	--without-firebird} \
 %{?with_firebird:	--with-firebird} \
 %{?without_ldap:	--without-ldap} \
-%{?with_ldap:	--with-ldap} \
+%{?with_ldap:		--with-ldap} \
 %{?without_mysql:	--without-mysql} \
-%{?with_mysql:	--with-mysql} \
+%{?with_mysql:		--with-mysql} \
 %{?without_odbc:	--without-odbc} \
-%{?with_odbc:	--with-odbc} \
+%{?with_odbc:		--with-odbc} \
 %{?without_pgsql:	--without-postgres} \
-%{?with_pgsql:	--with-postgres} \
+%{?with_pgsql:		--with-postgres} \
 %{?without_sqlite:	--without-sqlite} \
-%{?with_sqlite:	--with-sqlite} \
+%{?with_sqlite:		--with-sqlite} \
 %{?without_freetds:	--without-tds} \
 %{?with_freetds:	--with-tds} \
 			--without-oracle
