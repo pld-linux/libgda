@@ -14,15 +14,14 @@
 Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
-Version:	1.1.6
+Version:	1.1.99
 Release:	1
 License:	LGPL
 Group:		Applications/Databases
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/1.1/%{name}-%{version}.tar.bz2
-# Source0-md5:	971142a54704f73224b0d49d7e5b10ad
+# Source0-md5:	ca7cb079d48988cb8495a8be9a3b88c1
 #Source0:	ftp://ftp.gnome-db.org/pub/gnome-db/sources/v%{version}/%{name}-%{version}.tar.gz
-Patch0:		%{name}-locale-names.patch
-Patch1:		%{name}-gcc34.patch
+Patch0:		%{name}-gcc34.patch
 %{?with_firebird:BuildRequires:	Firebird-devel}
 BuildRequires:	autoconf >= 2.52
 BuildRequires:	automake
@@ -206,9 +205,6 @@ Pakiet dostarczaj±cy dane z SQLite dla GDA.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
-
-mv po/{no,nb}.po
 
 %build
 cp /usr/share/automake/mkinstalldirs .
@@ -247,6 +243,8 @@ rm -rf $RPM_BUILD_ROOT
 
 # modules dlopened by *.so through libgmodule
 rm -f $RPM_BUILD_ROOT%{_libdir}/libgda/providers/*.{a,la}
+
+rm -r $RPM_BUILD_ROOT%{_datadir}/locale/no
 
 %find_lang %{name} --with-gnome --all-name
 
@@ -287,8 +285,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libgda-2.la
 %{_libdir}/libgda-report-2.la
 %{_libdir}/libgdasql.la
-%{_includedir}/libgda
-%{_includedir}/libgda-report
+%{_includedir}/libgda-1.1
 %{_pkgconfigdir}/*
 %{_mandir}/man1/*
 %{_gtkdocdir}/*
