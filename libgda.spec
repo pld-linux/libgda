@@ -2,7 +2,7 @@ Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
 Version:	0.2.95
-Release:	1
+Release:	2
 License:	LGPL
 Group:		Applications/Databases
 Group(de):	Applikationen/Dateibanken
