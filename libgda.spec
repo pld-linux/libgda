@@ -8,7 +8,8 @@ Group(de):	Applikationen/Dateibanken
 Group(pl):	Aplikacje/Bazy danych
 Source0:	ftp://ftp.gnome.org/pub/GNOME/stable/sources/gnome-db/%{name}-%{version}.tar.gz
 Patch0:		%{name}-shared_libmysqlclient.patch
-PAtch1:		%{name}-DESTDIR.patch
+Patch1:		%{name}-DESTDIR.patch
+Patch2:		%{name}-GNU_GETTEXT.patch
 URL:		http://www.gnome.org/projects/gnome-db/
 BuildRequires:	GConf-devel
 BuildRequires:	automake
@@ -21,6 +22,8 @@ BuildRequires:	oaf-devel
 BuildRequires:	openldap-devel
 BuildRequires:	postgresql-devel
 BuildRequires:	unixODBC-devel
+BuildRequires:	automake
+BuildRequires:	autoconf
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define 	_prefix		/usr/X11R6
@@ -126,11 +129,15 @@ This package contains the GDA LDAP provider.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
+rm -f missing
 gettextize --copy --force
-automake -a -c
+libtoolize --copy --force
+aclocal -I macros
 autoconf
+automake -a -c
 CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
 %configure \
 	--with-odbc \
