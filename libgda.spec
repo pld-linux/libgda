@@ -8,7 +8,7 @@
 %bcond_without	pgsql		- build without PostgreSQL plugin
 %bcond_without	sqlite		- build without sqlite plugin
 #
-%ifnarch %{ix86}
+%ifnarch %{ix86} amd64 sparc sparcv9 ppc
 %define without_firebird 1
 %endif
 Summary:	GNU Data Access library
