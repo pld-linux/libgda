@@ -234,9 +234,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libgda-common.so
 %attr(755,root,root) %{_libdir}/libgda-client.so
 %attr(755,root,root) %{_libdir}/libgda-server.so
-%attr(755,root,root) %{_libdir}/libgda-common.la
-%attr(755,root,root) %{_libdir}/libgda-client.la
-%attr(755,root,root) %{_libdir}/libgda-server.la
+%{_libdir}/libgda-common.la
+%{_libdir}/libgda-client.la
+%{_libdir}/libgda-server.la
 %dir %{_includedir}/%{name}-%{version}/
 %{_includedir}/%{name}-%{version}/gda
 
@@ -251,7 +251,7 @@ rm -rf $RPM_BUILD_ROOT
 %files clientcpp-devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libgda-clientcpp.so
-%attr(755,root,root) %{_libdir}/libgda-clientcpp.la
+%{_libdir}/libgda-clientcpp.la
 %{_includedir}/%{name}-%{version}/gda++
 
 %files -n gda-odbc
