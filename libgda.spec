@@ -4,6 +4,7 @@ Version:	0.1.0
 Release:	1
 License:	GPL
 Group:		Applications/Databases
+Group(de):	Applikationen/Dateibanken
 Group(pl):	Aplikacje/Bazy danych
 Source0:	ftp://ftp.gnome.org/pub/GNOME/sources/gnome-db/%{name}-%{version}.tar.gz
 Patch0:		%{name}-shared_libmysqlclient.patch
@@ -84,6 +85,7 @@ GNU Data Access C++ client library.
 %package -n gda-odbc
 Summary:	GDA ODBC provider
 Group:		Applications/Databases
+Group(de):	Applikationen/Dateibanken
 Group(pl):	Aplikacje/Bazy danych
 Requires:	%{name} = %{version}
 
@@ -93,6 +95,7 @@ This package contains the GDA ODBC provider.
 %package -n gda-postgres
 Summary:	GDA PostgreSQL provider
 Group:		Applications/Databases
+Group(de):	Applikationen/Dateibanken
 Group(pl):	Aplikacje/Bazy danych
 Requires:	%{name} = %{version}
 
@@ -102,6 +105,7 @@ This package contains the GDA PostgreSQL provider.
 %package -n gda-mysql
 Summary:	GDA MySQL provider
 Group:		Applications/Databases
+Group(de):	Applikationen/Dateibanken
 Group(pl):	Aplikacje/Bazy danych
 Requires:	%{name} = %{version}
 
@@ -111,6 +115,7 @@ This package contains the GDA MySQL provider.
 %package -n gda-ldap
 Summary:	GDA LDAP provider
 Group:		Applications/Databases
+Group(de):	Applikationen/Dateibanken
 Group(pl):	Aplikacje/Bazy danych
 Requires:	%{name} = %{version}
 
@@ -124,9 +129,9 @@ This package contains the GDA LDAP provider.
 
 %build
 gettextize --copy --force
-automake
+automake -a -c
 autoconf
-CXXFLAGS="%{!?debug:$RPM_OPT_FLAGS -fno-rtti -fno-exceptions}%{?debug:-O0 -g}"
+CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
 %configure \
 	--with-odbc \
 	--with-postgres \
