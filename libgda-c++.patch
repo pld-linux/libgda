@@ -1,15 +1,445 @@
---- libgda-0.2.93/bindings/c++/gdaHelpers.h~	Sun Nov 18 18:34:37 2001
-+++ libgda-0.2.93/bindings/c++/gdaHelpers.h	Sat Jan 12 20:59:34 2002
-@@ -20,6 +20,6 @@
- //#define __gda_helpers_cpp_gdaHelpersH
+diff -urN libgda-0.2.95/bindings/c++/gdaBatch.cpp libgda-new/bindings/c++/gdaBatch.cpp
+--- libgda-0.2.95/bindings/c++/gdaBatch.cpp	Fri Dec  7 22:07:48 2001
++++ libgda-new/bindings/c++/gdaBatch.cpp	Tue Feb  5 23:52:00 2002
+@@ -64,14 +64,14 @@
+ }
  
- namespace gda {
--string gda_return_string (gchar* pszString);
-+std::string gda_return_string (gchar* pszString);
+ bool
+-Batch::loadFile (const string& filename, bool clean)
++Batch::loadFile (const std::string& filename, bool clean)
+ {
+ 	return gda_batch_load_file (
+ 		_gda_batch, const_cast<gchar*>(filename.c_str ()), clean);
+ }
+ 
+ void
+-Batch::addCommand (const string& cmdText)
++Batch::addCommand (const std::string& cmdText)
+ {
+ 	gda_batch_add_command (
+ 		_gda_batch, const_cast<gchar*>(cmdText.c_str ()));
+diff -urN libgda-0.2.95/bindings/c++/gdaBatch.h libgda-new/bindings/c++/gdaBatch.h
+--- libgda-0.2.95/bindings/c++/gdaBatch.h	Fri Dec  7 22:07:48 2001
++++ libgda-new/bindings/c++/gdaBatch.h	Tue Feb  5 23:47:27 2002
+@@ -34,8 +34,8 @@
+         Batch& operator=(const Batch& job);
+ 
+ 
+-		bool loadFile (const string& filename, bool clean);
+-		void addCommand (const string& cmdText);
++		bool loadFile (const std::string& filename, bool clean);
++		void addCommand (const std::string& cmdText);
+ 		void clear ();
+ 
+ 		bool start ();
+diff -urN libgda-0.2.95/bindings/c++/gdaCommand.cpp libgda-new/bindings/c++/gdaCommand.cpp
+--- libgda-0.2.95/bindings/c++/gdaCommand.cpp	Fri Dec  7 22:07:48 2001
++++ libgda-new/bindings/c++/gdaCommand.cpp	Tue Feb  5 23:53:07 2002
+@@ -77,14 +77,14 @@
+ 	return 0;
+ }
+ 
+-string
++std::string
+ Command::getText ()
+ {
+ 	return gda_return_string (gda_command_get_text (_gda_command));
+ }
+ 
+ void
+-Command::setText (const string& text)
++Command::setText (const std::string& text)
+ {
+ 	gda_command_set_text (_gda_command, const_cast<gchar*>(text.c_str ()));
+ }
+@@ -114,7 +114,7 @@
+ 
+ void
+ Command::createParameter (
+-	const string& name, GDA_ParameterDirection inout, const Value& value)
++	const std::string& name, GDA_ParameterDirection inout, const Value& value)
+ {
+ 	_parameters_values.insert (_parameters_values.end (), value);
+ 
+diff -urN libgda-0.2.95/bindings/c++/gdaCommand.h libgda-new/bindings/c++/gdaCommand.h
+--- libgda-0.2.95/bindings/c++/gdaCommand.h	Fri Dec  7 22:07:48 2001
++++ libgda-new/bindings/c++/gdaCommand.h	Tue Feb  5 23:50:57 2002
+@@ -38,13 +38,13 @@
+ 
+ 		Connection getConnection ();
+ 		gint setConnection (const Connection& cnc);
+-		string getText ();
+-		void setText (const string& text);
++		std::string getText ();
++		void setText (const std::string& text);
+ 		GDA_CommandType getCmdType ();
+ 		void setCmdType (GDA_CommandType type);
+ 		Recordset execute (gulong& reccount, gulong flags);
+ 		void createParameter (
+-			const string& name,
++			const std::string& name,
+ 				      GDA_ParameterDirection inout,
+ 			const Value& value);
+ //		glong getTimeout ();
+@@ -59,7 +59,7 @@
+ 
+ 		GdaCommand *_gda_command;
+ 		Connection _connection;
+-		vector<Value> _parameters_values;
++		std::vector<Value> _parameters_values;
+ 	};
+ 
  };
- //#endif // __gda_helpers_cpp_gdaHelpersH
---- libgda-0.2.93/bindings/c++/gdaHelpers.cpp~	Sun Nov 18 18:34:37 2001
-+++ libgda-0.2.93/bindings/c++/gdaHelpers.cpp	Sat Jan 12 21:10:12 2002
+diff -urN libgda-0.2.95/bindings/c++/gdaConnection.cpp libgda-new/bindings/c++/gdaConnection.cpp
+--- libgda-0.2.95/bindings/c++/gdaConnection.cpp	Fri Dec  7 22:07:48 2001
++++ libgda-new/bindings/c++/gdaConnection.cpp	Tue Feb  5 23:55:04 2002
+@@ -59,13 +59,13 @@
+ }
+ 
+ void
+-Connection::setProvider (const string& name)
++Connection::setProvider (const std::string& name)
+ {
+ 	gda_connection_set_provider (
+ 		_gda_connection, const_cast<gchar*>(name.c_str ()));
+ }
+ 
+-string
++std::string
+ Connection::getProvider ()
+ {
+ 	return gda_return_string (
+@@ -79,14 +79,14 @@
+ }
+ 
+ void
+-Connection::setDefaultDB (const string& dsn)
++Connection::setDefaultDB (const std::string& dsn)
+ {
+ 	gda_connection_set_default_db (
+ 		_gda_connection, const_cast<gchar*>(dsn.c_str ()));
+ }
+ 
+ gint
+-Connection::open (const string& dsn, const string& user, const string& pwd)
++Connection::open (const std::string& dsn, const std::string& user, const std::string& pwd)
+ {
+ 	return gda_connection_open (
+ 		_gda_connection,
+@@ -112,8 +112,8 @@
+ 	g_return_val_if_fail(isOpen (), empty);
+ 	g_return_val_if_fail(_gda_connection->connection != NULL, empty);
+ 
+-	vector<GDA_Connection_ConstraintType> types;
+-	vector<string> values;
++	std::vector<GDA_Connection_ConstraintType> types;
++	std::vector<std::string> values;
+ 
+ 	va_start (ap, t);
+ 	while (1) {
+@@ -180,7 +180,7 @@
+ }
+ 
+ Recordset
+-Connection::execute (const string& txt, gulong& reccount, gulong flags)
++Connection::execute (const std::string& txt, gulong& reccount, gulong flags)
+ {
+ 	GdaRecordset *gdaRst = NULL;
+ 	//Recordset *rst = NULL;
+@@ -196,7 +196,7 @@
+ }
+ 
+ gint
+-Connection::startLogging (const string& filename)
++Connection::startLogging (const std::string& filename)
+ {
+ 	return gda_connection_start_logging (
+ 		_gda_connection, const_cast<gchar*>(filename.c_str ()));
+@@ -226,13 +226,13 @@
+ 	return gda_connection_is_open (_gda_connection);
+ }
+ 
+-string
++std::string
+ Connection::getDSN ()
+ {
+ 	return gda_return_string (gda_connection_get_dsn (_gda_connection));
+ }
+ 
+-string
++std::string
+ Connection::getUser ()
+ {
+ 	return gda_return_string (gda_connection_get_user (_gda_connection));
+@@ -288,7 +288,7 @@
+ }
+ */
+ 
+-string
++std::string
+ Connection::getVersion ()
+ {
+ 	return gda_connection_get_version (_gda_connection);
+diff -urN libgda-0.2.95/bindings/c++/gdaConnection.h libgda-new/bindings/c++/gdaConnection.h
+--- libgda-0.2.95/bindings/c++/gdaConnection.h	Fri Dec  7 22:07:48 2001
++++ libgda-new/bindings/c++/gdaConnection.h	Tue Feb  5 23:45:47 2002
+@@ -41,11 +41,11 @@
+ 
+ 		Connection& operator=(const Connection& cnc);
+ 
+-		void setProvider (const string& name);
+-		string getProvider ();
++		void setProvider (const std::string& name);
++		std::string getProvider ();
+ 		bool supports (GDA_Connection_Feature feature);
+-		void setDefaultDB (const string& dsn);
+-		gint open (const string& dsn, const string& user, const string& pwd);
++		void setDefaultDB (const std::string& dsn);
++		gint open (const std::string& dsn, const std::string& user, const std::string& pwd);
+ 		void close ();
+ 		Recordset openSchema (GDA_Connection_QType t, ...);
+ 		Recordset openSchemaArray (GDA_Connection_QType t, GdaConstraint_Element* constraint);
+@@ -54,16 +54,16 @@
+ 		gint beginTransaction ();
+ 		gint commitTransaction ();
+ 		gint rollbackTransaction ();
+-		Recordset execute (const string& txt, gulong& reccount, gulong flags);
+-		gint startLogging (const string& filename);
++		Recordset execute (const std::string& txt, gulong& reccount, gulong flags);
++		gint startLogging (const std::string& filename);
+ 		gint stopLogging ();
+ 
+ 		void addSingleError (Error& xError);
+ 		void addErrorlist (ErrorList& xList);
+ 
+ 		bool isOpen ();
+-		string getDSN ();
+-		string getUser ();
++		std::string getDSN ();
++		std::string getUser ();
+ 
+ //		glong getFlags ();
+ //		void setFlags (glong flags);
+@@ -73,7 +73,7 @@
+ //		void setConnectTimeout (glong timeout);
+ //		GDA_CursorLocation getCursorLocation ();
+ //		void setCursorLocation (GDA_CursorLocation cursor);
+-		string getVersion ();
++		std::string getVersion ();
+ 
+ 	      private:
+ 		GdaConnection* getCStruct (bool ref = true) const;
+diff -urN libgda-0.2.95/bindings/c++/gdaError.cpp libgda-new/bindings/c++/gdaError.cpp
+--- libgda-0.2.95/bindings/c++/gdaError.cpp	Fri Dec  7 22:07:48 2001
++++ libgda-new/bindings/c++/gdaError.cpp	Tue Feb  5 23:55:44 2002
+@@ -55,7 +55,7 @@
+ }
+ 
+ 
+-string
++std::string
+ Error::description ()
+ {
+ 	return gda_return_string (g_strdup (gda_error_get_description (_gda_error)));
+@@ -67,31 +67,31 @@
+ 	return gda_error_get_number (_gda_error);
+ }
+ 
+-string
++std::string
+ Error::source ()
+ {
+ 	return gda_return_string (g_strdup (gda_error_get_source (_gda_error)));
+ }
+ 
+-string
++std::string
+ Error::helpurl ()
+ {
+ 	return gda_return_string (g_strdup (gda_error_get_help_url (_gda_error)));
+ }
+ 
+-string
++std::string
+ Error::sqlstate ()
+ {
+ 	return gda_return_string (g_strdup (gda_error_get_sqlstate (_gda_error)));
+ }
+ 
+-string
++std::string
+ Error::nativeMsg ()
+ {
+ 	return gda_return_string (g_strdup (gda_error_get_native (_gda_error)));
+ }
+ 
+-string
++std::string
+ Error::realcommand ()
+ {
+ 	return gda_return_string (g_strdup (gda_error_get_real_command (_gda_error)));
+diff -urN libgda-0.2.95/bindings/c++/gdaError.h libgda-new/bindings/c++/gdaError.h
+--- libgda-0.2.95/bindings/c++/gdaError.h	Fri Dec  7 22:07:48 2001
++++ libgda-new/bindings/c++/gdaError.h	Tue Feb  5 23:49:28 2002
+@@ -38,13 +38,13 @@
+ 		Error& operator=(const Error& error);
+ 		
+ 
+-		string description ();
++		std::string description ();
+ 		glong number ();
+-		string source ();
+-		string helpurl ();
+-		string sqlstate();
+-		string nativeMsg();
+-		string realcommand();
++		std::string source ();
++		std::string helpurl ();
++		std::string sqlstate();
++		std::string nativeMsg();
++		std::string realcommand();
+ 
+ 	      private:
+ 		// manual operations on contained C object not allowed; sorry folks!
+diff -urN libgda-0.2.95/bindings/c++/gdaErrorList.cpp libgda-new/bindings/c++/gdaErrorList.cpp
+--- libgda-0.2.95/bindings/c++/gdaErrorList.cpp	Fri Dec  7 22:07:48 2001
++++ libgda-new/bindings/c++/gdaErrorList.cpp	Tue Feb  5 23:56:13 2002
+@@ -53,7 +53,7 @@
+ ErrorList&
+ ErrorList::operator=(const ErrorList& errorList)
+ {
+-	dynamic_cast<vector<Error>* >(this)->operator=(errorList);
++	dynamic_cast<std::vector<Error>* >(this)->operator=(errorList);
+ 
+ 	return *this;
+ }
+diff -urN libgda-0.2.95/bindings/c++/gdaErrorList.h libgda-new/bindings/c++/gdaErrorList.h
+--- libgda-0.2.95/bindings/c++/gdaErrorList.h	Fri Dec  7 22:07:48 2001
++++ libgda-new/bindings/c++/gdaErrorList.h	Tue Feb  5 23:51:22 2002
+@@ -25,7 +25,7 @@
+ class Error;
+ 
+ 	class ErrorList
+-: public vector<Error>
++: public std::vector<Error>
+ 	{
+ 
+ 	friend class Connection;
+diff -urN libgda-0.2.95/bindings/c++/gdaField.cpp libgda-new/bindings/c++/gdaField.cpp
+--- libgda-0.2.95/bindings/c++/gdaField.cpp	Tue Dec 11 21:16:14 2001
++++ libgda-new/bindings/c++/gdaField.cpp	Tue Feb  5 23:57:53 2002
+@@ -123,7 +123,7 @@
+ 	return _gda_field->real_value->_u.v._d;
+ }
+ 
+-string
++std::string
+ Field::typeCodeString ()
+ {
+ 	g_assert (isValid ());
+@@ -275,7 +275,7 @@
+  return gda_field_fixbin (_gda_field);
+ }
+ 
+-string
++std::string
+ Field::getLongVarChar ()
+ {
+ 	g_assert (isValid ());
+@@ -284,7 +284,7 @@
+ }
+ */
+ 
+-string
++std::string
+ Field::getString ()
+ {
+ 	g_assert (isValid ());
+@@ -328,19 +328,19 @@
+ 	return gda_field_get_usmallint_value (_gda_field);
+ }
+ 
+-string
++std::string
+ Field::fieldType2String (GDA_ValueType type)
+ {
+ 	return gda_return_string (gda_fieldtype_2_string (NULL, 0, type));
+ }
+ 
+ GDA_ValueType
+-Field::string2FieldType (const string& type)
++Field::string2FieldType (const std::string& type)
+ {
+ 	return gda_string_2_fieldtype (const_cast<gchar*>(type.c_str ()));
+ }
+ 
+-string
++std::string
+ Field::stringifyValue ()
+ {
+ 	return gda_return_string (gda_stringify_value (NULL, 0, _gda_field));
+@@ -385,12 +385,12 @@
+ 	return gda_field_get_defined_size (_gda_field);
+ }
+ 
+-string
++std::string
+ Field::name ()
+ {
+ 	g_assert (isValid ());
+ 
+-	string name = const_cast<const char*>(gda_field_get_name (_gda_field));
++	std::string name = const_cast<const char*>(gda_field_get_name (_gda_field));
+ 
+ 	return name;
+ }
+diff -urN libgda-0.2.95/bindings/c++/gdaField.h libgda-new/bindings/c++/gdaField.h
+--- libgda-0.2.95/bindings/c++/gdaField.h	Fri Dec  7 22:07:48 2001
++++ libgda-new/bindings/c++/gdaField.h	Tue Feb  5 23:46:47 2002
+@@ -45,7 +45,7 @@
+ 
+ 		bool isNull ();
+ 		GDA_ValueType typeCode ();
+-		string typeCodeString ();
++		std::string typeCodeString ();
+ 
+ 		Value getValue ();
+ 		gchar getTinyInt ();
+@@ -62,25 +62,25 @@
+ 		VarBinString getBinary ();
+ 	//	GDA_VarBinString getVarLenString();
+ 	//	GDA_VarBinString getFixLenString();
+-	//	string getLongVarChar ();
+-		string getString ();
++	//	std::string getLongVarChar ();
++		std::string getString ();
+ 		gfloat getSingle ();
+ 		gint getSmallInt ();
+ 	//	gulong getUBigInt ();
+ 
+ 		guint getUSmallInt ();
+ 
+-		static string fieldType2String (GDA_ValueType type);
+-		static GDA_ValueType string2FieldType (const string& type);
++		static std::string fieldType2String (GDA_ValueType type);
++		static GDA_ValueType string2FieldType (const std::string& type);
+ 
+-		string stringifyValue ();
++		std::string stringifyValue ();
+ 	//	gchar *getText
+ 		//      gchar *getNewString();
+ 	//	gchar *putInString (gchar *bfr, gint maxLength);
+ 
+ 		gint actualSize ();
+ 		glong definedSize ();
+-		string name ();
++		std::string name ();
+ 		glong scale ();
+ 		GDA_ValueType gdaType ();
+ 		glong cType ();
+diff -urN libgda-0.2.95/bindings/c++/gdaHelpers.cpp libgda-new/bindings/c++/gdaHelpers.cpp
+--- libgda-0.2.95/bindings/c++/gdaHelpers.cpp	Sun Nov 18 18:21:55 2001
++++ libgda-new/bindings/c++/gdaHelpers.cpp	Tue Feb  5 23:20:12 2002
 @@ -23,14 +23,14 @@
  
  //using namespace gda;
@@ -27,3 +457,163 @@
         g_free (pszString);
  
         return szString;
+diff -urN libgda-0.2.95/bindings/c++/gdaHelpers.h libgda-new/bindings/c++/gdaHelpers.h
+--- libgda-0.2.95/bindings/c++/gdaHelpers.h	Sun Nov 18 18:21:55 2001
++++ libgda-new/bindings/c++/gdaHelpers.h	Tue Feb  5 23:20:12 2002
+@@ -20,6 +20,6 @@
+ //#define __gda_helpers_cpp_gdaHelpersH
+ 
+ namespace gda {
+-string gda_return_string (gchar* pszString);
++std::string gda_return_string (gchar* pszString);
+ };
+ //#endif // __gda_helpers_cpp_gdaHelpersH
+diff -urN libgda-0.2.95/bindings/c++/gdaRecordset.cpp libgda-new/bindings/c++/gdaRecordset.cpp
+--- libgda-0.2.95/bindings/c++/gdaRecordset.cpp	Fri Dec  7 22:07:48 2001
++++ libgda-new/bindings/c++/gdaRecordset.cpp	Tue Feb  5 23:59:27 2002
+@@ -67,17 +67,17 @@
+ }
+ 
+ void
+-Recordset::setName (const string& name)
++Recordset::setName (const std::string& name)
+ {
+ 	//gda_recordset_set_name(_gda_recordset, const_cast<gchar*>(name.c_str ()));
+ }
+ 
+-string
++std::string
+ Recordset::getName ()
+ {
+     //gchar* name;
+ 	//gda_recordset_get_name (_gda_recordset, name);
+-	string name;
++	std::string name;
+     return name; //gda_return_string (name);
+ }
+ 
+@@ -88,7 +88,7 @@
+ }
+ 
+ Field
+-Recordset::field (const string& name)
++Recordset::field (const std::string& name)
+ {
+ 	Field field (gda_recordset_field_name (_gda_recordset, const_cast<gchar*>(name.c_str ())), _gda_recordset);
+ 	
+@@ -170,7 +170,7 @@
+ }
+ 
+ gint
+-Recordset::open (const string& txt, GDA_CursorType cursor_type, GDA_LockType lock_type, gulong options)
++Recordset::open (const std::string& txt, GDA_CursorType cursor_type, GDA_LockType lock_type, gulong options)
+ {
+ 	return gda_recordset_open_txt (_gda_recordset, const_cast<gchar*>(txt.c_str ()), cursor_type, lock_type, options);
+ }
+@@ -222,11 +222,11 @@
+ // 1. it generates memory leaks
+ // 2. there is no wrapper for GList around
+ //
+-vector<string>
++std::vector<std::string>
+ Recordset::getRow ()
+ {
+ 	Field field;
+-	vector<string> ret;
++	std::vector<std::string> ret;
+ 
+ 	for (gint i = 0; i < rowsize (); i++) {
+ 		field = this->field (i);
+@@ -239,11 +239,11 @@
+ // should be gda_recordset_get_row (), but
+ // it generates memory leaks
+ //
+-string
++std::string
+ Recordset::getRowAsString ()
+ {
+ 	Field field;
+-	string ret;
++	std::string ret;
+ 
+ 	for (gint i = 0; i < rowsize (); i++) {
+ 		field = this->field (i);
+diff -urN libgda-0.2.95/bindings/c++/gdaRecordset.h libgda-new/bindings/c++/gdaRecordset.h
+--- libgda-0.2.95/bindings/c++/gdaRecordset.h	Fri Dec  7 22:07:48 2001
++++ libgda-new/bindings/c++/gdaRecordset.h	Tue Feb  5 23:50:35 2002
+@@ -35,10 +35,10 @@
+ 		Recordset& operator=(const Recordset& rst);
+ 
+ 		bool isValid ();
+-		void setName (const string& name);
+-		string getName ();
++		void setName (const std::string& name);
++		std::string getName ();
+ 		void close ();
+-		Field field (const string& name);
++		Field field (const std::string& name);
+ 		// FIXME: possibly add a fieldText() func?
+ 		Field field (gint idx);
+ 		gint bof ();
+@@ -51,7 +51,7 @@
+ 		gint rowsize ();
+ 		gulong affectedRows ();
+ 		gint open (const Command& cmd, GDA_CursorType cursor_type, GDA_LockType lock_type, gulong options); // FIXME: defaults
+-		gint open (const string& txt, GDA_CursorType cursor_type, GDA_LockType lock_type, gulong options);
++		gint open (const std::string& txt, GDA_CursorType cursor_type, GDA_LockType lock_type, gulong options);
+ 		gint setConnection (const Connection& cnc);
+ 		Connection getConnection ();
+ 		gint addField (GdaField * field);
+@@ -59,8 +59,8 @@
+ 		void setCursorloc (GDA_CursorLocation loc);
+ 		GDA_CursorType getCursortype ();
+ 		void setCursortype (GDA_CursorType type);
+-		vector<string> getRow ();
+-		string getRowAsString ();
++		std::vector<std::string> getRow ();
++		std::string getRowAsString ();
+ 
+ 	      private:
+ 		// manual operations on contained C object not allowed; sorry folks!
+diff -urN libgda-0.2.95/bindings/c++/gdaValue.cpp libgda-new/bindings/c++/gdaValue.cpp
+--- libgda-0.2.95/bindings/c++/gdaValue.cpp	Fri Dec  7 22:07:48 2001
++++ libgda-new/bindings/c++/gdaValue.cpp	Wed Feb  6 00:01:49 2002
+@@ -215,7 +215,7 @@
+ //	return _gda_fieldvalue._u.v._u.fb;
+ //}
+ 
+-string
++std::string
+ Value::getLongVarChar ()
+ {
+ 	return gda_return_string (g_strdup (_gda_value->_u.lvc));
+@@ -309,7 +309,7 @@
+ // }
+ 
+ void
+-Value::set (const string& a)
++Value::set (const std::string& a)
+ {
+ 	_gda_value->_u.lvc = g_strdup (a.c_str ());
+ }
+diff -urN libgda-0.2.95/bindings/c++/gdaValue.h libgda-new/bindings/c++/gdaValue.h
+--- libgda-0.2.95/bindings/c++/gdaValue.h	Fri Dec  7 22:07:48 2001
++++ libgda-new/bindings/c++/gdaValue.h	Tue Feb  5 23:47:44 2002
+@@ -67,7 +67,7 @@
+ 		glong getInteger ();
+ 		//GDA_VarBinString getVarLenString ();
+ 		//GDA_VarBinString getFixLenString ();
+-		string getLongVarChar ();
++		std::string getLongVarChar ();
+ 		gfloat getFloat ();
+ 		gint getSmallInt ();
+ 		gulong getULongLongInt ();
+@@ -84,7 +84,7 @@
+ 		// void set(glong a);  // CORBA_long
+ 		//void set (GDA_VarBinString a);
+ 		// void set(GDA_VarBinString a);  // GDA_VarBinString fb; 
+-		void set (const string& a);
++		void set (const std::string& a);
+ 		void set (gfloat a);
+ 		//void set (gint16 a); // CORBA_short
+ 		void set (gulong a);
