@@ -15,25 +15,33 @@ Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
 Version:	1.1.0
-Release:	1
+Release:	2
 License:	LGPL
 Group:		Applications/Databases
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/1.1/%{name}-%{version}.tar.bz2
 # Source0-md5:	e3191fee866702dc77bafdc002dcadc6
+Patch0:		%{name}-locale-names.patch
+Patch1:		%{name}-freetds.patch
 %{!?_without_firebird:BuildRequires:	Firebird-devel}
 BuildRequires:	autoconf
 BuildRequires:	automake
-%{!?_without_freetds:BuildRequires:	freetds-devel >= 0.61}
+BuildRequires:	byacc
+BuildRequires:	flex
+%{!?_without_freetds:BuildRequires:	freetds-devel >= 0.62.1}
 BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel >= 2.2.0
 BuildRequires:	gnome-common
 BuildRequires:	gtk-doc
+BuildRequires:	intltool
 BuildRequires:	libtool
 BuildRequires:	libxml2-devel
 BuildRequires:	libxslt-devel >= 1.0.9
 %{!?_without_mysql:BuildRequires:	mysql-devel}
 %{!?_without_ldap:BuildRequires:	openldap-devel}
+BuildRequires:	perl-base
+BuildRequires:	popt-devel
 %{!?_without_pgsql:BuildRequires:	postgresql-devel}
+BuildRequires:	readline-devel
 BuildRequires:	scrollkeeper
 %{!?_without_sqlite:BuildRequires:	sqlite-devel}
 %{!?_without_odbc:BuildRequires:	unixODBC-devel}
@@ -63,9 +71,10 @@ pozwoliæ na u¿ywanie przez niegnomowe aplikacje.
 Summary:	GNU Data Access development
 Summary(pl):	Dla programistów GNU Data Access
 Group:		Development/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 Requires:	glib2-devel >= 2.2.0
 Requires:	gtk-doc-common
+Requires:	libxml2-devel
 Requires:	libxslt-devel >= 1.0.9
 Obsoletes:	libgda0-devel
 
@@ -86,7 +95,7 @@ programistów u¿ywaj±cych libgda.
 Summary:	GNU Data Access static libraries
 Summary(pl):	Statyczne biblioteki GNU Data Access
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}
+Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
 GNU Data Access static libraries.
@@ -98,7 +107,7 @@ Statyczne biblioteki GNU Data Access.
 Summary:	GDA Firebird provider
 Summary(pl):	¬ród³o danych Firebird dla GDA
 Group:		Applications/Databases
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description -n gda-firebird
 This package contains the GDA Firebird provider.
@@ -110,7 +119,7 @@ Pakiet dostaczaj±cy dane z Firebird dla GDA.
 Summary:	GDA FreeTDS provider
 Summary(pl):	¬ród³o danych FreeTDS dla GDA
 Group:		Applications/Databases
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description -n gda-freetds
 This package contains the GDA FreeTDS provider.
@@ -122,7 +131,7 @@ Pakiet dostarczaj±cy dane z FreeTDS dla GDA.
 Summary:	GDA LDAP provider
 Summary(pl):	¬ród³o danych LDAP dla GDA
 Group:		Applications/Database
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description -n gda-ldap
 This package contains the GDA LDAP provider.
@@ -134,7 +143,7 @@ Pakiet dostarczaj±cy dane z LDAP dla GDA
 Summary:	GDA MySQL provider
 Summary(pl):	¬ród³o danych MySQL dla GDA
 Group:		Applications/Databases
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 Obsoletes:	libgda-mysql0
 
 %description -n gda-mysql
@@ -147,7 +156,7 @@ Pakiet dostarczaj±cy dane z MySQL dla GDA.
 Summary:	GDA ODBC provider
 Summary(pl):	¬ród³o danych ODBC dla GDA
 Group:		Applications/Databases
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description -n gda-odbc
 This package contains the GDA ODBC provider.
@@ -159,7 +168,7 @@ Pakiet dostaczaj±cy dane z ODBC dla GDA.
 Summary:	GDA PostgreSQL provider
 Summary(pl):	¬ród³o danych PostgreSQL dla GDA
 Group:		Applications/Databases
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 Obsoletes:	libgda-postgres0
 
 %description -n gda-postgres
@@ -172,7 +181,7 @@ Pakiet dostarczaj±cy dane z PostgreSQL dla GDA.
 Summary:	GDA SQLite provider
 Summary(pl):	¬ród³o danych SQLite dla GDA
 Group:		Applications/Databases
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description -n gda-sqlite
 This package contains the GDA SQLite provider.
@@ -182,14 +191,19 @@ Pakiet dostarczaj±cy dane z SQLite dla GDA.
 
 %prep
 %setup -q
+%patch0 -p1
+%patch1 -p1
+
+mv po/{no,nb}.po
 
 %build
 CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
 %{__aclocal} -I %{_aclocaldir}/gnome2-macros
 %{__autoconf}
 %{__automake}
+# Temporary disabled gtk-doc building - it doesn't build
 %configure \
-			--enable-gtk-doc \
+			--disable-gtk-doc \
 			--with-html-dir=%{_gtkdocdir} \
 %{?_without_firebird:	--without-firebird} \
 %{!?_without_firebird:	--with-firebird} \
