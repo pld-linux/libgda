@@ -204,7 +204,7 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/ldconfig
 /usr/bin/scrollkeeper-update
 
-%files
+%files -f %{name}.lang
 %defattr(644,root,root,755)
 %{_sysconfdir}/libgda
 %attr(755,root,root) %{_libdir}/libgda-2.so.*.*
@@ -218,7 +218,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_omf_dest_dir}/%{name}
 %{_mandir}/man5/*
 
-%files devel -f %{name}.lang
+%files devel
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README
 %attr(755,root,root) %{_bindir}/gda-config-tool
