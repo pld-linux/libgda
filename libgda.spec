@@ -17,7 +17,7 @@ Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
 Version:	1.0.4
-Release:	2
+Release:	3
 License:	LGPL
 Group:		Applications/Databases
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/1.0/%{name}-%{version}.tar.bz2
@@ -131,7 +131,7 @@ Pakiet dostarczaj±cy dane z FreeTDS dla GDA.
 %package -n gda-ldap
 Summary:	GDA LDAP provider
 Summary(pl):	¬ród³o danych LDAP dla GDA
-Group:		Applications/Database
+Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
 %description -n gda-ldap
@@ -143,7 +143,7 @@ Pakiet dostarczaj±cy dane z LDAP dla GDA
 %package -n gda-mdb
 Summary:	GDA MDB provider
 Summary(pl):	¬ród³o danych MDB
-Group:		Applications/Database
+Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
 %description -n gda-mdb
