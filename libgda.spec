@@ -1,45 +1,27 @@
 Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
-Version:	0.2.96
-Release:	5
+Version:	0.9.0
+Release:	1
 License:	LGPL
 Group:		Applications/Databases
-Source0:	ftp://ftp.gnome-db.org/pub/gnome-db/sources/latest/%{name}-%{version}.tar.gz
-Patch0:		%{name}-GNU_GETTEXT.patch
-Patch1:		%{name}-openldap.patch
-Patch2:		%{name}-DESTDIR.patch
-Patch3:		%{name}-c++.patch
-Patch4:		%{name}-omf.patch
-URL:		http://www.gnome-db.org/
-BuildRequires:	GConf-devel
-BuildRequires:	ORBit-devel
+Source0:	ftp://ftp.gnome-db.org/pub/gnome-db/sources/%{version}/%{name}-%{version}.tar.gz
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	bonobo-devel
+BuildRequires:	freetds-devel
 BuildRequires:	gettext-devel
-BuildRequires:	glib-devel >= 1.2.0
-BuildRequires:	gnome-libs-devel
-BuildRequires:	gtk+-devel >= 1.0.0
+BuildRequires:	glib2-devel
 BuildRequires:	gtk-doc
-BuildRequires:	libstdc++-devel
 BuildRequires:	libtool
 BuildRequires:	libxml2-devel
-BuildRequires:	libxml-devel
-BuildRequires:	libxslt-devel
+BuildRequires:	libxslt-devel >= 1.0.9
 BuildRequires:	mysql-devel
-BuildRequires:	oaf-devel
-BuildRequires:	openldap-devel >= 2.0.0
 BuildRequires:	postgresql-devel
 BuildRequires:	scrollkeeper
+BuildRequires:	sqlite-devel
 BuildRequires:	unixODBC-devel
 Prereq:         scrollkeeper
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-Obsoletes:	libgda0
-
-%define 	_prefix		/usr/X11R6
-%define         _sysconfdir     /etc/X11/GNOME
-%define		_omf_dest_dir   %(scrollkeeper-config --omfdir)
 
 %description
 GNU Data Access is an attempt to provide uniform access to different
@@ -91,32 +73,6 @@ GNU Data Access static libraries.
 %description static -l pl
 Statyczne biblioteki GNU Data Access.
 
-%package clientcpp
-Summary:	GNU Data Access C++ client library
-Summary(pl):	Biblioteka kliecka C++ do GNU Data Access
-Group:		Development/Libraries
-Requires:	%{name} = %{version}
-
-%description clientcpp
-GNU Data Access C++ client library.
-
-%description clientcpp -l pl
-Biblioteka kliencka C++ do GNU Data Access.
-
-%package clientcpp-devel
-Summary:	GNU Data Access C++ client library development
-Summary(pl):	Dla programistów biblioteki klienckiej C++ do GDA
-Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}
-Prereq:		%{name}-devel
-
-%description clientcpp-devel
-GNU Data Access C++ client library.
-
-%description clientcpp-devel -l pl
-Pakiet dla programistów u¿ywaj±cych biblioteki klienckiej C++ do GNU
-Data Access.
-
 %package -n gda-odbc
 Summary:	GDA ODBC provider
 Summary(pl):	¬ród³o danych ODBC dla GDA
@@ -155,42 +111,42 @@ This package contains the GDA MySQL provider.
 %description -n gda-mysql -l pl
 Pakiet dostarczaj±cy dane z MySQL dla GDA.
 
-%package -n gda-ldap
-Summary:	GDA LDAP provider
-Summary(pl):	¬ród³o danych LDAP dla GDA
+%package -n gda-sqlite
+Summary:	GDA SQLite provider
+Summary(pl):	¬ród³o danych SQLite dla GDA
 Group:		Applications/Databases
 Requires:	%{name} = %{version}
 
-%description -n gda-ldap
-This package contains the GDA LDAP provider.
+%description -n gda-sqlite
+This package contains the GDA SQLite provider.
 
-%description -n gda-ldap -l pl
-Pakiet dostarczaj±cy dane z LDAP dla GDA.
+%description -n gda-sqlite -l pl
+Pakiet dostarczaj±cy dane z SQLite dla GDA.
+
+%package -n gda-freetds
+Summary:	GDA FreeTDS provider
+Summary(pl):	¬ród³o danych FreeTDS dla GDA
+Group:		Applications/Databases
+Requires:	%{name} = %{version}
+
+%description -n gda-freetds
+This package contains the GDA FreeTDS provider.
+
+%description -n gda-freetds -l pl
+Pakiet dostarczaj±cy dane z FreeTDS dla GDA.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
 
 %build
-rm -f missing
-%{__gettextize}
-%{__libtoolize}
-%{__aclocal} -I macros
-%{__autoconf}
-%{__automake}
 CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
 %configure \
-	--disable-gtk-doc \
+	--enable-gtk-doc \
+	--with-html-dir=%{_gtkdocdir} \
 	--with-odbc \
 	--with-postgres \
-	--with-mysql \
-	--with-ldap
+	--with-mysql
 
-LD_LIBRARY_PATH=$(pwd)/lib/gda-common/.libs; export LD_LIBRARY_PATH
 %{__make}
 
 %install
@@ -198,6 +154,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
+	HTML_DIR=%{_gtkdocdir} \
+	pkgconfigdir=%{_pkgconfigdir} \
 	omf_dest_dir=%{_omf_dest_dir}/%{name}
 
 %find_lang %{name} --with-gnome --all-name
@@ -213,59 +171,63 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/ldconfig
 /usr/bin/scrollkeeper-update
 
-%post	clientcpp -p /sbin/ldconfig
-%postun	clientcpp -p /sbin/ldconfig
-
 %files
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libgda-common.so.*.*
-%attr(755,root,root) %{_libdir}/libgda-client.so.*.*
-%attr(755,root,root) %{_libdir}/libgda-server.so.*.*
-%{_datadir}/gda
+%{_sysconfdir}/libgda
+%attr(755,root,root) %{_libdir}/libgda-2.so.*.*
+%attr(755,root,root) %{_libdir}/libgda-report-2.so.*.*
+%attr(755,root,root) %{_libdir}/libgdasql.so.*.*
 %{_datadir}/idl/*
+%{_datadir}/libgda
 %{_omf_dest_dir}/%{name}
 
 %files devel -f %{name}.lang
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README
-%attr(755,root,root) %{_bindir}/gda-build*
+%attr(755,root,root) %{_bindir}/gda-config-tool
 %attr(755,root,root) %{_bindir}/gda-run
-%attr(755,root,root) %{_bindir}/gda-config
-%attr(755,root,root) %{_libdir}/libgda-common.so
-%attr(755,root,root) %{_libdir}/libgda-client.so
-%attr(755,root,root) %{_libdir}/libgda-server.so
-%{_libdir}/libgda-common.la
-%{_libdir}/libgda-client.la
-%{_libdir}/libgda-server.la
-%dir %{_includedir}/%{name}-%{version}/
-%{_includedir}/%{name}-%{version}/gda
+%attr(755,root,root) %{_bindir}/gda-test
+%attr(755,root,root) %{_libdir}/libgda-2.so
+%attr(755,root,root) %{_libdir}/libgda-report-2.so
+%attr(755,root,root) %{_libdir}/libgdasql.so
+%dir %{_libdir}/libgda
+%dir %{_libdir}/libgda/providers
+%attr(755,root,root) %{_libdir}/libgda/providers/libgda-default.so
+%{_libdir}/libgda/providers/libgda-default.la
+%{_libdir}/libgda-2.la
+%{_libdir}/libgda-report-2.la
+%{_libdir}/libgdasql.la
+%{_includedir}/libgda
+%{_includedir}/libgda-report
+%{_pkgconfigdir}/*
+%{_mandir}/man1/*
+%{_gtkdocdir}/*
 
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/lib*.a
 
-%files clientcpp
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libgda-clientcpp.so.*.*
-
-%files clientcpp-devel
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libgda-clientcpp.so
-%{_libdir}/libgda-clientcpp.la
-%{_includedir}/%{name}-%{version}/gda++
-
 %files -n gda-odbc
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/gda-odbc-srv
+%attr(755,root,root) %{_libdir}/libgda/providers/libgda-odbc.so
+%{_libdir}/libgda/providers/libgda-odbc.la
 
 %files -n gda-postgres
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/gda-postgres-srv
+%attr(755,root,root) %{_libdir}/libgda/providers/libgda-postgres.so
+%{_libdir}/libgda/providers/libgda-postgres.la
 
 %files -n gda-mysql
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/gda-mysql-srv
+%attr(755,root,root) %{_libdir}/libgda/providers/libgda-mysql.so
+%{_libdir}/libgda/providers/libgda-mysql.la
 
-%files -n gda-ldap
+%files -n gda-sqlite
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/gda-ldap-srv
+%attr(755,root,root) %{_libdir}/libgda/providers/libgda-sqlite.so
+%{_libdir}/libgda/providers/libgda-sqlite.la
+
+%files -n gda-freetds
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libgda/providers/libgda-freetds.so
+%{_libdir}/libgda/providers/libgda-freetds.la
