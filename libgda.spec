@@ -8,6 +8,9 @@
 # _without_pgsql    - build without PostgreSQL plugin
 # _without_sqlite   - build without sqlite plugin
 #
+%ifnarch %{ix86}
+%define _without_firebird 1
+%endif
 Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
