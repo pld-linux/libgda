@@ -1,7 +1,7 @@
 Summary:	GNU Data Access library
 Name:		libgda
 Version:	0.1.0
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/Databases
 Group(de):	Applikationen/Dateibanken
@@ -54,7 +54,7 @@ Group:		Development/Libraries
 Group(de):	Entwicklung/Libraries
 Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
-Requires:	%{name} = %{version}
+Requires:	%{name}-devel = %{version}
 
 %description static
 GNU Data Access static libraries.
