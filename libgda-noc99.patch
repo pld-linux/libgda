@@ -1,0 +1,13 @@
+--- libgda-1.0.2/libgda/gda-command.c.orig	Wed Nov 26 22:00:59 2003
++++ libgda-1.0.2/libgda/gda-command.c	Thu Dec  4 09:43:04 2003
+@@ -100,8 +100,9 @@
+ GdaCommand *
+ gda_command_copy (GdaCommand *cmd)
+ {
++	GdaCommand *new_cmd;
+ 	g_return_val_if_fail (cmd != NULL, NULL);
+-	GdaCommand *new_cmd = gda_command_new (gda_command_get_text (cmd),
++	new_cmd = gda_command_new (gda_command_get_text (cmd),
+ 					       gda_command_get_command_type (cmd),
+ 					       gda_command_get_options (cmd));
+ 	gda_command_set_transaction (new_cmd,
