@@ -9,6 +9,8 @@ Group(de):	Applikationen/Dateibanken
 Group(pl):	Aplikacje/Bazy danych
 Source0:	ftp://ftp.gnome-db.org/pub/gnome-db/sources/latest/%{name}-%{version}.tar.gz
 Patch0:		%{name}-GNU_GETTEXT.patch
+Patch1:		%{name}-openldap.patch
+Patch2:		%{name}-DESTDIR.patch
 URL:		http://www.gnome-db.org/
 BuildRequires:	glib-devel >= 1.2.0
 BuildRequires:	gtk+-devel >= 1.0.0
@@ -25,7 +27,7 @@ BuildRequires:	libxml-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	mysql-devel
 BuildRequires:	oaf-devel
-BuildRequires:	openldap-devel
+BuildRequires:	openldap-devel >= 2.0.0
 BuildRequires:	postgresql-devel
 BuildRequires:	unixODBC-devel
 BuildRequires:	automake
@@ -198,6 +200,8 @@ Pakiet dostarczaj±cy dane z LDAP dla GDA.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 %build
 rm -f missing
@@ -213,6 +217,7 @@ CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
 	--with-mysql \
 	--with-ldap
 
+LD_LIBRARY_PATH=$(pwd)/lib/gda-common/.libs; export LD_LIBRARY_PATH
 %{__make}
 
 %install
@@ -231,17 +236,8 @@ rm -rf $RPM_BUILD_ROOT
 %post   -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
-%post   -n gda-odbc -p /sbin/ldconfig
-%postun -n gda-odbc -p /sbin/ldconfig
-
-%post   -n gda-postgres -p /sbin/ldconfig
-%postun -n gda-postgres -p /sbin/ldconfig
-
-%post   -n gda-mysql -p /sbin/ldconfig
-%postun -n gda-mysql -p /sbin/ldconfig
-
-%post   -n gda-ldap -p /sbin/ldconfig
-%postun -n gda-ldap -p /sbin/ldconfig
+%post	clientcpp -p /sbin/ldconfig
+%postun	clientcpp -p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
@@ -262,9 +258,10 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libgda-common.la
 %attr(755,root,root) %{_libdir}/libgda-client.la
 %attr(755,root,root) %{_libdir}/libgda-server.la
-%dir %{_includedir}/gda/
-%{_includedir}/gda/*.h
+%dir %{_includedir}/%{name}-%{version}/
+%{_includedir}/%{name}-%{version}/gda
 %{_datadir}/idl/*
+%{_datadir}/omf/%{name}
 
 %files static
 %defattr(644,root,root,755)
@@ -278,28 +275,20 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libgda-clientcpp.so
 %attr(755,root,root) %{_libdir}/libgda-clientcpp.la
-%{_includedir}/gda/gda++
+%{_includedir}/%{name}-%{version}/gda++
 
 %files -n gda-odbc
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/gda-odbc-srv
-%{_libdir}/libgda-odbc.so.*.*
-%{_datadir}/oaf/gda-odbc.oafinfo
 
 %files -n gda-postgres
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/gda-postgres-srv
-%{_libdir}/libgda-postgres.so.*.*
-%{_datadir}/oaf/gda-postgres.oafinfo
 
 %files -n gda-mysql
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/gda-mysql-srv
-%{_libdir}/libgda-mysql.so.*.*
-%{_datadir}/oaf/gda-mysql.oafinfo
 
 %files -n gda-ldap
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/gda-ldap-srv
-%{_libdir}/libgda-ldap.so.*.*
-%{_datadir}/oaf/gda-ldap.oafinfo
