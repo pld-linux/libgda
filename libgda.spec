@@ -196,7 +196,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
-	omf_dest_dir=%{_omf_dest_dir}/%{name}
+	omf_dest_dir=%{_omf_dest_dir}/omf/%{name}
 
 
 gzip -9nf AUTHORS ChangeLog NEWS README
@@ -224,7 +224,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libgda-server.so.*.*
 %{_datadir}/gda
 %{_datadir}/idl/*
-%{_omf_dest_dir}/%{name}
+%{_omf_dest_dir}/omf/%{name}
 
 %files devel -f %{name}.lang
 %defattr(644,root,root,755)
