@@ -144,7 +144,7 @@ Pakiet dostarczaj±cy dane z FreeTDS dla GDA.
 %package -n gda-ldap
 Summary:	GDA LDAP provider
 Summary(pl):	¬ród³o danych LDAP dla GDA
-Group:		Applications/Database
+Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
 %description -n gda-ldap
