@@ -16,7 +16,7 @@ Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
 Version:	1.0.2
-Release:	1
+Release:	2
 License:	LGPL
 Group:		Applications/Databases
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/1.0/%{name}-%{version}.tar.bz2
@@ -260,7 +260,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%{_sysconfdir}/libgda
+%doc AUTHORS ChangeLog NEWS README
+%attr(755,root,root) %{_bindir}/gda-config-tool
 %attr(755,root,root) %{_libdir}/libgda-2.so.*.*
 %attr(755,root,root) %{_libdir}/libgda-report-2.so.*.*
 %attr(755,root,root) %{_libdir}/libgdasql.so.*.*
@@ -269,12 +270,13 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libgda/providers/libgda-xml.so
 %{_datadir}/libgda
 %{_omf_dest_dir}/%{name}
+%dir %{_sysconfdir}/libgda
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/libgda/config
+%{_mandir}/man1/gda-config-tool.1*
 %{_mandir}/man5/*
 
 %files devel
 %defattr(644,root,root,755)
-%doc AUTHORS ChangeLog NEWS README
-%attr(755,root,root) %{_bindir}/gda-config-tool
 %attr(755,root,root) %{_bindir}/gda-report-test
 %attr(755,root,root) %{_bindir}/gda-run
 %attr(755,root,root) %{_bindir}/gda-test
@@ -287,7 +289,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/libgda
 %{_includedir}/libgda-report
 %{_pkgconfigdir}/*
-%{_mandir}/man1/*
 %{_gtkdocdir}/*
 
 %files static
