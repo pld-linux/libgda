@@ -1,0 +1,29 @@
+--- libgda-0.2.93/bindings/c++/gdaHelpers.h~	Sun Nov 18 18:34:37 2001
++++ libgda-0.2.93/bindings/c++/gdaHelpers.h	Sat Jan 12 20:59:34 2002
+@@ -20,6 +20,6 @@
+ //#define __gda_helpers_cpp_gdaHelpersH
+ 
+ namespace gda {
+-string gda_return_string (gchar* pszString);
++std::string gda_return_string (gchar* pszString);
+ };
+ //#endif // __gda_helpers_cpp_gdaHelpersH
+--- libgda-0.2.93/bindings/c++/gdaHelpers.cpp~	Sun Nov 18 18:34:37 2001
++++ libgda-0.2.93/bindings/c++/gdaHelpers.cpp	Sat Jan 12 21:10:12 2002
+@@ -23,14 +23,14 @@
+ 
+ //using namespace gda;
+ 
+-string
++std::string
+ gda::gda_return_string (gchar* pszString)
+ {
+        if (NULL == pszString) {
+                return "";
+        }
+ 
+-       string szString = const_cast<const char*>(pszString);
++       std::string szString = const_cast<const char*>(pszString);
+        g_free (pszString);
+ 
+        return szString;

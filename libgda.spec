@@ -2,7 +2,7 @@ Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
 Version:	0.2.93
-Release:	1
+Release:	2
 License:	LGPL
 Group:		Applications/Databases
 Group(de):	Applikationen/Dateibanken
@@ -11,6 +11,7 @@ Source0:	ftp://ftp.gnome-db.org/pub/gnome-db/sources/latest/%{name}-%{version}.t
 Patch0:		%{name}-GNU_GETTEXT.patch
 Patch1:		%{name}-openldap.patch
 Patch2:		%{name}-DESTDIR.patch
+Patch3:		%{name}-c++.patch
 URL:		http://www.gnome-db.org/
 BuildRequires:	GConf-devel
 BuildRequires:	ORBit-devel
@@ -201,6 +202,7 @@ Pakiet dostarczaj±cy dane z LDAP dla GDA.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 rm -f missing
