@@ -12,27 +12,26 @@ Patch0:		%{name}-GNU_GETTEXT.patch
 Patch1:		%{name}-openldap.patch
 Patch2:		%{name}-DESTDIR.patch
 URL:		http://www.gnome-db.org/
-BuildRequires:	glib-devel >= 1.2.0
-BuildRequires:	gtk+-devel >= 1.0.0
-BuildRequires:	ORBit-devel
-BuildRequires:	bonobo-devel
-BuildRequires:	libxml-devel
-BuildRequires:	libxml2-devel
-BuildRequires:	libxslt-devel
-BuildRequires:	gtk-doc
 BuildRequires:	GConf-devel
+BuildRequires:	ORBit-devel
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	bonobo-devel
 BuildRequires:	gettext-devel
+BuildRequires:	glib-devel >= 1.2.0
 BuildRequires:	gnome-libs-devel
-BuildRequires:	libxml-devel
+BuildRequires:	gtk+-devel >= 1.0.0
+BuildRequires:	gtk-doc
 BuildRequires:	libstdc++-devel
+BuildRequires:	libtool
+BuildRequires:	libxml2-devel
+BuildRequires:	libxml-devel
+BuildRequires:	libxslt-devel
 BuildRequires:	mysql-devel
 BuildRequires:	oaf-devel
 BuildRequires:	openldap-devel >= 2.0.0
 BuildRequires:	postgresql-devel
 BuildRequires:	unixODBC-devel
-BuildRequires:	automake
-BuildRequires:	autoconf
-BuildRequires:	libtool
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define 	_prefix		/usr/X11R6
