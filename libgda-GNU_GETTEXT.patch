@@ -1,0 +1,11 @@
+--- ./configure.in.org	Sun Oct  7 21:41:32 2001
++++ ./configure.in	Sun Oct  7 21:41:51 2001
+@@ -484,7 +484,7 @@
+ dnl
+ ALL_LINGUAS="es"
+ 
+-AM_GNOME_GETTEXT
++AM_GNU_GETTEXT
+ 
+ dnl
+ dnl Variables
