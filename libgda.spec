@@ -14,12 +14,12 @@
 Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
-Version:	0.99.0
+Version:	1.0.0
 Release:	1
 License:	LGPL
 Group:		Applications/Databases
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/libgda/0.99/%{name}-%{version}.tar.bz2
-# Source0-md5:	3af521982e8a4ff5a705db038c52dd99
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/libgda/1.0/%{name}-%{version}.tar.bz2
+# Source0-md5:	7e5f5c0943600236ec16df35119af86a
 %{!?_without_firebird:BuildRequires:	Firebird-devel}
 BuildRequires:	autoconf
 BuildRequires:	automake
