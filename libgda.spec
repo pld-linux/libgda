@@ -2,7 +2,7 @@ Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
 Version:	0.2.96
-Release:	2
+Release:	3
 License:	LGPL
 Group:		Applications/Databases
 Source0:	ftp://ftp.gnome-db.org/pub/gnome-db/sources/latest/%{name}-%{version}.tar.gz
@@ -196,7 +196,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
-	omf_dest_dir=%{_omf_dest_dir}/omf/%{name}
+	omf_dest_dir=%{_omf_dest_dir}/%{name}
 
 
 gzip -9nf AUTHORS ChangeLog NEWS README
@@ -224,7 +224,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libgda-server.so.*.*
 %{_datadir}/gda
 %{_datadir}/idl/*
-%{_omf_dest_dir}/omf/%{name}
+%{_omf_dest_dir}/%{name}
 
 %files devel -f %{name}.lang
 %defattr(644,root,root,755)
