@@ -27,7 +27,7 @@ Patch1:		%{name}-freetds_buildfix.patch
 Patch2:		%{name}-mdb.patch
 %{?with_firebird:BuildRequires:	Firebird-devel}
 BuildRequires:	autoconf >= 2.59
-BuildRequires:	automake >= 1.8
+BuildRequires:	automake >= 1:1.8
 BuildRequires:	bison
 BuildRequires:	db-devel
 BuildRequires:	flex
