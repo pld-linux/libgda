@@ -182,7 +182,7 @@ Pakiet dostarczaj±cy dane z SQLite dla GDA.
 %build
 CXXFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
 %configure \
-			--disable-gtk-doc \
+			--enable-gtk-doc \
 			--with-html-dir=%{_gtkdocdir} \
 %{?_without_firebird:	--without-firebird} \
 %{!?_without_firebird:	--with-firebird} \
