@@ -1,0 +1,141 @@
+--- libgda-1.0.4/libgda/gda-util.c.orig	2004-01-15 12:56:40.000000000 +0100
++++ libgda-1.0.4/libgda/gda-util.c	2004-04-30 22:31:03.596411576 +0200
+@@ -61,6 +61,7 @@
+ 	case GDA_VALUE_TYPE_TIMESTAMP : return "timestamp";
+ 	case GDA_VALUE_TYPE_TINYINT : return "tinyint";
+ 	default:
++	;
+ 	}
+ 
+ 	return "string";
+--- libgda-1.0.4/providers/firebird/gda-firebird-provider.c.orig	2003-01-16 01:10:29.000000000 +0100
++++ libgda-1.0.4/providers/firebird/gda-firebird-provider.c	2004-04-30 22:37:20.010187984 +0200
+@@ -346,6 +346,20 @@
+ 	return model;
+ }
+ 
++isc_tr_handle *
++gda_firebird_command_get_transaction (GdaCommand *cmd)
++{
++	GdaTransaction *xaction;
++	isc_tr_handle *itr;
++
++	xaction = gda_command_get_transaction (cmd);
++	if (!GDA_IS_TRANSACTION (xaction))
++		return NULL;
++
++	itr = g_object_get_data (G_OBJECT (xaction), TRANSACTION_DATA);
++	return itr;
++}
++
+ /* execute_command handler for the GdaFirebirdProvider class */
+ static GList *
+ gda_firebird_provider_execute_command (GdaServerProvider *provider,
+@@ -546,17 +560,3 @@
+ 
+ 	gda_connection_add_error (cnc, error);
+ }
+-
+-isc_tr_handle *
+-gda_firebird_command_get_transaction (GdaCommand *cmd)
+-{
+-	GdaTransaction *xaction;
+-	isc_tr_handle *itr;
+-
+-	xaction = gda_command_get_transaction (cmd);
+-	if (!GDA_IS_TRANSACTION (xaction))
+-		return NULL;
+-
+-	itr = g_object_get_data (G_OBJECT (xaction), TRANSACTION_DATA);
+-	return itr;
+-}
+--- libgda-1.0.4/providers/mdb/gda-mdb-provider.c.orig	2003-11-26 21:58:08.000000000 +0100
++++ libgda-1.0.4/providers/mdb/gda-mdb-provider.c	2004-04-30 22:40:13.293844864 +0200
+@@ -390,6 +390,7 @@
+ 		}
+ 		break;
+ 	default :
++	;
+ 	}
+ 
+ 	return reclist;
+@@ -439,6 +440,7 @@
+ 	case GDA_CONNECTION_FEATURE_SQL :
+ 		return TRUE;
+ 	default :
++	;
+ 	}
+ 
+ 	return FALSE;
+--- libgda-1.0.4/providers/mysql/gda-mysql-provider.c.orig	2003-11-26 22:01:22.000000000 +0100
++++ libgda-1.0.4/providers/mysql/gda-mysql-provider.c	2004-04-30 22:43:04.724783400 +0200
+@@ -511,6 +511,7 @@
+ 		g_free (str);
+ 		break;
+ 	default:
++	;
+ 	}
+ 
+ 	return reclist;
+@@ -656,6 +657,7 @@
+ 	case GDA_CONNECTION_FEATURE_TRANSACTIONS :
+ 		return TRUE;
+ 	default :
++	;
+ 	}
+ 
+ 	return FALSE;
+@@ -1188,6 +1190,7 @@
+ 	case GDA_CONNECTION_SCHEMA_TYPES :
+ 		return get_mysql_types (cnc, params);
+ 	default :
++	;
+ 	}
+ 
+ 	return NULL;
+--- libgda-1.0.4/providers/sqlite/gda-sqlite-provider.c.orig	2004-04-15 12:21:37.000000000 +0200
++++ libgda-1.0.4/providers/sqlite/gda-sqlite-provider.c	2004-04-30 22:45:42.980724840 +0200
+@@ -624,6 +624,7 @@
+ 	case GDA_CONNECTION_FEATURE_VIEWS :
+ 		return TRUE;
+ 	default:
++	;
+ 	}
+ 
+ 	return FALSE;
+@@ -810,6 +811,7 @@
+ 	case GDA_CONNECTION_SCHEMA_TYPES :
+ 		return get_types ();
+ 	default:
++	;
+ 	}
+ 
+ 	return NULL;
+--- libgda-1.0.4/providers/ldap/gda-ldap-provider.c.orig	2003-02-03 18:12:13.000000000 +0100
++++ libgda-1.0.4/providers/ldap/gda-ldap-provider.c	2004-04-30 22:47:22.758556304 +0200
+@@ -276,6 +276,7 @@
+ 	case GDA_CONNECTION_FEATURE_SQL :
+ 		return TRUE;
+ 	default :
++	;
+ 	}
+ 
+ 	return FALSE;
+@@ -467,6 +468,7 @@
+ 	case GDA_CONNECTION_SCHEMA_TYPES :
+ 		return get_ldap_types (cnc, params);
+ 	default :
++	;
+ 	}
+ 
+ 	return NULL;
+--- libgda-1.0.4/providers/xml/gda-xml-provider.c.orig	2003-09-02 01:55:02.000000000 +0200
++++ libgda-1.0.4/providers/xml/gda-xml-provider.c	2004-04-30 22:49:09.066395056 +0200
+@@ -682,6 +682,7 @@
+ 	case GDA_CONNECTION_SCHEMA_TYPES :
+ 		return get_types (cnc);
+ 	default :
++	;
+ 	}
+ 
+ 	return NULL;
