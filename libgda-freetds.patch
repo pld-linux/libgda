@@ -1,0 +1,33 @@
+diff -urN libgda-1.0.3.org/providers/freetds/gda-freetds-provider.c libgda-1.0.3/providers/freetds/gda-freetds-provider.c
+--- libgda-1.0.3.org/providers/freetds/gda-freetds-provider.c	2004-03-24 16:28:20.815474016 +0100
++++ libgda-1.0.3/providers/freetds/gda-freetds-provider.c	2004-03-24 16:29:02.476140632 +0100
+@@ -247,7 +247,7 @@
+ 	if (t_port)
+ 		tds_set_port(tds_cnc->login, atoi(t_port));
+ 	
+-	tds_set_charset(tds_cnc->login, "iso_1");
++	tds_set_client_charset(tds_cnc->login, "iso_1");
+ 	tds_set_language(tds_cnc->login, "us_english");
+ 	tds_set_packet(tds_cnc->login, 512);
+ 
+@@ -803,7 +803,7 @@
+ 
+ 	/* there should not be any result tokens */
+ #ifdef HAVE_FREETDS_VER0_6X
+-	while ((tds_cnc->rc = tds_process_result_tokens (tds_cnc->tds, &tds_cnc->result_type))
++	while ((tds_cnc->rc = tds_process_result_tokens (tds_cnc->tds, &tds_cnc->result_type, NULL))
+ #else
+ 	while ((tds_cnc->rc = tds_process_result_tokens (tds_cnc->tds)) 
+ #endif
+diff -urN libgda-1.0.3.org/providers/freetds/gda-freetds-recordset.c libgda-1.0.3/providers/freetds/gda-freetds-recordset.c
+--- libgda-1.0.3.org/providers/freetds/gda-freetds-recordset.c	2004-03-24 16:28:20.816473864 +0100
++++ libgda-1.0.3/providers/freetds/gda-freetds-recordset.c	2004-03-24 16:29:52.710503848 +0100
+@@ -341,7 +341,7 @@
+ 
+ #ifdef HAVE_FREETDS_VER0_6X
+ 	while ((tds_cnc->rc = tds_process_result_tokens (tds_cnc->tds,
+-							 &tds_cnc->result_type))
++							 &tds_cnc->result_type, NULL))
+ 	       == TDS_SUCCEED) {
+ 		if (tds_cnc->result_type == TDS_ROW_RESULT) {
+ 			gint row_type, compute_id;
