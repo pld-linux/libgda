@@ -22,3 +22,251 @@ diff -urN aa/libgda-1.2.0/providers/freetds/gda-freetds-recordset.c libgda-1.2.0
  	       == TDS_SUCCEED) {
  		if (tds_cnc->result_type == TDS_ROW_RESULT) {
  			gint row_type, compute_id;
+diff -ur libgda-1.2.1.orig/providers/freetds/gda-freetds-message.c libgda-1.2.1/providers/freetds/gda-freetds-message.c
+--- libgda-1.2.1.orig/providers/freetds/gda-freetds-message.c	2003-01-16 01:10:30.000000000 +0100
++++ libgda-1.2.1/providers/freetds/gda-freetds-message.c	2005-04-28 12:10:11.000000000 +0200
+@@ -32,7 +32,7 @@
+ 
+ GdaFreeTDSMessage
+ *gda_freetds_message_new (GdaConnection *cnc,
+-                          TDSMSGINFO *info,
++                          TDSMESSAGE *info,
+                           const gboolean is_err_msg)
+ {
+ 	GdaFreeTDSConnectionData *tds_cnc;
+@@ -46,7 +46,7 @@
+ 	g_return_val_if_fail (message != NULL, NULL);
+ 
+ 	message->is_err_msg = is_err_msg;
+-	memcpy ((void *) &message->msg, (void *) info, sizeof (TDSMSGINFO));
++	memcpy ((void *) &message->msg, (void *) info, sizeof (TDSMESSAGE));
+ 	if (info->server != NULL)
+ 		message->msg.server = g_strdup (info->server);
+ 	if (info->message != NULL)
+@@ -61,7 +61,7 @@
+ 
+ GdaFreeTDSMessage *
+ gda_freetds_message_add (GdaConnection *cnc,
+-                         TDSMSGINFO *info,
++                         TDSMESSAGE *info,
+                          const gboolean is_err_msg)
+ {
+ 	GdaFreeTDSMessage *msg = NULL;
+diff -ur libgda-1.2.1.orig/providers/freetds/gda-freetds-message.h libgda-1.2.1/providers/freetds/gda-freetds-message.h
+--- libgda-1.2.1.orig/providers/freetds/gda-freetds-message.h	2003-01-16 01:10:30.000000000 +0100
++++ libgda-1.2.1/providers/freetds/gda-freetds-message.h	2005-04-28 12:03:07.000000000 +0200
+@@ -39,14 +39,14 @@
+ struct _GdaFreeTDSMessage {
+ 	gboolean    is_err_msg;
+ 
+-	TDSMSGINFO  msg;
++	TDSMESSAGE  msg;
+ };
+ 
+ GdaFreeTDSMessage *gda_freetds_message_new (GdaConnection *cnc,
+-                                            TDSMSGINFO *info,
++                                            TDSMESSAGE *info,
+                                             const gboolean is_err_msg);
+ GdaFreeTDSMessage *gda_freetds_message_add (GdaConnection *cnc,
+-                                            TDSMSGINFO *info,
++                                            TDSMESSAGE *info,
+                                             const gboolean is_err_msg);
+ void gda_freetds_message_free (GdaFreeTDSMessage *message);
+ 
+diff -ur libgda-1.2.1.orig/providers/freetds/gda-freetds-provider.c libgda-1.2.1/providers/freetds/gda-freetds-provider.c
+--- libgda-1.2.1.orig/providers/freetds/gda-freetds-provider.c	2004-12-28 14:14:03.000000000 +0100
++++ libgda-1.2.1/providers/freetds/gda-freetds-provider.c	2005-04-28 12:09:58.000000000 +0200
+@@ -119,10 +119,10 @@
+ #if defined(HAVE_FREETDS_VER0_6X) || defined(HAVE_FREETDS_VER0_60)
+   static int gda_freetds_provider_tds_handle_info_msg (TDSCONTEXT *,
+                                                        TDSSOCKET *,
+-                                                       TDSMSGINFO *);
++                                                       TDSMESSAGE *);
+   static int gda_freetds_provider_tds_handle_err_msg (TDSCONTEXT *,
+                                                       TDSSOCKET *,
+-                                                      TDSMSGINFO *);
++                                                      TDSMESSAGE *);
+ #else
+   static int gda_freetds_provider_tds_handle_info_msg (void *aStruct);
+   static int gda_freetds_provider_tds_handle_err_msg (void *aStruct);
+@@ -663,7 +663,7 @@
+                                  GdaParameterList *params)
+ {
+ 	GdaDataModel *model = NULL;
+-	TDSCOLINFO col;
++	TDSCOLUMN col;
+ 	GdaValueType gda_type;
+ 	GdaValue     *value = NULL;
+ 	gint i = 1;
+@@ -1043,7 +1043,7 @@
+                                                     const gboolean is_err_msg)
+ {
+ 	TDSSOCKET *tds = (TDSSOCKET *) aStruct;
+-	TDSMSGINFO *msg_info = (TDSMSGINFO *) bStruct;
++	TDSMESSAGE *msg_info = (TDSMESSAGE *) bStruct;
+ 	GdaConnection *cnc = NULL;
+ 	GdaFreeTDSConnectionData *tds_cnc = NULL;
+ 	GdaError *error = NULL;
+@@ -1099,7 +1099,7 @@
+ /* FIXME: rewrite tds_handle_message as well/use new parameters here */
+ static int
+ gda_freetds_provider_tds_handle_info_msg (TDSCONTEXT *ctx, TDSSOCKET *tds,
+-                                          TDSMSGINFO *msg)
++                                          TDSMESSAGE *msg)
+ {
+ 	return gda_freetds_provider_tds_handle_message ((void *) tds,
+ #ifdef HAVE_FREETDS_VER0_6X
+@@ -1121,7 +1121,7 @@
+ /* FIXME: rewrite tds_handle_message as well/use new parameters here */
+ static int
+ gda_freetds_provider_tds_handle_err_msg (TDSCONTEXT *ctx, TDSSOCKET *tds,
+-                                         TDSMSGINFO *msg)
++                                         TDSMESSAGE *msg)
+ {
+ 	return gda_freetds_provider_tds_handle_message ((void *) tds,
+ #ifdef HAVE_FREETDS_VER0_6X
+diff -ur libgda-1.2.1.orig/providers/freetds/gda-freetds-provider.h libgda-1.2.1/providers/freetds/gda-freetds-provider.h
+--- libgda-1.2.1.orig/providers/freetds/gda-freetds-provider.h	2003-09-17 13:05:03.000000000 +0200
++++ libgda-1.2.1/providers/freetds/gda-freetds-provider.h	2005-04-28 11:22:27.000000000 +0200
+@@ -64,7 +64,7 @@
+ #endif
+ 	TDSSOCKET      *tds;       /* connection handle */
+ #ifdef HAVE_FREETDS_VER0_6X
+-	TDSCONNECTINFO *config;    /* tds connect struct */
++	TDSCONNECTION *config;    /* tds connect struct */
+ #else
+ 	TDSCONFIGINFO  *config;     /* tds config struct */
+ #endif
+diff -ur libgda-1.2.1.orig/providers/freetds/gda-freetds-recordset.c libgda-1.2.1/providers/freetds/gda-freetds-recordset.c
+--- libgda-1.2.1.orig/providers/freetds/gda-freetds-recordset.c	2004-12-28 14:12:43.000000000 +0100
++++ libgda-1.2.1/providers/freetds/gda-freetds-recordset.c	2005-04-28 12:09:36.000000000 +0200
+@@ -61,7 +61,7 @@
+ /* Private utility functions */
+ 
+ /* w/o results */
+-static TDSCOLINFO *gda_freetds_dup_tdscolinfo (TDSCOLINFO *col);
++static TDSCOLUMN *gda_freetds_dup_tdscolinfo (TDSCOLUMN *col);
+ static GdaRow *gda_freetds_get_current_row(GdaFreeTDSRecordset *recset);
+ 
+ 
+@@ -69,7 +69,7 @@
+ *gda_freetds_recordset_describe_column (GdaDataModel *model, gint col)
+ {
+ 	GdaFreeTDSRecordset *recset = (GdaFreeTDSRecordset *) model;
+-	TDSCOLINFO          *colinfo = NULL;
++	TDSCOLUMN           *colinfo = NULL;
+ 	GdaFieldAttributes  *attribs = NULL;
+ 	gchar               name[256];
+ 
+@@ -80,7 +80,7 @@
+ 	if (col >= recset->priv->columns->len) {
+ 		return NULL;
+ 	}
+-	colinfo = (TDSCOLINFO *) g_ptr_array_index(recset->priv->columns, col);
++	colinfo = (TDSCOLUMN *) g_ptr_array_index(recset->priv->columns, col);
+ 
+ 	if (!colinfo) {
+ 		return NULL;
+@@ -215,7 +215,7 @@
+ 		}
+ 		if (recset->priv->columns) {
+ 			while (recset->priv->columns->len > 0) {
+-				TDSCOLINFO *col = (TDSCOLINFO *) g_ptr_array_index (recset->priv->columns, 0);
++				TDSCOLUMN *col = (TDSCOLUMN *) g_ptr_array_index (recset->priv->columns, 0);
+ 				if (col != NULL) {
+ 					g_free (col);
+ 					col = NULL;
+@@ -253,7 +253,7 @@
+ 	
+ 	for (i = 0; i < recset->priv->res->num_cols; i++) {
+ 		GdaValue   *field;
+-		TDSCOLINFO *col;
++		TDSCOLUMN *col;
+ 
+ 		field = gda_row_get_value (row, i);
+ 		col = recset->priv->res->columns[i];
+@@ -266,16 +266,16 @@
+ 	return row;
+ }
+ 
+-static TDSCOLINFO
+-*gda_freetds_dup_tdscolinfo (TDSCOLINFO *col)
++static TDSCOLUMN
++*gda_freetds_dup_tdscolinfo (TDSCOLUMN *col)
+ {
+-	TDSCOLINFO *copy = NULL;
++	TDSCOLUMN *copy = NULL;
+ 
+ 	g_return_val_if_fail (col != NULL, NULL);
+ 
+-	copy = g_new0(TDSCOLINFO, 1);
++	copy = g_new0(TDSCOLUMN, 1);
+ 	if (copy) {
+-		memcpy(copy, col, sizeof(TDSCOLINFO));
++		memcpy(copy, col, sizeof(TDSCOLUMN));
+ 		
+ 		/* set pointers to NULL */
+ 		copy->column_nullbind = NULL;
+@@ -322,7 +322,7 @@
+ {
+ 	GdaFreeTDSConnectionData *tds_cnc = NULL;
+ 	GdaFreeTDSRecordset *recset = NULL;
+-	TDSCOLINFO *col = NULL;
++	TDSCOLUMN *col = NULL;
+ 	GdaRow *row = NULL;
+ 	GdaError *error = NULL;
+ 	gboolean columns_set = FALSE;
+diff -ur libgda-1.2.1.orig/providers/freetds/gda-freetds-types.c libgda-1.2.1/providers/freetds/gda-freetds-types.c
+--- libgda-1.2.1.orig/providers/freetds/gda-freetds-types.c	2003-03-09 19:55:34.000000000 +0100
++++ libgda-1.2.1/providers/freetds/gda-freetds-types.c	2005-04-28 11:58:19.000000000 +0200
+@@ -35,7 +35,7 @@
+ static void
+ gda_freetds_set_gdavalue_by_datetime (GdaValue     *field,
+                                       TDS_DATETIME *dt,
+-                                      TDSCOLINFO   *col
++                                      TDSCOLUMN   *col
+                                      )
+ {
+ 	GDate        date;
+@@ -82,7 +82,7 @@
+ static void
+ gda_freetds_set_gdavalue_by_datetime4 (GdaValue      *field,
+                                        TDS_DATETIME4 *dt4,
+-                                       TDSCOLINFO    *col
++                                       TDSCOLUMN    *col
+                                       )
+ {
+ 	GDate        date;
+@@ -123,7 +123,7 @@
+  */
+ 
+ const GdaValueType
+-gda_freetds_get_value_type (TDSCOLINFO *col)
++gda_freetds_get_value_type (TDSCOLUMN *col)
+ {
+ 	g_return_val_if_fail (col != NULL, GDA_VALUE_TYPE_UNKNOWN);
+ 
+@@ -185,7 +185,7 @@
+ 
+ 
+ void
+-gda_freetds_set_gdavalue (GdaValue *field, gchar *val, TDSCOLINFO *col,
++gda_freetds_set_gdavalue (GdaValue *field, gchar *val, TDSCOLUMN *col,
+ 			  GdaFreeTDSConnectionData *tds_cnc)
+ {
+ 	const TDS_INT max_size = 255;
+diff -ur libgda-1.2.1.orig/providers/freetds/gda-freetds-types.h libgda-1.2.1/providers/freetds/gda-freetds-types.h
+--- libgda-1.2.1.orig/providers/freetds/gda-freetds-types.h	2003-01-16 01:10:30.000000000 +0100
++++ libgda-1.2.1/providers/freetds/gda-freetds-types.h	2005-04-28 12:08:39.000000000 +0200
+@@ -34,9 +34,9 @@
+ 
+ G_BEGIN_DECLS
+ 
+-void gda_freetds_set_gdavalue (GdaValue *field, gchar *val, TDSCOLINFO *col,
++void gda_freetds_set_gdavalue (GdaValue *field, gchar *val, TDSCOLUMN *col,
+                                GdaFreeTDSConnectionData *tds_cnc);
+-const GdaValueType gda_freetds_get_value_type (TDSCOLINFO *col);
++const GdaValueType gda_freetds_get_value_type (TDSCOLUMN *col);
+ 
+ 
+ G_END_DECLS
