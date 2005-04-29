@@ -1,0 +1,11 @@
+--- libgda-1.2.1/providers/firebird/gda-firebird-recordset.c~	2004-09-02 11:05:28.000000000 +0200
++++ libgda-1.2.1/providers/firebird/gda-firebird-recordset.c	2005-04-29 18:31:22.989618881 +0200
+@@ -442,7 +442,7 @@
+ 	g_return_if_fail (GDA_IS_FIREBIRD_RECORDSET (recset));
+ 
+ 	sql_result = recset->priv->sql_result;
+-	(gchar *) field_data = sql_result->sqlvar[field_number].sqldata;
++	field_data = sql_result->sqlvar[field_number].sqldata;
+ 	
+ 	/* If value is null  */
+ 	if (*(sql_result->sqlvar[field_number].sqlind) == -1) {
