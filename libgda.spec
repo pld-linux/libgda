@@ -47,6 +47,7 @@ BuildRequires:	perl-base
 BuildRequires:	popt-devel
 %{?with_pgsql:BuildRequires:	postgresql-devel}
 BuildRequires:	readline-devel
+BuildRequires:	rpmbuild(macros) >= 1.197
 BuildRequires:	scrollkeeper
 %{?with_sqlite:BuildRequires:	sqlite3-devel}
 %{?with_odbc:BuildRequires:	unixODBC-devel}
