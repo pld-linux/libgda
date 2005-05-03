@@ -1,6 +1,6 @@
 #
 # Conditional build:
-%bcond_without	firebird	# build without firebird plugin
+%bcond_with		firebird	# build without firebird plugin
 %bcond_without	freetds		# build without freetds plugin
 %bcond_without	ldap		# build without ldap plugin
 %bcond_without	mdb		# build without MDB plugin
