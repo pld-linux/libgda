@@ -1,6 +1,6 @@
 #
 # Conditional build:
-%bcond_with		firebird	# build without firebird plugin
+%bcond_with	firebird	# build without firebird plugin
 %bcond_without	freetds		# build without freetds plugin
 %bcond_without	ldap		# build without ldap plugin
 %bcond_without	mdb		# build without MDB plugin
@@ -10,7 +10,7 @@
 %bcond_without	sqlite		# build without sqlite plugin
 %bcond_without	xbase		# build without xbase plugin
 #
-%ifnarch %{ix86} amd64 sparc sparcv9 alpha ppc
+%ifnarch %{ix86} %{x8664} sparc sparcv9 alpha ppc
 %undefine	with_firebird
 %endif
 Summary:	GNU Data Access library
@@ -48,7 +48,7 @@ BuildRequires:	perl-base
 BuildRequires:	popt-devel
 %{?with_pgsql:BuildRequires:	postgresql-devel}
 BuildRequires:	readline-devel
-BuildRequires:	rpmbuild(macros) >= 1.197
+BuildRequires:	rpmbuild(macros) >= 1.213
 BuildRequires:	scrollkeeper
 %{?with_sqlite:BuildRequires:	sqlite3-devel}
 %{?with_odbc:BuildRequires:	unixODBC-devel}
