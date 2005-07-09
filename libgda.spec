@@ -1,7 +1,13 @@
 #
+# TODO:	-freetds_buildfix.patch, back to `bcond_without freetds'
+#
 # Conditional build:
+#
+%bcond_without	doc		# don't generate html documentation
+%bcond_without	static_libs	# don't build static libraries
+#
 %bcond_with	firebird	# build without firebird plugin
-%bcond_without	freetds		# build without freetds plugin
+%bcond_with	freetds		# build without freetds plugin
 %bcond_without	ldap		# build without ldap plugin
 %bcond_without	mdb		# build without MDB plugin
 %bcond_without	mysql		# build without MySQL plugin
@@ -16,12 +22,12 @@
 Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
-Version:	1.2.2
-Release:	1
+Version:	1.3.3
+Release:	0.1
 License:	LGPL v2/GPL v2
 Group:		Applications/Databases
-Source0:	http://ftp.gnome.org/pub/gnome/sources/libgda/1.2/%{name}-%{version}.tar.bz2
-# Source0-md5:	19d5ec3fe7f482fe89bcf6926cfac67e
+Source0:	http://ftp.gnome.org/pub/gnome/sources/libgda/1.3/%{name}-%{version}.tar.bz2
+# Source0-md5:	07ee81e14cf7aa0f85a83c2a66150b85
 Patch0:		%{name}-gcc34.patch
 Patch1:		%{name}-freetds_buildfix.patch
 Patch2:		%{name}-mdb.patch
@@ -56,6 +62,9 @@ BuildRequires:	scrollkeeper
 Requires(post,postun):	/sbin/ldconfig
 Requires(post,postun):	scrollkeeper
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define	_libgdadir	%{name}-%(echo %{version} | cut -d '.' -f 1-2 )
+%define	_providersdir	%{_libdir}/%{_libgdadir}/providers
 
 %description
 GNU Data Access is an attempt to provide uniform access to different
@@ -249,7 +258,8 @@ CXXFLAGS="%{rpmcxxflags} -fno-rtti -fno-exceptions"
 %{__autoconf}
 %{__automake}
 %configure \
-	--enable-gtk-doc \
+	%{?with_doc:--enable-gtk-doc} \
+	%{!?with_static_libs:--enable-static=no}
 	--with-html-dir=%{_gtkdocdir} \
 	--with%{!?with_firebird:out}-firebird \
 	--with%{!?with_ldap:out}-ldap \
@@ -271,7 +281,7 @@ rm -rf $RPM_BUILD_ROOT
 	HTML_DIR=%{_gtkdocdir} 
 
 # modules dlopened by *.so through libgmodule
-rm -f $RPM_BUILD_ROOT%{_libdir}/libgda/providers/*.{a,la}
+rm -f $RPM_BUILD_ROOT%{_providersdir}/*.{a,la}
 
 rm -r $RPM_BUILD_ROOT%{_datadir}/locale/no
 
@@ -292,12 +302,12 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README
 %attr(755,root,root) %{_bindir}/gda-config-tool
-%attr(755,root,root) %{_libdir}/libgda-2.so.*.*
-%attr(755,root,root) %{_libdir}/libgda-report-2.so.*.*
+%attr(755,root,root) %{_libdir}/libgda-3.so.*.*
+%attr(755,root,root) %{_libdir}/libgda-report-3.so.*.*
 %attr(755,root,root) %{_libdir}/libgdasql.so.*.*
-%dir %{_libdir}/libgda
-%dir %{_libdir}/libgda/providers
-%attr(755,root,root) %{_libdir}/libgda/providers/libgda-xml.so
+%dir %{_libdir}/%{_libgdadir}
+%dir %{_providersdir}
+%attr(755,root,root) %{_providersdir}/libgda-xml.so
 %{_datadir}/libgda
 %{_omf_dest_dir}/%{name}
 %dir %{_sysconfdir}/libgda
@@ -310,74 +320,76 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/gda-report-test
 %attr(755,root,root) %{_bindir}/gda-run
 %attr(755,root,root) %{_bindir}/gda-test
-%attr(755,root,root) %{_libdir}/libgda-2.so
-%attr(755,root,root) %{_libdir}/libgda-report-2.so
+%attr(755,root,root) %{_libdir}/libgda-3.so
+%attr(755,root,root) %{_libdir}/libgda-report-3.so
 %attr(755,root,root) %{_libdir}/libgdasql.so
-%{_libdir}/libgda-2.la
-%{_libdir}/libgda-report-2.la
+%{_libdir}/libgda-3.la
+%{_libdir}/libgda-report-3.la
 %{_libdir}/libgdasql.la
-%{_includedir}/libgda-1.2
+%{_includedir}/libgda-1.3
 %{_pkgconfigdir}/*
-%{_gtkdocdir}/*
+%{?with_doc:%{_gtkdocdir}/*}
 
+%if %{with static_libs}
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/lib*.a
+%endif
 
 %files -n gda-db
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libgda/providers/libgda-bdb.so
+%attr(755,root,root) %{_providersdir}/libgda-bdb.so
 
 %if %{with firebird}
 %files -n gda-firebird
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libgda/providers/libgda-firebird.so
+%attr(755,root,root) %{_providersdir}/libgda-firebird.so
 %endif
 
 %if %{with freetds}
 %files -n gda-freetds
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libgda/providers/libgda-freetds.so
+%attr(755,root,root) %{_providersdir}/libgda-freetds.so
 %endif
 
 %if %{with ldap}
 %files -n gda-ldap
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libgda/providers/libgda-ldap.so
+%attr(755,root,root) %{_providersdir}/libgda-ldap.so
 %endif
 
 %if %{with mdb}
 %files -n gda-mdb
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libgda/providers/libgda-mdb.so
+%attr(755,root,root) %{_providersdir}/libgda-mdb.so
 %endif
 
 %if %{with mysql}
 %files -n gda-mysql
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libgda/providers/libgda-mysql.so
+%attr(755,root,root) %{_providersdir}/libgda-mysql.so
 %endif
 
 %if %{with odbc}
 %files -n gda-odbc
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libgda/providers/libgda-odbc.so
+%attr(755,root,root) %{_providersdir}/libgda-odbc.so
 %endif
 
 %if %{with pgsql}
 %files -n gda-postgres
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libgda/providers/libgda-postgres.so
+%attr(755,root,root) %{_providersdir}/libgda-postgres.so
 %endif
 
 %if %{with sqlite}
 %files -n gda-sqlite
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libgda/providers/libgda-sqlite.so
+%attr(755,root,root) %{_providersdir}/libgda-sqlite.so
 %endif
 
 %if %{with xbase}
 %files -n gda-xbase
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libgda/providers/libgda-xbase.so
+%attr(755,root,root) %{_providersdir}/libgda-xbase.so
 %endif
