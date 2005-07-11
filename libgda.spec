@@ -260,7 +260,7 @@ CXXFLAGS="%{rpmcxxflags} -fno-rtti -fno-exceptions"
 %{__automake}
 %configure \
 	%{?with_doc:--enable-gtk-doc} \
-	%{!?with_static_libs:--enable-static=no}
+	%{!?with_static_libs:--enable-static=no} \
 	--with-html-dir=%{_gtkdocdir} \
 	--with%{!?with_firebird:out}-firebird \
 	--with%{!?with_ldap:out}-ldap \
