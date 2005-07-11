@@ -245,7 +245,8 @@ Pakiet dostarczaj±cy dane z xBase (dBase, Clippera, FoxPro) dla GDA.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
+# needs update (?)
+%{?with_freetds:%patch1 -p1}
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
