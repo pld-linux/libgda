@@ -55,6 +55,7 @@ BuildRequires:	scrollkeeper
 %{?with_xbase:BuildRequires:	xbase-devel >= 2.0.0}
 Requires(post,postun):	/sbin/ldconfig
 Requires(post,postun):	scrollkeeper
+Requires:	scrollkeeper
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -261,7 +262,7 @@ CXXFLAGS="%{rpmcxxflags} -fno-rtti -fno-exceptions"
 	--with%{!?with_freetds:out}-tds \
 	--with%{!?with_xbase:out}-xbase \
 	--without-oracle
-%{__make}
+%{__make} -j1
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -282,11 +283,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/ldconfig
-/usr/bin/scrollkeeper-update
+%scrollkeeper_update_post
 
 %postun
 /sbin/ldconfig
-/usr/bin/scrollkeeper-update
+%scrollkeeper_update_postun
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
