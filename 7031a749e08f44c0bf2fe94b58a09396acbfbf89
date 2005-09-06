@@ -1,0 +1,3 @@
+- updated to 0.10.0
+- added gda-ldap package
+- fixed %files
