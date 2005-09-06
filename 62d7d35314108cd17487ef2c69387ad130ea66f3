@@ -1,0 +1,2 @@
+- added db4.3 compile fix, removed redundand BR: gettext-devel,
+  run %inltoolize, rel.2
