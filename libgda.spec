@@ -17,7 +17,7 @@ Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
 Version:	1.2.2
-Release:	1
+Release:	2
 License:	LGPL v2/GPL v2
 Group:		Applications/Databases
 Source0:	http://ftp.gnome.org/pub/gnome/sources/libgda/1.2/%{name}-%{version}.tar.bz2
