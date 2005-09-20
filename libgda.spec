@@ -23,7 +23,7 @@ Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
 Version:	1.3.91
-Release:	0.1
+Release:	0.2
 License:	LGPL v2/GPL v2
 Group:		Applications/Databases
 Source0:	http://ftp.gnome.org/pub/gnome/sources/libgda/1.3/%{name}-%{version}.tar.bz2
@@ -52,7 +52,7 @@ BuildRequires:	libxslt-devel >= 1.0.9
 BuildRequires:	perl-base
 BuildRequires:	popt-devel
 %{?with_pgsql:BuildRequires:	postgresql-devel}
-BuildRequires:	readline-devel
+BuildRequires:	readline-devel >= 5.0
 BuildRequires:	rpmbuild(macros) >= 1.213
 BuildRequires:	scrollkeeper
 %{?with_sqlite:BuildRequires:	sqlite3-devel}
