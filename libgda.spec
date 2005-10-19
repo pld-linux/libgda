@@ -22,12 +22,12 @@
 Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
-Version:	1.3.91
-Release:	0.2
+Version:	1.9.100
+Release:	1
 License:	LGPL v2/GPL v2
 Group:		Applications/Databases
-Source0:	http://ftp.gnome.org/pub/gnome/sources/libgda/1.3/%{name}-%{version}.tar.bz2
-# Source0-md5:	6e397127c9a3d8f229fb0c1a0c0572f2
+Source0:	http://ftp.gnome.org/pub/gnome/sources/libgda/1.9/%{name}-%{version}.tar.bz2
+# Source0-md5:	c943610dc4c9c286bb14d6ce3c6e549b
 Patch0:		%{name}-gcc34.patch
 Patch1:		%{name}-freetds_buildfix.patch
 Patch2:		%{name}-mdb.patch
@@ -54,16 +54,13 @@ BuildRequires:	popt-devel
 %{?with_pgsql:BuildRequires:	postgresql-devel}
 BuildRequires:	readline-devel >= 5.0
 BuildRequires:	rpmbuild(macros) >= 1.213
-BuildRequires:	scrollkeeper
 %{?with_sqlite:BuildRequires:	sqlite3-devel}
 %{?with_odbc:BuildRequires:	unixODBC-devel}
 %{?with_xbase:BuildRequires:	xbase-devel >= 2.0.0}
-Requires(post,postun):	/sbin/ldconfig
-Requires(post,postun):	scrollkeeper
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define	_libgdadir	%{name}-%(echo %{version} | cut -d '.' -f 1-2 )
-%define	_providersdir	%{_libdir}/%{_libgdadir}/providers
+%define		_libgdadir	%{name}-%(echo %{version} | cut -d '.' -f 1-2 )
+%define		_providersdir	%{_libdir}/%{_libgdadir}/providers
 
 %description
 GNU Data Access is an attempt to provide uniform access to different
@@ -289,13 +286,8 @@ rm -r $RPM_BUILD_ROOT%{_datadir}/locale/no
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post
-/sbin/ldconfig
-/usr/bin/scrollkeeper-update
-
-%postun
-/sbin/ldconfig
-/usr/bin/scrollkeeper-update
+%post	-p /sbin/ldconfig
+%postun	-p /sbin/ldconfig
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
@@ -306,9 +298,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libgdasql.so.*.*
 %dir %{_libdir}/%{_libgdadir}
 %dir %{_providersdir}
-%attr(755,root,root) %{_providersdir}/libgda-xml.so
 %{_datadir}/libgda
-%{_omf_dest_dir}/%{name}
 %dir %{_sysconfdir}/libgda
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/libgda/config
 %{_mandir}/man1/gda-config-tool.1*
@@ -325,7 +315,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libgda-3.la
 %{_libdir}/libgda-report-3.la
 %{_libdir}/libgdasql.la
-%{_includedir}/libgda-1.3
+%{_includedir}/libgda-1.9
 %{_pkgconfigdir}/*
 %{?with_doc:%{_gtkdocdir}/*}
 
