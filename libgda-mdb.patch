@@ -1,16 +1,16 @@
-diff -urN aa/libgda-1.2.1/configure.in libgda-1.2.1/configure.in
---- aa/libgda-1.2.1/configure.in	2005-03-03 12:19:53.000000000 +0100
-+++ libgda-1.2.1/configure.in	2005-03-11 15:34:17.576136424 +0100
-@@ -804,7 +804,7 @@
+diff -aurN libgda-1.9.100.orig/configure.in libgda-1.9.100/configure.in
+--- libgda-1.9.100.orig/configure.in	2005-10-09 18:21:20.000000000 +0200
++++ libgda-1.9.100/configure.in	2005-10-19 21:05:15.000000000 +0200
+@@ -778,7 +778,7 @@
  	mdbdir=""
  	for d in $dir /usr /usr/local /opt/gnome
  	do
--		if test -f $d/include/mdbtools.h -a -f $d/$lib/libmdbsql.so
-+		if test -f $d/include/mdb/mdbtools.h -a -f $d/$lib/libmdbsql.so
+-		if test -f $d/include/mdbtools.h -a -f $d/$lib/libmdbsql.so -o -f $d/include/mdbtools.h -a -f $d/$lib/libmdbsql
++		if test -f $d/include/mdb/mdbtools.h -a -f $d/$lib/libmdbsql.so -o -f $d/include/mdb/mmdbtools.h -a -f $d/$lib/libmdbsql
  		then
  			AC_MSG_RESULT(found MDB Tools in $d)
  			mdbdir=$d
-@@ -815,7 +815,7 @@
+@@ -789,7 +789,7 @@
  	then
  		AC_MSG_WARN(MDB backend not used)
  	else
@@ -19,15 +19,15 @@ diff -urN aa/libgda-1.2.1/configure.in libgda-1.2.1/configure.in
  		MDB_LIBS="-L${mdbdir}/lib -lmdb -lmdbsql"
  		AC_DEFINE(HAVE_MDB, 1, [Have MDB])
  	fi
-diff -urN aa/libgda-1.2.1/providers/mdb/gda-mdb-provider.c libgda-1.2.1/providers/mdb/gda-mdb-provider.c
---- aa/libgda-1.2.1/providers/mdb/gda-mdb-provider.c	2004-12-28 14:15:51.000000000 +0100
-+++ libgda-1.2.1/providers/mdb/gda-mdb-provider.c	2005-03-11 15:34:50.063197640 +0100
-@@ -209,7 +209,7 @@
+diff -aurN libgda-1.9.100.orig/providers/mdb/gda-mdb-provider.c libgda-1.9.100/providers/mdb/gda-mdb-provider.c
+--- libgda-1.9.100.orig/providers/mdb/gda-mdb-provider.c	2005-09-22 12:24:01.000000000 +0200
++++ libgda-1.9.100/providers/mdb/gda-mdb-provider.c	2005-10-19 21:10:52.000000000 +0200
+@@ -210,7 +210,7 @@
  	mdb_cnc = g_new0 (GdaMdbConnection, 1);
  	mdb_cnc->cnc = cnc;
  	mdb_cnc->server_version = NULL;
 -	mdb_cnc->mdb = mdb_open (filename, MDB_WRITABLE);
 +	mdb_cnc->mdb = mdb_open (filename);
  	if (!mdb_cnc->mdb) {
- 		gda_connection_add_error_string (cnc, _("Could not open file %s"), filename);
+ 		gda_connection_add_event_string (cnc, _("Could not open file %s"), filename);
  		g_free (mdb_cnc);
