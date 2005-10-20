@@ -6,8 +6,8 @@
 %bcond_without	doc		# don't generate html documentation
 %bcond_without	static_libs	# don't build static libraries
 #
-%bcond_with	firebird	# build without firebird plugin
-%bcond_with	freetds		# build without freetds plugin
+%bcond_without	firebird	# build without firebird plugin
+%bcond_without	freetds		# build without freetds plugin
 %bcond_without	ldap		# build without ldap plugin
 %bcond_without	mdb		# build without MDB plugin
 %bcond_without	mysql		# build without MySQL plugin
@@ -28,17 +28,16 @@ License:	LGPL v2/GPL v2
 Group:		Applications/Databases
 Source0:	http://ftp.gnome.org/pub/gnome/sources/libgda/1.9/%{name}-%{version}.tar.bz2
 # Source0-md5:	c943610dc4c9c286bb14d6ce3c6e549b
-Patch0:		%{name}-gcc34.patch
-Patch1:		%{name}-freetds_buildfix.patch
-Patch2:		%{name}-mdb.patch
-Patch3:		%{name}-include.patch
+Patch0:		%{name}-freetds_buildfix.patch
+Patch1:		%{name}-mdb.patch
+Patch2:		%{name}-include.patch
 %{?with_firebird:BuildRequires:	Firebird-devel}
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.8
 BuildRequires:	bison
 BuildRequires:	db-devel
 BuildRequires:	flex
-%{?with_freetds:BuildRequires:	freetds-devel >= 0.62.1}
+%{?with_freetds:BuildRequires:	freetds-devel >= 0.63}
 BuildRequires:	glib2-devel >= 2.2.0
 BuildRequires:	gnome-common >= 2.8.0
 BuildRequires:	gtk-doc >= 1.0
@@ -241,10 +240,8 @@ Pakiet dostarczaj±cy dane z xBase (dBase, Clippera, FoxPro) dla GDA.
 %prep
 %setup -q
 %patch0 -p1
-# needs update (?)
-%{?with_freetds:%patch1 -p1}
+%patch1 -p1
 %patch2 -p1
-%patch3 -p1
 
 %build
 CXXFLAGS="%{rpmcxxflags} -fno-rtti -fno-exceptions"
