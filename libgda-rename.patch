@@ -1,0 +1,24 @@
+diff -u -p -r1.2 gda-threader.c
+--- libgda/gda-threader.c	1 Jul 2005 15:18:37 -0000	1.2
++++ libgda/gda-threader.c	23 Oct 2005 15:02:45 -0000
+@@ -146,7 +146,7 @@ gda_threader_new ()
+ 	GObject   *obj;
+ 
+ 	GdaThreader *thread;
+-	obj = g_object_new (GDA_THREADER_TYPE, NULL);
++	obj = g_object_new (GDA_TYPE_THREADER, NULL);
+ 	thread = GDA_THREADER (obj);
+ 
+ 	return obj;
+diff -u -p -r1.2 gda-threader.h
+--- libgda/gda-threader.h	1 Jul 2005 15:18:37 -0000	1.2
++++ libgda/gda-threader.h	23 Oct 2005 15:02:45 -0000
+@@ -25,7 +25,7 @@
+ 
+ G_BEGIN_DECLS
+ 
+-#define GDA_THREADER_TYPE          (gda_threader_get_type())
++#define GDA_TYPE_THREADER          (gda_threader_get_type())
+ #define GDA_THREADER(obj)          G_TYPE_CHECK_INSTANCE_CAST (obj, gda_threader_get_type(), GdaThreader)
+ #define GDA_THREADER_CLASS(klass)  G_TYPE_CHECK_CLASS_CAST (klass, gda_threader_get_type (), GdaThreaderClass)
+ #define IS_GDA_THREADER(obj)       G_TYPE_CHECK_INSTANCE_TYPE (obj, gda_threader_get_type ())
