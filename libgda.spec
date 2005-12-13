@@ -273,7 +273,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
-	HTML_DIR=%{_gtkdocdir} 
+	HTML_DIR=%{_gtkdocdir}
 
 # modules dlopened by *.so through libgmodule
 rm -f $RPM_BUILD_ROOT%{_providersdir}/*.{a,la}
@@ -299,7 +299,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_providersdir}
 %{_datadir}/libgda
 %dir %{_sysconfdir}/libgda
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/libgda/config
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/libgda/config
 %{_mandir}/man1/gda-config-tool.1*
 %{_mandir}/man5/*
 
