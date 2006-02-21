@@ -4,6 +4,7 @@
 # Conditional build:
 %bcond_without	doc		# don't generate html documentation
 %bcond_without	static_libs	# don't build static libraries
+%bcond_with	gamin		# use gamin instead of fam library
 #
 %bcond_without	firebird	# build without firebird plugin
 %bcond_without	freetds		# build without freetds plugin
@@ -39,8 +40,10 @@ BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.8
 BuildRequires:	bison
 BuildRequires:	db-devel
+%{!?with_gamin:BuildRequires:	fam-devel}
 BuildRequires:	flex
 %{?with_freetds:BuildRequires:	freetds-devel >= 0.63}
+%{?with_gamin:BuildRequires:	gamin-devel}
 BuildRequires:	glib2-devel >= 2.2.0
 BuildRequires:	gnome-common >= 2.8.0
 BuildRequires:	gtk-doc >= 1.0
@@ -59,6 +62,7 @@ BuildRequires:	rpmbuild(macros) >= 1.213
 %{?with_sqlite:BuildRequires:	sqlite3-devel}
 %{?with_odbc:BuildRequires:	unixODBC-devel}
 %{?with_xbase:BuildRequires:	xbase-devel >= 2.0.0}
+%{!?with_gamin:BuildConflicts:	gamin-devel}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_libgdadir	%{name}-%(echo %{version} | cut -d '.' -f 1-2 )
@@ -87,6 +91,8 @@ Summary:	GNU Data Access development
 Summary(pl):	Dla programistów GNU Data Access
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+%{!?with_gamin:Requires:	fam-devel}
+%{?with_gamin:Requires:	gamin-devel}
 Requires:	glib2-devel >= 2.2.0
 Requires:	gtk-doc-common
 Requires:	libxml2-devel
