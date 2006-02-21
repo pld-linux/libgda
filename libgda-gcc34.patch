@@ -1,0 +1,12 @@
+diff -urN aa/libgda-1.1.5/providers/firebird/gda-firebird-provider.c libgda-1.1.5/providers/firebird/gda-firebird-provider.c
+--- aa/libgda-1.1.5/providers/firebird/gda-firebird-provider.c	2003-01-16 01:10:29.000000000 +0100
++++ libgda-1.1.5/providers/firebird/gda-firebird-provider.c	2004-07-22 21:57:12.814802632 +0200
+@@ -76,6 +76,8 @@
+ 							GdaConnectionSchema schema,
+ 							GdaParameterList *params);
+ 
++isc_tr_handle *gda_firebird_command_get_transaction (GdaCommand *cmd);
++
+ static GObjectClass *parent_class = NULL;
+ 
+ typedef struct {
