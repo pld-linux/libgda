@@ -1,8 +1,7 @@
 #
-# TODO:	-freetds_buildfix.patch, back to `bcond_without freetds'
+# TODO: package dotnet-gda-sharp
 #
 # Conditional build:
-#
 %bcond_without	doc		# don't generate html documentation
 %bcond_without	static_libs	# don't build static libraries
 #
@@ -32,6 +31,9 @@ Patch0:		%{name}-freetds_buildfix.patch
 Patch1:		%{name}-mdb.patch
 Patch2:		%{name}-include.patch
 Patch3:		%{name}-rename.patch
+Patch4:		%{name}-typo.patch
+Patch5:		%{name}-update.patch
+Patch6:		%{name}-xbase.patch
 %{?with_firebird:BuildRequires:	Firebird-devel}
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.8
@@ -244,6 +246,9 @@ Pakiet dostarczaj±cy dane z xBase (dBase, Clippera, FoxPro) dla GDA.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p0
+%patch4 -p1
+%patch5 -p1
+%patch6 -p1
 
 %build
 CXXFLAGS="%{rpmcxxflags} -fno-rtti -fno-exceptions"
