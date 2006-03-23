@@ -16,14 +16,14 @@
 %bcond_without	sqlite		# build without sqlite plugin
 %bcond_without	xbase		# build without xbase plugin
 #
-%ifnarch %{ix86} %{x8664} sparc sparcv9 alpha ppc
+%ifnarch %{ix86} sparc sparcv9 alpha
 %undefine	with_firebird
 %endif
 Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
 Version:	1.9.100
-Release:	4
+Release:	5
 License:	LGPL v2/GPL v2
 Group:		Applications/Databases
 Source0:	http://ftp.gnome.org/pub/gnome/sources/libgda/1.9/%{name}-%{version}.tar.bz2
@@ -35,6 +35,7 @@ Patch3:		%{name}-rename.patch
 Patch4:		%{name}-typo.patch
 Patch5:		%{name}-update.patch
 Patch6:		%{name}-xbase.patch
+Patch7:		%{name}-configure.patch
 %{?with_firebird:BuildRequires:	Firebird-devel}
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.8
@@ -255,6 +256,7 @@ Pakiet dostarczaj±cy dane z xBase (dBase, Clippera, FoxPro) dla GDA.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 %build
 CXXFLAGS="%{rpmcxxflags} -fno-rtti -fno-exceptions"
