@@ -23,7 +23,7 @@ Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
 Version:	1.9.100
-Release:	6
+Release:	7
 License:	LGPL v2/GPL v2
 Group:		Applications/Databases
 Source0:	http://ftp.gnome.org/pub/gnome/sources/libgda/1.9/%{name}-%{version}.tar.bz2
@@ -45,13 +45,13 @@ BuildRequires:	db-devel
 BuildRequires:	flex
 %{?with_freetds:BuildRequires:	freetds-devel >= 0.63}
 %{?with_gamin:BuildRequires:	gamin-devel}
-BuildRequires:	glib2-devel >= 2.2.0
-BuildRequires:	gnome-common >= 2.8.0
-BuildRequires:	gtk-doc >= 1.0
-BuildRequires:	intltool >= 0.30
+BuildRequires:	glib2-devel >= 1:2.12.0
+BuildRequires:	gnome-common >= 2.12.0
+BuildRequires:	gtk-doc >= 1.6
+BuildRequires:	intltool >= 0.35
 BuildRequires:	libtool
-BuildRequires:	libxml2-devel
-BuildRequires:	libxslt-devel >= 1.0.9
+BuildRequires:	libxml2-devel >= 1:.2.6.26
+BuildRequires:	libxslt-devel >= 1.1.17
 %{?with_mdb:BuildRequires:	mdbtools-devel}
 %{?with_mysql:BuildRequires:	mysql-devel}
 %{?with_ldap:BuildRequires:	openldap-devel >= 2.3.0}
@@ -94,10 +94,10 @@ Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 %{!?with_gamin:Requires:	fam-devel}
 %{?with_gamin:Requires:	gamin-devel}
-Requires:	glib2-devel >= 2.2.0
+Requires:	glib2-devel >= 1:2.12.0
 Requires:	gtk-doc-common
-Requires:	libxml2-devel
-Requires:	libxslt-devel >= 1.0.9
+Requires:	libxml2-devel >= 1:2.6.26
+Requires:	libxslt-devel >= 1.1.17
 Obsoletes:	libgda0-devel
 
 %description devel
@@ -265,6 +265,7 @@ CXXFLAGS="%{rpmcxxflags} -fno-rtti -fno-exceptions"
 %{__aclocal}
 %{__autoconf}
 %{__automake}
+LDFLAGS="%{rpmldflags} -Wl,--as-needed"
 %configure \
 	%{?with_doc:--enable-gtk-doc} \
 	%{!?with_static_libs:--enable-static=no} \
