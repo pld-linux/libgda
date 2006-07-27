@@ -22,7 +22,7 @@ Epoch:		1
 License:	LGPL v2/GPL v2
 Group:		Applications/Databases
 Source0:	http://ftp.gnome.org/pub/gnome/sources/libgda/1.2/%{name}-%{version}.tar.bz2
-# Source0-md5:	19d5ec3fe7f482fe89bcf6926cfac67e
+# Source0-md5:	eb9c31c3102d542de728f5f55674d511
 Patch0:		%{name}-gcc34.patch
 Patch1:		%{name}-mdb.patch
 Patch2:		%{name}-freetds063.patch
