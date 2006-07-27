@@ -1,12 +1,6 @@
 #
-# TODO: package dotnet-gda-sharp
-#
 # Conditional build:
-%bcond_without	doc		# don't generate html documentation
-%bcond_without	static_libs	# don't build static libraries
-%bcond_with	gamin		# use gamin instead of fam library
-#
-%bcond_without	firebird	# build without firebird plugin
+%bcond_with	firebird	# build without firebird plugin
 %bcond_without	freetds		# build without freetds plugin
 %bcond_without	ldap		# build without ldap plugin
 %bcond_without	mdb		# build without MDB plugin
@@ -15,59 +9,53 @@
 %bcond_without	pgsql		# build without PostgreSQL plugin
 %bcond_without	sqlite		# build without sqlite plugin
 %bcond_without	xbase		# build without xbase plugin
-#
-%ifnarch %{ix86} sparc sparcv9 alpha
+
+%ifnarch %{ix86} %{x8664} sparc sparcv9 alpha ppc
 %undefine	with_firebird
 %endif
 Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
-Version:	1.9.100
-Release:	7
+Version:	1.2.3
+Release:	1
+Epoch:		1
 License:	LGPL v2/GPL v2
 Group:		Applications/Databases
-Source0:	http://ftp.gnome.org/pub/gnome/sources/libgda/1.9/%{name}-%{version}.tar.bz2
-# Source0-md5:	c943610dc4c9c286bb14d6ce3c6e549b
-Patch0:		%{name}-freetds_buildfix.patch
+Source0:	http://ftp.gnome.org/pub/gnome/sources/libgda/1.2/%{name}-%{version}.tar.bz2
+# Source0-md5:	eb9c31c3102d542de728f5f55674d511
+Patch0:		%{name}-gcc34.patch
 Patch1:		%{name}-mdb.patch
-Patch2:		%{name}-include.patch
-Patch3:		%{name}-rename.patch
-Patch4:		%{name}-typo.patch
-Patch5:		%{name}-update.patch
-Patch6:		%{name}-xbase.patch
-Patch7:		%{name}-configure.patch
+Patch2:		%{name}-freetds063.patch
+Patch3:		%{name}-sqlite.patch
 %{?with_firebird:BuildRequires:	Firebird-devel}
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.8
 BuildRequires:	bison
 BuildRequires:	db-devel
-%{!?with_gamin:BuildRequires:	fam-devel}
 BuildRequires:	flex
 %{?with_freetds:BuildRequires:	freetds-devel >= 0.63}
-%{?with_gamin:BuildRequires:	gamin-devel}
-BuildRequires:	glib2-devel >= 1:2.12.0
-BuildRequires:	gnome-common >= 2.12.0
-BuildRequires:	gtk-doc >= 1.6
-BuildRequires:	intltool >= 0.35
+BuildRequires:	glib2-devel >= 2.2.0
+BuildRequires:	gnome-common >= 2.8.0
+BuildRequires:	gtk-doc >= 1.0
+BuildRequires:	intltool >= 0.30
 BuildRequires:	libtool
-BuildRequires:	libxml2-devel >= 1:.2.6.26
-BuildRequires:	libxslt-devel >= 1.1.17
+BuildRequires:	libxml2-devel
+BuildRequires:	libxslt-devel >= 1.0.9
 %{?with_mdb:BuildRequires:	mdbtools-devel}
 %{?with_mysql:BuildRequires:	mysql-devel}
-%{?with_ldap:BuildRequires:	openldap-devel >= 2.3.0}
+%{?with_ldap:BuildRequires:	openldap-devel}
 BuildRequires:	perl-base
 BuildRequires:	popt-devel
 %{?with_pgsql:BuildRequires:	postgresql-devel}
 BuildRequires:	readline-devel >= 5.0
 BuildRequires:	rpmbuild(macros) >= 1.213
+BuildRequires:	scrollkeeper
 %{?with_sqlite:BuildRequires:	sqlite3-devel}
 %{?with_odbc:BuildRequires:	unixODBC-devel}
 %{?with_xbase:BuildRequires:	xbase-devel >= 2.0.0}
-%{!?with_gamin:BuildConflicts:	gamin-devel}
+Requires(post,postun):	scrollkeeper
+Requires:	scrollkeeper
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-%define		_libgdadir	%{name}-%(echo %{version} | cut -d '.' -f 1-2 )
-%define		_providersdir	%{_libdir}/%{_libgdadir}/providers
 
 %description
 GNU Data Access is an attempt to provide uniform access to different
@@ -91,13 +79,11 @@ pozwoliæ na u¿ywanie przez niegnomowe aplikacje.
 Summary:	GNU Data Access development
 Summary(pl):	Dla programistów GNU Data Access
 Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
-%{!?with_gamin:Requires:	fam-devel}
-%{?with_gamin:Requires:	gamin-devel}
-Requires:	glib2-devel >= 1:2.12.0
+Requires:	%{name} = %{epoch}:%{version}-%{release}
+Requires:	glib2-devel >= 2.2.0
 Requires:	gtk-doc-common
-Requires:	libxml2-devel >= 1:2.6.26
-Requires:	libxslt-devel >= 1.1.17
+Requires:	libxml2-devel
+Requires:	libxslt-devel >= 1.0.9
 Obsoletes:	libgda0-devel
 
 %description devel
@@ -129,7 +115,7 @@ Statyczne biblioteki GNU Data Access.
 Summary:	GDA Berkeley DB provider
 Summary(pl):	¬ród³o danych Berkeley DB dla GDA
 Group:		Applications/Databases
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description -n gda-db
 This package contains the GDA Berkeley DB provider.
@@ -141,7 +127,7 @@ Pakiet dostaczaj±cy dane z Berkeley DB dla GDA.
 Summary:	GDA Firebird provider
 Summary(pl):	¬ród³o danych Firebird dla GDA
 Group:		Applications/Databases
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description -n gda-firebird
 This package contains the GDA Firebird provider.
@@ -153,7 +139,7 @@ Pakiet dostarczaj±cy dane z Firebird dla GDA.
 Summary:	GDA FreeTDS provider
 Summary(pl):	¬ród³o danych FreeTDS dla GDA
 Group:		Applications/Databases
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description -n gda-freetds
 This package contains the GDA FreeTDS provider.
@@ -165,7 +151,7 @@ Pakiet dostarczaj±cy dane z FreeTDS dla GDA.
 Summary:	GDA LDAP provider
 Summary(pl):	¬ród³o danych LDAP dla GDA
 Group:		Applications/Databases
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description -n gda-ldap
 This package contains the GDA LDAP provider.
@@ -177,7 +163,7 @@ Pakiet dostarczaj±cy dane z LDAP dla GDA
 Summary:	GDA MDB provider
 Summary(pl):	¬ród³o danych MDB
 Group:		Applications/Databases
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description -n gda-mdb
 This package contains the GDA MDB provider.
@@ -189,7 +175,7 @@ Pakiet dostarczaj±cy dane z MDB dla GDA.
 Summary:	GDA MySQL provider
 Summary(pl):	¬ród³o danych MySQL dla GDA
 Group:		Applications/Databases
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 Obsoletes:	libgda-mysql0
 
 %description -n gda-mysql
@@ -202,7 +188,7 @@ Pakiet dostarczaj±cy dane z MySQL dla GDA.
 Summary:	GDA ODBC provider
 Summary(pl):	¬ród³o danych ODBC dla GDA
 Group:		Applications/Databases
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description -n gda-odbc
 This package contains the GDA ODBC provider.
@@ -214,7 +200,7 @@ Pakiet dostarczaj±cy dane z ODBC dla GDA.
 Summary:	GDA PostgreSQL provider
 Summary(pl):	¬ród³o danych PostgreSQL dla GDA
 Group:		Applications/Databases
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 Obsoletes:	libgda-postgres0
 
 %description -n gda-postgres
@@ -227,7 +213,7 @@ Pakiet dostarczaj±cy dane z PostgreSQL dla GDA.
 Summary:	GDA SQLite provider
 Summary(pl):	¬ród³o danych SQLite dla GDA
 Group:		Applications/Databases
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description -n gda-sqlite
 This package contains the GDA SQLite provider.
@@ -239,7 +225,7 @@ Pakiet dostarczaj±cy dane z SQLite dla GDA.
 Summary:	GDA xBase provider
 Summary(pl):	¬ród³o danych xBase dla GDA
 Group:		Applications/Databases
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description -n gda-xbase
 This package contains the GDA xBase (dBase, Clipper, FoxPro) provider.
@@ -252,11 +238,7 @@ Pakiet dostarczaj±cy dane z xBase (dBase, Clippera, FoxPro) dla GDA.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p0
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
+%patch3 -p1
 
 %build
 CXXFLAGS="%{rpmcxxflags} -fno-rtti -fno-exceptions"
@@ -265,10 +247,8 @@ CXXFLAGS="%{rpmcxxflags} -fno-rtti -fno-exceptions"
 %{__aclocal}
 %{__autoconf}
 %{__automake}
-LDFLAGS="%{rpmldflags} -Wl,--as-needed"
 %configure \
-	%{?with_doc:--enable-gtk-doc} \
-	%{!?with_static_libs:--enable-static=no} \
+	--enable-gtk-doc \
 	--with-html-dir=%{_gtkdocdir} \
 	--with%{!?with_firebird:out}-firebird \
 	--with%{!?with_ldap:out}-ldap \
@@ -287,10 +267,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
-	HTML_DIR=%{_gtkdocdir}
+	HTML_DIR=%{_gtkdocdir} 
 
 # modules dlopened by *.so through libgmodule
-rm -f $RPM_BUILD_ROOT%{_providersdir}/*.{a,la}
+rm -f $RPM_BUILD_ROOT%{_libdir}/libgda/providers/*.{a,la}
 
 rm -r $RPM_BUILD_ROOT%{_datadir}/locale/no
 
@@ -299,21 +279,28 @@ rm -r $RPM_BUILD_ROOT%{_datadir}/locale/no
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post	-p /sbin/ldconfig
-%postun	-p /sbin/ldconfig
+%post
+/sbin/ldconfig
+%scrollkeeper_update_post
+
+%postun
+/sbin/ldconfig
+%scrollkeeper_update_postun
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README
 %attr(755,root,root) %{_bindir}/gda-config-tool
-%attr(755,root,root) %{_libdir}/libgda-3.so.*.*
-%attr(755,root,root) %{_libdir}/libgda-report-3.so.*.*
+%attr(755,root,root) %{_libdir}/libgda-2.so.*.*
+%attr(755,root,root) %{_libdir}/libgda-report-2.so.*.*
 %attr(755,root,root) %{_libdir}/libgdasql.so.*.*
-%dir %{_libdir}/%{_libgdadir}
-%dir %{_providersdir}
+%dir %{_libdir}/libgda
+%dir %{_libdir}/libgda/providers
+%attr(755,root,root) %{_libdir}/libgda/providers/libgda-xml.so
 %{_datadir}/libgda
+%{_omf_dest_dir}/%{name}
 %dir %{_sysconfdir}/libgda
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/libgda/config
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/libgda/config
 %{_mandir}/man1/gda-config-tool.1*
 %{_mandir}/man5/*
 
@@ -322,76 +309,74 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/gda-report-test
 %attr(755,root,root) %{_bindir}/gda-run
 %attr(755,root,root) %{_bindir}/gda-test
-%attr(755,root,root) %{_libdir}/libgda-3.so
-%attr(755,root,root) %{_libdir}/libgda-report-3.so
+%attr(755,root,root) %{_libdir}/libgda-2.so
+%attr(755,root,root) %{_libdir}/libgda-report-2.so
 %attr(755,root,root) %{_libdir}/libgdasql.so
-%{_libdir}/libgda-3.la
-%{_libdir}/libgda-report-3.la
+%{_libdir}/libgda-2.la
+%{_libdir}/libgda-report-2.la
 %{_libdir}/libgdasql.la
-%{_includedir}/libgda-1.9
+%{_includedir}/libgda-1.2
 %{_pkgconfigdir}/*
-%{?with_doc:%{_gtkdocdir}/*}
+%{_gtkdocdir}/*
 
-%if %{with static_libs}
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/lib*.a
-%endif
 
 %files -n gda-db
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_providersdir}/libgda-bdb.so
+%attr(755,root,root) %{_libdir}/libgda/providers/libgda-bdb.so
 
 %if %{with firebird}
 %files -n gda-firebird
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_providersdir}/libgda-firebird.so
+%attr(755,root,root) %{_libdir}/libgda/providers/libgda-firebird.so
 %endif
 
 %if %{with freetds}
 %files -n gda-freetds
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_providersdir}/libgda-freetds.so
+%attr(755,root,root) %{_libdir}/libgda/providers/libgda-freetds.so
 %endif
 
 %if %{with ldap}
 %files -n gda-ldap
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_providersdir}/libgda-ldap.so
+%attr(755,root,root) %{_libdir}/libgda/providers/libgda-ldap.so
 %endif
 
 %if %{with mdb}
 %files -n gda-mdb
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_providersdir}/libgda-mdb.so
+%attr(755,root,root) %{_libdir}/libgda/providers/libgda-mdb.so
 %endif
 
 %if %{with mysql}
 %files -n gda-mysql
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_providersdir}/libgda-mysql.so
+%attr(755,root,root) %{_libdir}/libgda/providers/libgda-mysql.so
 %endif
 
 %if %{with odbc}
 %files -n gda-odbc
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_providersdir}/libgda-odbc.so
+%attr(755,root,root) %{_libdir}/libgda/providers/libgda-odbc.so
 %endif
 
 %if %{with pgsql}
 %files -n gda-postgres
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_providersdir}/libgda-postgres.so
+%attr(755,root,root) %{_libdir}/libgda/providers/libgda-postgres.so
 %endif
 
 %if %{with sqlite}
 %files -n gda-sqlite
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_providersdir}/libgda-sqlite.so
+%attr(755,root,root) %{_libdir}/libgda/providers/libgda-sqlite.so
 %endif
 
 %if %{with xbase}
 %files -n gda-xbase
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_providersdir}/libgda-xbase.so
+%attr(755,root,root) %{_libdir}/libgda/providers/libgda-xbase.so
 %endif
