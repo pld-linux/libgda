@@ -1,0 +1,12 @@
+diff -urN libgda-1.2.2.orig/providers/sqlite/gda-sqlite-provider.c libgda-1.2.2/providers/sqlite/gda-sqlite-provider.c
+--- libgda-1.2.2.orig/providers/sqlite/gda-sqlite-provider.c	2005-09-07 15:50:16.000000000 -0300
++++ libgda-1.2.2/providers/sqlite/gda-sqlite-provider.c	2005-10-08 22:03:08.000000000 -0300
+@@ -261,7 +261,7 @@
+ 
+ 	while ((next = (const gchar *) strchr (next, ';')) != NULL) {
+ 		gchar *tmp = g_strndup (remainder, next - remainder + 1);
+-		if (sqlite_complete (tmp)) {
++		if (sqlite3_complete (tmp)) {
+ 			string_list = g_slist_prepend (string_list, tmp);
+ 			n++;
+ 			remainder = (const gchar *) (next + 1);

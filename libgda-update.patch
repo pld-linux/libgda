@@ -1,0 +1,44 @@
+--- libgda-1.9.100/providers/bdb/gda-bdb-recordset.c.orig	2005-09-16 11:55:02.000000000 +0200
++++ libgda-1.9.100/providers/bdb/gda-bdb-recordset.c	2006-02-21 20:46:12.736816500 +0100
+@@ -113,7 +113,7 @@
+ 		return NULL;
+ 	}
+ 
+-	row = (GdaRow *) gda_data_model_hash_get_row (model, row_num);
++	row = (GdaRow *) GDA_DATA_MODEL_BASE_CLASS (parent_class)->get_row (model, row_num);
+ 	if (row != NULL)
+ 		return (const GdaRow *) row;
+ 
+--- libgda-1.9.100/providers/freetds/gda-freetds-recordset.c.orig	2006-02-21 20:16:38.205915000 +0100
++++ libgda-1.9.100/providers/freetds/gda-freetds-recordset.c	2006-02-21 21:14:25.066580500 +0100
+@@ -155,7 +155,7 @@
+ 			while (recset->priv->rows->len > 0) {
+ 				GdaRow *row = (GdaRow *) g_ptr_array_index (recset->priv->rows, 0);
+ 				if (row != NULL) {
+-					gda_row_free (row);
++					g_object_unref (row);
+ 					row = NULL;
+ 				}
+ 				g_ptr_array_remove_index (recset->priv->rows, 0);
+--- libgda-1.9.100/providers/firebird/gda-firebird-recordset.c.orig	2005-09-26 11:16:01.000000000 +0200
++++ libgda-1.9.100/providers/firebird/gda-firebird-recordset.c	2006-02-21 21:12:32.007514750 +0100
+@@ -775,7 +775,7 @@
+ 
+ 		/* if it exists then free it */
+ 		if (row != NULL)
+-			gda_row_free (row);
++			g_object_unref (row);
+ 
+ 		/* Move down all existing rows */
+ 		g_ptr_array_remove_index (recset->priv->rows, 0);
+--- libgda-1.9.100/providers/ldap/gda-ldap-recordset.c.orig	2005-09-22 12:24:01.000000000 +0200
++++ libgda-1.9.100/providers/ldap/gda-ldap-recordset.c	2006-02-21 21:14:58.776687250 +0100
+@@ -399,7 +399,7 @@
+ 		GdaRow * row = (GdaRow *) g_ptr_array_index (recset->rows, 0);
+ 
+ 		if (row != NULL)
+-			gda_row_free (row);
++			g_object_unref (row);
+ 		g_ptr_array_remove_index (recset->rows, 0);
+ 	}
+ 	g_ptr_array_free (recset->rows, TRUE);
