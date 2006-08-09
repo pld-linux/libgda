@@ -17,7 +17,7 @@ Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
 Version:	1.2.3
-Release:	1
+Release:	2
 Epoch:		1
 License:	LGPL v2/GPL v2
 Group:		Applications/Databases
@@ -103,7 +103,7 @@ programistów u¿ywaj±cych libgda.
 Summary:	GNU Data Access static libraries
 Summary(pl):	Statyczne biblioteki GNU Data Access
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}-%{release}
+Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
 
 %description static
 GNU Data Access static libraries.
