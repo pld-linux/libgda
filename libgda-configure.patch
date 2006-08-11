@@ -1,6 +1,6 @@
 diff -aurN libgda-1.2.3.orig/configure.in libgda-1.2.3/configure.in
 --- libgda-1.2.3.orig/configure.in	2005-10-27 11:18:24.000000000 +0200
-+++ libgda-1.2.3/configure.in	2006-08-11 19:42:10.602573938 +0200
++++ libgda-1.2.3/configure.in	2006-08-11 20:01:19.815866962 +0200
 @@ -149,8 +149,8 @@
  			AC_MSG_WARN(Berkeley DB backend not used)
  		else
@@ -87,6 +87,15 @@ diff -aurN libgda-1.2.3.orig/configure.in libgda-1.2.3/configure.in
  			AC_DEFINE(HAVE_POSTGRES, 1, [Have PostgreSQL])
  		fi
  	fi
+@@ -440,7 +440,7 @@
+ 		AC_MSG_WARN(tds backend not used)
+ 	else
+ 		AC_MSG_CHECKING(for freetds version)
+-		freetdsvercheck="`grep \"^#define \(VERSION_NO \|TDS_VERSION_NO \)\" $freetds_incdir/tdsver.h|sed 's|^.*"\(.*\)"|\1|'`"
++		freetdsvercheck="`grep VERSION ${includedir}/tdsver.h | sed 's|^.*"\(.*\)"|\1|'`"
+ 		if test "x$freetdsvercheck" = "x"
+ 		then
+ 			AC_MSG_WARN(freetds version check failed - backend not used)
 @@ -450,27 +450,27 @@
  			case "$freetdsvercheck" in
  				*v0.5*) AC_MSG_RESULT($freetdsvercheck - using v0.5x api)
