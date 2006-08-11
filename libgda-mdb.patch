@@ -1,12 +1,12 @@
-diff -aurN libgda-1.9.100.orig/providers/mdb/gda-mdb-provider.c libgda-1.9.100/providers/mdb/gda-mdb-provider.c
---- libgda-1.9.100.orig/providers/mdb/gda-mdb-provider.c	2005-09-22 12:24:01.000000000 +0200
-+++ libgda-1.9.100/providers/mdb/gda-mdb-provider.c	2005-10-19 21:10:52.000000000 +0200
-@@ -210,7 +210,7 @@
+diff -urN aa/libgda-1.2.1/providers/mdb/gda-mdb-provider.c libgda-1.2.1/providers/mdb/gda-mdb-provider.c
+--- aa/libgda-1.2.1/providers/mdb/gda-mdb-provider.c	2004-12-28 14:15:51.000000000 +0100
++++ libgda-1.2.1/providers/mdb/gda-mdb-provider.c	2005-03-11 15:34:50.063197640 +0100
+@@ -209,7 +209,7 @@
  	mdb_cnc = g_new0 (GdaMdbConnection, 1);
  	mdb_cnc->cnc = cnc;
  	mdb_cnc->server_version = NULL;
 -	mdb_cnc->mdb = mdb_open (filename, MDB_WRITABLE);
 +	mdb_cnc->mdb = mdb_open (filename);
  	if (!mdb_cnc->mdb) {
- 		gda_connection_add_event_string (cnc, _("Could not open file %s"), filename);
+ 		gda_connection_add_error_string (cnc, _("Could not open file %s"), filename);
  		g_free (mdb_cnc);
