@@ -10,6 +10,8 @@
 %bcond_without	sqlite		# build without sqlite plugin
 %bcond_without	xbase		# build without xbase plugin
 
+%bcond_without	mdb06		# build without mdb-0.6pre1
+
 %ifnarch %{ix86} %{x8664} sparc sparcv9 alpha ppc
 %undefine	with_firebird
 %endif
@@ -17,7 +19,7 @@ Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
 Version:	1.2.3
-Release:	3
+Release:	4
 Epoch:		1
 License:	LGPL v2/GPL v2
 Group:		Applications/Databases
@@ -42,7 +44,10 @@ BuildRequires:	intltool >= 0.35
 BuildRequires:	libtool
 BuildRequires:	libxml2-devel >= 1:2.6.26
 BuildRequires:	libxslt-devel >= 1.1.17
-%{?with_mdb:BuildRequires:	mdbtools-devel}
+%if %{with_mdb}
+%{?with_mdb06:BuildRequires:	mdbtools-devel >= 0.6}
+%{!?with_mdb06:BuildRequires:	mdbtools-devel < 0.6}
+%endif
 %{?with_mysql:BuildRequires:	mysql-devel}
 %{?with_ldap:BuildRequires:	openldap-devel}
 BuildRequires:	perl-base
@@ -103,7 +108,7 @@ programistów u¿ywaj±cych libgda.
 Summary:	GNU Data Access static libraries
 Summary(pl):	Statyczne biblioteki GNU Data Access
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}-%{release}
+Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
 
 %description static
 GNU Data Access static libraries.
@@ -248,7 +253,9 @@ Dokumentacja API libgda.
 %prep
 %setup -q
 %patch0 -p1
+%if %{without mdb06}
 %patch1 -p1
+%endif
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
