@@ -253,7 +253,7 @@ Dokumentacja API libgda.
 %prep
 %setup -q
 %patch0 -p1
-%if %{without mdb06}
+%if !%{with mdb06}
 %patch1 -p1
 %endif
 %patch2 -p1
