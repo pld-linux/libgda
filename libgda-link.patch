@@ -4,9 +4,9 @@ diff -urN libgda-1.9.103.org/libgda/Makefile.am libgda-1.9.103/libgda/Makefile.a
 @@ -208,7 +208,7 @@
  	$(libgda_sources)
  
- libgda_3_la_LDFLAGS = -version-info $(GDA_CURRENT):$(GDA_REVISION):$(GDA_AGE) -no-undefined
--libgda_3_la_LIBADD = $(LIBGDA_LIBS) $(FAM_LIBS) $(top_builddir)/libsql/libgdasql.la
-+libgda_3_la_LIBADD = $(LIBGDA_LIBS) $(FAM_LIBS) $(top_builddir)/libsql/libgdasql.la $(top_builddir)/libgda/sql-delimiter/libgda_sql_delimiter-3.la $(top_builddir)/libgda/handlers/libgda_handlers-3.la
+ libgda_3_0_la_LDFLAGS = -version-info $(GDA_CURRENT):$(GDA_REVISION):$(GDA_AGE) -no-undefined
+-libgda_3_0_la_LIBADD = $(LIBGDA_LIBS) $(FAM_LIBS) $(top_builddir)/libsql/libgdasql.la sql-transaction/libsqltransaction.la
++libgda_3_0_la_LIBADD = $(LIBGDA_LIBS) $(FAM_LIBS) $(top_builddir)/libsql/libgdasql.la sql-transaction/libsqltransaction.la $(top_builddir)/libgda/sql-delimiter/libgda_sql_delimiter-3.0.la $(top_builddir)/libgda/handlers/libgda_handlers-3.0.la
  
  gdaincludedir=$(includedir)/libgda-$(GDA_MAJOR_VERSION).$(GDA_MINOR_VERSION)/libgda
  gdainclude_HEADERS=$(libgda_built_headers) $(gda_headers)
