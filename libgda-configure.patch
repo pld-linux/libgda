@@ -1,6 +1,6 @@
-diff -ur libgda-1.9.103.org/configure.in libgda-1.9.103/configure.in
---- libgda-1.9.103.org/configure.in	2006-08-29 15:23:24.000000000 +0200
-+++ libgda-1.9.103/configure.in	2006-12-24 16:23:32.075258750 +0100
+diff -ur libgda-2.99.2.org/configure.in libgda-2.99.2/configure.in
+--- libgda-2.99.2.org/configure.in	2006-11-19 14:56:19.000000000 +0100
++++ libgda-2.99.2/configure.in	2006-12-24 22:13:13.314504250 +0100
 @@ -166,7 +166,7 @@
  		else
  			AC_DEFINE(HAVE_BDB, 1, [Have Berkeley DB])
@@ -86,16 +86,16 @@ diff -ur libgda-1.9.103.org/configure.in libgda-1.9.103/configure.in
  					AC_DEFINE(HAVE_FREETDS, 1, [Have freetds])
  					;;
  				*)	AC_MSG_WARN($freetdsvercheck not supported - backend not used)
-@@ -542,7 +542,7 @@
+@@ -559,7 +559,7 @@
+ 		AC_MSG_RESULT(found IBM DB2 in $ibmdb2dir)
  		AC_DEFINE(HAVE_IBMDB2, 1, [Have IBM DB2])
- 		AC_MSG_WARN(IBM DB2 Provider does not work yet)
  		IBMDB2_CFLAGS="-DIBMDB2_DIR=\\\"${ibmdb2dir}\\\" -I${ibmdb2dir}/include"
--		IBMDB2_LIBS="-L${ibmdb2dir}/lib -Wl,-rpath,${ibmdb2dir}/lib -ldb2"
-+		IBMDB2_LIBS="-L${libdir} -Wl,-rpath,${libdir} -ldb2"
+-		IBMDB2_LIBS="-L${ibmdb2dir}/${ibmdb2libdir} -Wl,-rpath,${ibmdb2dir}/${ibmdb2libdir} -ldb2"
++		IBMDB2_LIBS="-L${ibmdb2dir}/${ibmdb2libdir} -Wl,-rpath,${libdir} -ldb2"
  	fi
  fi
  
-@@ -601,8 +601,8 @@
+@@ -618,8 +618,8 @@
  		AC_MSG_CHECKING(for Sybase host system type)
  		AC_MSG_RESULT($host)
  		case "$host" in
@@ -106,7 +106,7 @@ diff -ur libgda-1.9.103.org/configure.in libgda-1.9.103/configure.in
  			SYBASE_LIBS="${SYBASE_LIBS} ${sybase_blklibs}"
  			AC_CHECK_LIB(ct,tdsdump_on,[
  			AC_MSG_WARN(linking against freetds libct)
-@@ -687,7 +687,7 @@
+@@ -704,7 +704,7 @@
  	else
  		AC_DEFINE(HAVE_ORACLE, 1, [Have ORACLE])
  		ORACLE_CFLAGS=" -I$oracledir/include/oracle/client -I$oracledir/rdbms/demo -I${ORACLE_HOME}/rdbms/public -I${ORACLE_HOME}/plsql/public -I$oracledir/network/public"
@@ -115,7 +115,7 @@ diff -ur libgda-1.9.103.org/configure.in libgda-1.9.103/configure.in
  	fi
  fi
  
-@@ -725,7 +725,7 @@
+@@ -742,7 +742,7 @@
  	else
  		AC_DEFINE(HAVE_FIREBIRD, 1, [Have FireBird])
  		FIREBIRD_CFLAGS="-I${firebirddir}/include"
@@ -124,7 +124,7 @@ diff -ur libgda-1.9.103.org/configure.in libgda-1.9.103/configure.in
  	fi
  fi
  
-@@ -763,7 +763,7 @@
+@@ -780,7 +780,7 @@
  		AC_MSG_WARN(Xbase backend not used)
  	else
  		XBASE_CFLAGS=-I${xbasedir}/include
@@ -133,7 +133,7 @@ diff -ur libgda-1.9.103.org/configure.in libgda-1.9.103/configure.in
  		AC_DEFINE(HAVE_XBASE, 1, [Have Xbase])
  	fi
  fi
-@@ -793,7 +793,7 @@
+@@ -810,7 +810,7 @@
  	mdbdir=""
  	for d in $dir /usr /usr/local /opt/gnome
  	do
@@ -142,7 +142,7 @@ diff -ur libgda-1.9.103.org/configure.in libgda-1.9.103/configure.in
  		then
  			AC_MSG_RESULT(found MDB Tools in $d)
  			mdbdir=$d
-@@ -804,8 +804,8 @@
+@@ -821,8 +821,8 @@
  	then
  		AC_MSG_WARN(MDB backend not used)
  	else
@@ -153,7 +153,7 @@ diff -ur libgda-1.9.103.org/configure.in libgda-1.9.103/configure.in
  		AC_DEFINE(HAVE_MDB, 1, [Have MDB])
  	fi
  fi
-@@ -844,7 +844,7 @@
+@@ -861,7 +861,7 @@
  		AC_MSG_WARN(LDAP backend not used)
  	else
  		LDAP_CFLAGS="-I${ldapdir}/include"
@@ -162,5 +162,3 @@ diff -ur libgda-1.9.103.org/configure.in libgda-1.9.103/configure.in
  		AC_DEFINE(HAVE_LDAP, 1, [Have LDAP])
  	fi
  fi
-Tylko w libgda-1.9.103: configure.in.orig
-Tylko w libgda-1.9.103: configure.in.rej

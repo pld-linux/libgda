@@ -22,12 +22,12 @@
 Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
-Version:	1.9.103
+Version:	2.99.2
 Release:	1
 License:	LGPL v2/GPL v2
 Group:		Applications/Databases
-Source0:	http://ftp.gnome.org/pub/gnome/sources/libgda/1.9/%{name}-%{version}.tar.bz2
-# Source0-md5:	bf1b6491a3eedf83f979a895ab3aeec5
+Source0:	http://ftp.gnome.org/pub/gnome/sources/libgda/2.99/%{name}-%{version}.tar.bz2
+# Source0-md5:	e8756d0796b1b147733eb4ff1864cac9
 Patch0:		%{name}-mdb.patch
 Patch1:		%{name}-xbase.patch
 Patch2:		%{name}-configure.patch
@@ -289,7 +289,7 @@ rm -f $RPM_BUILD_ROOT%{_providersdir}/*.{a,la}
 
 rm -r $RPM_BUILD_ROOT%{_datadir}/locale/no
 
-%find_lang %{name}-3 --with-gnome --all-name
+%find_lang %{name}-3.0 --with-gnome --all-name
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -297,14 +297,13 @@ rm -rf $RPM_BUILD_ROOT
 %post	-p /sbin/ldconfig
 %postun	-p /sbin/ldconfig
 
-%files -f %{name}.lang
+%files -f %{name}-3.0.lang
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README
 %attr(755,root,root) %{_bindir}/gda-config-tool
-%attr(755,root,root) %{_libdir}/libgda-3.so.*.*
-%attr(755,root,root) %{_libdir}/libgda_*-3.so.*.*
-%attr(755,root,root) %{_libdir}/libgda-report-3.so.*.*
+%attr(755,root,root) %{_libdir}/libgda*3*.so.*.*
 %attr(755,root,root) %{_libdir}/libgdasql.so.*.*
+%attr(755,root,root) %{_libdir}/libsqltransaction.so.*.*
 %dir %{_libdir}/%{_libgdadir}
 %dir %{_providersdir}
 %{_datadir}/libgda
@@ -321,14 +320,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/gda-report-test
 %attr(755,root,root) %{_bindir}/gda-run
 %attr(755,root,root) %{_bindir}/gda-test-*
-%attr(755,root,root) %{_libdir}/libgda-3.so
-%attr(755,root,root) %{_libdir}/libgda-report-3.so
+%attr(755,root,root) %{_libdir}/libgda*3*.so
 %attr(755,root,root) %{_libdir}/libgdasql.so
-%{_libdir}/libgda-3.la
-%{_libdir}/libgda_*-3.la
-%{_libdir}/libgda-report-3.la
+%{_libdir}/libgda*3*.la
 %{_libdir}/libgdasql.la
-%{_includedir}/libgda-1.9
+%{_libdir}/libsqltransaction.la
+%{_includedir}/libgda-*
 %{_pkgconfigdir}/*
 %{?with_doc:%{_gtkdocdir}/*}
 
