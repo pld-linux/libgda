@@ -22,20 +22,16 @@
 Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
-Version:	1.9.100
-Release:	7
+Version:	1.9.103
+Release:	1
 License:	LGPL v2/GPL v2
 Group:		Applications/Databases
 Source0:	http://ftp.gnome.org/pub/gnome/sources/libgda/1.9/%{name}-%{version}.tar.bz2
-# Source0-md5:	c943610dc4c9c286bb14d6ce3c6e549b
-Patch0:		%{name}-freetds_buildfix.patch
-Patch1:		%{name}-mdb.patch
-Patch2:		%{name}-include.patch
-Patch3:		%{name}-rename.patch
-Patch4:		%{name}-typo.patch
-Patch5:		%{name}-update.patch
-Patch6:		%{name}-xbase.patch
-Patch7:		%{name}-configure.patch
+# Source0-md5:	bf1b6491a3eedf83f979a895ab3aeec5
+Patch0:		%{name}-mdb.patch
+Patch1:		%{name}-xbase.patch
+Patch2:		%{name}-configure.patch
+Patch3:		%{name}-link.patch
 %{?with_firebird:BuildRequires:	Firebird-devel}
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.8
@@ -63,7 +59,6 @@ BuildRequires:	rpmbuild(macros) >= 1.213
 %{?with_sqlite:BuildRequires:	sqlite3-devel}
 %{?with_odbc:BuildRequires:	unixODBC-devel}
 %{?with_xbase:BuildRequires:	xbase-devel >= 2.0.0}
-%{!?with_gamin:BuildConflicts:	gamin-devel}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_libgdadir	%{name}-%(echo %{version} | cut -d '.' -f 1-2 )
@@ -252,11 +247,11 @@ Pakiet dostarczaj±cy dane z xBase (dBase, Clippera, FoxPro) dla GDA.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p0
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
+%patch3 -p1
+
+%if ! %{with gamin}
+sed -i -e 's#\(PKG_CHECK_MODULES(GAMIN.*\)#\#\1#g' configure.in
+%endif
 
 %build
 CXXFLAGS="%{rpmcxxflags} -fno-rtti -fno-exceptions"
@@ -294,7 +289,7 @@ rm -f $RPM_BUILD_ROOT%{_providersdir}/*.{a,la}
 
 rm -r $RPM_BUILD_ROOT%{_datadir}/locale/no
 
-%find_lang %{name} --with-gnome --all-name
+%find_lang %{name}-3 --with-gnome --all-name
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -307,6 +302,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS ChangeLog NEWS README
 %attr(755,root,root) %{_bindir}/gda-config-tool
 %attr(755,root,root) %{_libdir}/libgda-3.so.*.*
+%attr(755,root,root) %{_libdir}/libgda_*-3.so.*.*
 %attr(755,root,root) %{_libdir}/libgda-report-3.so.*.*
 %attr(755,root,root) %{_libdir}/libgdasql.so.*.*
 %dir %{_libdir}/%{_libgdadir}
@@ -319,13 +315,17 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/gda-diagnose
+%attr(755,root,root) %{_bindir}/gda-*-dict-*
+%attr(755,root,root) %{_bindir}/gda-list-config
 %attr(755,root,root) %{_bindir}/gda-report-test
 %attr(755,root,root) %{_bindir}/gda-run
-%attr(755,root,root) %{_bindir}/gda-test
+%attr(755,root,root) %{_bindir}/gda-test-*
 %attr(755,root,root) %{_libdir}/libgda-3.so
 %attr(755,root,root) %{_libdir}/libgda-report-3.so
 %attr(755,root,root) %{_libdir}/libgdasql.so
 %{_libdir}/libgda-3.la
+%{_libdir}/libgda_*-3.la
 %{_libdir}/libgda-report-3.la
 %{_libdir}/libgdasql.la
 %{_includedir}/libgda-1.9
