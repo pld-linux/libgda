@@ -1,7 +1,7 @@
-diff -aurN libgda-1.9.100.orig/configure.in libgda-1.9.100/configure.in
---- libgda-1.9.100.orig/configure.in	2005-10-09 18:21:20.000000000 +0200
-+++ libgda-1.9.100/configure.in	2006-03-23 20:26:26.969415960 +0100
-@@ -160,7 +160,7 @@
+diff -ur libgda-1.9.103.org/configure.in libgda-1.9.103/configure.in
+--- libgda-1.9.103.org/configure.in	2006-08-29 15:23:24.000000000 +0200
++++ libgda-1.9.103/configure.in	2006-12-24 16:23:32.075258750 +0100
+@@ -166,7 +166,7 @@
  		else
  			AC_DEFINE(HAVE_BDB, 1, [Have Berkeley DB])
  			BDB_CFLAGS="-I${bdbdir}/include"
@@ -10,16 +10,16 @@ diff -aurN libgda-1.9.100.orig/configure.in libgda-1.9.100/configure.in
  		fi
  	fi
  fi
-@@ -213,7 +213,7 @@
- 		else
- 			AC_DEFINE(HAVE_ODBC, 1, [Have ODBC])
- 			ODBC_CFLAGS="-I${odbcdir}/include"
--			ODBC_LIBS="-L${odbcdir}/lib ${odbclib}"
-+			ODBC_LIBS="-L${libdir} ${odbclib}"
- 		fi
+@@ -221,7 +221,7 @@
+ 	else
+ 		AC_DEFINE(HAVE_ODBC, 1, [Have ODBC])
+ 		ODBC_CFLAGS="-I${odbcdir}/include"
+-		ODBC_LIBS="-L${odbcdir}/lib ${odbclib}"
++		ODBC_LIBS="-L${libdir} ${odbclib}"
  	fi
  fi
-@@ -270,7 +270,7 @@
+ 
+@@ -277,7 +277,7 @@
  		else
  			AC_DEFINE(HAVE_MYSQL, 1, [Have MySQL])
  			MYSQL_CFLAGS="-I${mysqldir}/include${mysqldir_suffix}"
@@ -28,7 +28,7 @@ diff -aurN libgda-1.9.100.orig/configure.in libgda-1.9.100/configure.in
  		fi
  	else
  		mysqldir=yes
-@@ -329,7 +329,7 @@
+@@ -336,7 +336,7 @@
  	else
  		AC_DEFINE(HAVE_MSQL, 1, [Have mSQL])
  		MSQL_CFLAGS="-I${msqldir}/include${msqldir_suffix}"
@@ -37,7 +37,7 @@ diff -aurN libgda-1.9.100.orig/configure.in libgda-1.9.100/configure.in
                  AC_MSG_CHECKING(for mSQL 3.x API)
                  AC_TRY_RUN([
                    #include "${msqldir}/include${msqldir_suffix}/msql.h"
-@@ -395,7 +395,7 @@
+@@ -402,7 +402,7 @@
  			AC_MSG_WARN(Postgres include files not found, backend not used)
  			postgresdir=""
  		fi
@@ -46,7 +46,16 @@ diff -aurN libgda-1.9.100.orig/configure.in libgda-1.9.100/configure.in
  		AC_DEFINE(HAVE_POSTGRES, 1, [Have PostgreSQL])
  	fi
  fi
-@@ -455,19 +455,19 @@
+@@ -451,7 +451,7 @@
+ 		AC_MSG_WARN(tds backend not used)
+ 	else
+ 		AC_MSG_CHECKING(for freetds version)
+-		freetdsvercheck="`grep \"^#define \(VERSION_NO \|TDS_VERSION_NO \)\" $freetds_incdir/tdsver.h|sed 's|^.*"\(.*\)"|\1|'`"
++		freetdsvercheck=$(grep "^#define \(VERSION_NO \|TDS_VERSION_NO \)" $freetds_incdir/tdsver.h|sed 's|^.*"\(.*\)"|\1|')
+ 		if test "x$freetdsvercheck" = "x"
+ 		then
+ 			AC_MSG_WARN(freetds version check failed - backend not used)
+@@ -462,26 +462,26 @@
  				*v0.5*) AC_MSG_RESULT($freetdsvercheck - using v0.5x api)
  					AC_DEFINE(HAVE_FREETDS_VER0_5X, 1, [Have freetds v0.5x API])
  					FREETDS_CFLAGS="-I${freetds_incdir}"
@@ -61,6 +70,14 @@ diff -aurN libgda-1.9.100.orig/configure.in libgda-1.9.100/configure.in
 +					FREETDS_LIBS="-L${libdir} -ltds"
  					AC_DEFINE(HAVE_FREETDS, 1, [Have freetds])
  					;;
+ 				*v0.6[[3-9]]*) AC_MSG_RESULT($freetdsvercheck - using v0.63 api)
+ 					AC_DEFINE(HAVE_FREETDS_VER0_63, 1, [Have freetds v0.63 API])
+ 					AC_DEFINE(HAVE_FREETDS_VER0_6X, 1, [Have freetds v0.6x API])
+ 					FREETDS_CFLAGS="-I${freetds_incdir}"
+-					FREETDS_LIBS="-L${freetdsdir}/lib -ltds"
++					FREETDS_LIBS="-L${libdir} -ltds"
+ 					AC_DEFINE(HAVE_FREETDS, 1, [Have freetds])
+ 					;;
  				*v0.6*) AC_MSG_RESULT($freetdsvercheck - using v0.6x api)
  					AC_DEFINE(HAVE_FREETDS_VER0_6X, 1, [Have freetds v0.6x API])
  					FREETDS_CFLAGS="-I${freetds_incdir}"
@@ -69,7 +86,7 @@ diff -aurN libgda-1.9.100.orig/configure.in libgda-1.9.100/configure.in
  					AC_DEFINE(HAVE_FREETDS, 1, [Have freetds])
  					;;
  				*)	AC_MSG_WARN($freetdsvercheck not supported - backend not used)
-@@ -528,7 +528,7 @@
+@@ -542,7 +542,7 @@
  		AC_DEFINE(HAVE_IBMDB2, 1, [Have IBM DB2])
  		AC_MSG_WARN(IBM DB2 Provider does not work yet)
  		IBMDB2_CFLAGS="-DIBMDB2_DIR=\\\"${ibmdb2dir}\\\" -I${ibmdb2dir}/include"
@@ -78,7 +95,7 @@ diff -aurN libgda-1.9.100.orig/configure.in libgda-1.9.100/configure.in
  	fi
  fi
  
-@@ -586,8 +586,8 @@
+@@ -601,8 +601,8 @@
  		AC_MSG_CHECKING(for Sybase host system type)
  		AC_MSG_RESULT($host)
  		case "$host" in
@@ -89,7 +106,7 @@ diff -aurN libgda-1.9.100.orig/configure.in libgda-1.9.100/configure.in
  			SYBASE_LIBS="${SYBASE_LIBS} ${sybase_blklibs}"
  			AC_CHECK_LIB(ct,tdsdump_on,[
  			AC_MSG_WARN(linking against freetds libct)
-@@ -672,7 +672,7 @@
+@@ -687,7 +687,7 @@
  	else
  		AC_DEFINE(HAVE_ORACLE, 1, [Have ORACLE])
  		ORACLE_CFLAGS=" -I$oracledir/include/oracle/client -I$oracledir/rdbms/demo -I${ORACLE_HOME}/rdbms/public -I${ORACLE_HOME}/plsql/public -I$oracledir/network/public"
@@ -98,7 +115,7 @@ diff -aurN libgda-1.9.100.orig/configure.in libgda-1.9.100/configure.in
  	fi
  fi
  
-@@ -710,7 +710,7 @@
+@@ -725,7 +725,7 @@
  	else
  		AC_DEFINE(HAVE_FIREBIRD, 1, [Have FireBird])
  		FIREBIRD_CFLAGS="-I${firebirddir}/include"
@@ -107,7 +124,7 @@ diff -aurN libgda-1.9.100.orig/configure.in libgda-1.9.100/configure.in
  	fi
  fi
  
-@@ -748,7 +748,7 @@
+@@ -763,7 +763,7 @@
  		AC_MSG_WARN(Xbase backend not used)
  	else
  		XBASE_CFLAGS=-I${xbasedir}/include
@@ -116,16 +133,16 @@ diff -aurN libgda-1.9.100.orig/configure.in libgda-1.9.100/configure.in
  		AC_DEFINE(HAVE_XBASE, 1, [Have Xbase])
  	fi
  fi
-@@ -778,7 +778,7 @@
+@@ -793,7 +793,7 @@
  	mdbdir=""
  	for d in $dir /usr /usr/local /opt/gnome
  	do
--		if test -f $d/include/mdbtools.h -a -f $d/$lib/libmdbsql.so -o -f $d/include/mdbtools.h -a -f $d/$lib/libmdbsql
-+		if test -f $d/include/mdb/mdbtools.h -a -f $d/$lib/libmdbsql.so -o -f $d/include/mdb/mmdbtools.h -a -f $d/$lib/libmdbsql
+-		if test -f $d/include/mdbtools.h -a -f $d/$lib/libmdbsql$libext -o -f $d/include/mdbtools.h -a -f $d/$lib/libmdbsql.a
++		if test -f $d/include/mdb/mdbtools.h -a -f $d/$lib/libmdbsql$libext -o -f $d/include/mdb/mdbtools.h -a -f $d/$lib/libmdbsql.a
  		then
  			AC_MSG_RESULT(found MDB Tools in $d)
  			mdbdir=$d
-@@ -789,8 +789,8 @@
+@@ -804,8 +804,8 @@
  	then
  		AC_MSG_WARN(MDB backend not used)
  	else
@@ -136,7 +153,7 @@ diff -aurN libgda-1.9.100.orig/configure.in libgda-1.9.100/configure.in
  		AC_DEFINE(HAVE_MDB, 1, [Have MDB])
  	fi
  fi
-@@ -829,7 +829,7 @@
+@@ -844,7 +844,7 @@
  		AC_MSG_WARN(LDAP backend not used)
  	else
  		LDAP_CFLAGS="-I${ldapdir}/include"
@@ -145,3 +162,5 @@ diff -aurN libgda-1.9.100.orig/configure.in libgda-1.9.100/configure.in
  		AC_DEFINE(HAVE_LDAP, 1, [Have LDAP])
  	fi
  fi
+Tylko w libgda-1.9.103: configure.in.orig
+Tylko w libgda-1.9.103: configure.in.rej
