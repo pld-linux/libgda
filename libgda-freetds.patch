@@ -1,0 +1,25 @@
+diff -urN libgda-2.99.2.org/providers/freetds/gda-freetds-provider.c libgda-2.99.2/providers/freetds/gda-freetds-provider.c
+--- libgda-2.99.2.org/providers/freetds/gda-freetds-provider.c	2006-11-06 10:55:18.000000000 +0100
++++ libgda-2.99.2/providers/freetds/gda-freetds-provider.c	2006-12-24 22:49:37.647016500 +0100
+@@ -1047,9 +1047,9 @@
+ 	                      TDS_SUCCEED);
+ 
+ 	msg = g_strdup_printf(_("Msg %d, Level %d, State %d, Server %s, Line %d\n%s\n"),
+-	                      msg_info->msg_number,
+-	                      msg_info->msg_level,
+-	                      msg_info->msg_state,
++	                      msg_info->msgno,
++	                      msg_info->severity,
++	                      msg_info->state,
+ 	                      (msg_info->server ? msg_info->server : ""),
+ 	                      msg_info->line_number,
+ 	                      msg_info->message ? msg_info->message : "");
+@@ -1059,7 +1059,7 @@
+ 		if (cnc != NULL) {
+ 			error = gda_connection_event_new (GDA_CONNECTION_EVENT_ERROR);
+ 			gda_connection_event_set_description (error, msg);
+-			gda_connection_event_set_code (error, msg_info->msg_number);
++			gda_connection_event_set_code (error, msg_info->msgno);
+ 			gda_connection_event_set_source (error, "gda-freetds");
+ 			if (msg_info->sql_state != NULL) {
+ 				gda_connection_event_set_sqlstate (error,
