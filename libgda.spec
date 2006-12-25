@@ -19,7 +19,7 @@ Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
 Version:	1.2.3
-Release:	4
+Release:	5
 Epoch:		1
 License:	LGPL v2/GPL v2
 Group:		Applications/Databases
@@ -30,6 +30,7 @@ Patch1:		%{name}-mdb.patch
 Patch2:		%{name}-freetds063.patch
 Patch3:		%{name}-sqlite.patch
 Patch4:		%{name}-configure.patch
+Patch5:		%{name}-freetds064.patch
 %{?with_firebird:BuildRequires:	Firebird-devel}
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.8
@@ -259,6 +260,7 @@ Dokumentacja API libgda.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 CXXFLAGS="%{rpmcxxflags} -fno-rtti -fno-exceptions"
