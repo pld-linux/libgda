@@ -1,0 +1,46 @@
+diff -ur libgda-2.99.2.org/providers/freetds/gda-freetds-provider.c libgda-2.99.2/providers/freetds/gda-freetds-provider.c
+--- libgda-2.99.2.org/providers/freetds/gda-freetds-provider.c	2006-11-06 10:55:18.000000000 +0100
++++ libgda-2.99.2/providers/freetds/gda-freetds-provider.c	2006-12-24 22:59:27.831900750 +0100
+@@ -254,7 +254,7 @@
+ 
+ 	/* Version 0.60 api uses context additionaly */
+ #if defined(HAVE_FREETDS_VER0_63) || defined(HAVE_FREETDS_VER0_61_62) || defined(HAVE_FREETDS_VER0_60)
+-	tds_cnc->ctx = tds_alloc_context();
++	tds_cnc->ctx = tds_alloc_context(NULL);
+ 	if (! tds_cnc->ctx) {
+ 		gda_log_error (_("Allocating tds context failed."));
+ 		gda_freetds_free_connection_data (tds_cnc);
+@@ -1047,9 +1047,9 @@
+ 	                      TDS_SUCCEED);
+ 
+ 	msg = g_strdup_printf(_("Msg %d, Level %d, State %d, Server %s, Line %d\n%s\n"),
+-	                      msg_info->msg_number,
+-	                      msg_info->msg_level,
+-	                      msg_info->msg_state,
++	                      msg_info->msgno,
++	                      msg_info->severity,
++	                      msg_info->state,
+ 	                      (msg_info->server ? msg_info->server : ""),
+ 	                      msg_info->line_number,
+ 	                      msg_info->message ? msg_info->message : "");
+@@ -1059,7 +1059,7 @@
+ 		if (cnc != NULL) {
+ 			error = gda_connection_event_new (GDA_CONNECTION_EVENT_ERROR);
+ 			gda_connection_event_set_description (error, msg);
+-			gda_connection_event_set_code (error, msg_info->msg_number);
++			gda_connection_event_set_code (error, msg_info->msgno);
+ 			gda_connection_event_set_source (error, "gda-freetds");
+ 			if (msg_info->sql_state != NULL) {
+ 				gda_connection_event_set_sqlstate (error,
+diff -ur libgda-2.99.2.org/providers/freetds/gda-freetds-recordset.c libgda-2.99.2/providers/freetds/gda-freetds-recordset.c
+--- libgda-2.99.2.org/providers/freetds/gda-freetds-recordset.c	2006-10-27 17:01:29.000000000 +0200
++++ libgda-2.99.2/providers/freetds/gda-freetds-recordset.c	2006-12-24 23:09:19.124854250 +0100
+@@ -368,7 +368,7 @@
+ 				g_object_unref (recset);
+ 				recset = NULL;
+ 				return NULL;
+-			} else if (tds_cnc->rc != TDS_NO_MORE_ROWS) {
++			} else if (tds_cnc->rc != TDS_NO_MORE_RESULTS) {
+ 				error = gda_freetds_make_error(tds_cnc->tds,
+ 				                               _("Unexpected freetds return code in tds_process_row_tokens().\n"));
+ 				gda_connection_add_event (cnc, error);
