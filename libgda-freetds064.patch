@@ -1,0 +1,102 @@
+diff -urN libgda-1.2.3.org/acconfig.h libgda-1.2.3/acconfig.h
+--- libgda-1.2.3.org/acconfig.h	2002-12-29 22:30:02.000000000 +0100
++++ libgda-1.2.3/acconfig.h	2006-12-25 13:46:59.814088000 +0100
+@@ -13,6 +13,8 @@
+ #undef HAVE_FREETDS
+ #undef HAVE_FREETDS_VER0_5X
+ #undef HAVE_FREETDS_VER0_6X
++#undef HAVE_FREETDS_VER0_63
++#undef HAVE_FREETDS_VER0_64
+ #undef HAVE_SYBASE
+ #undef HAVE_IBMDB2
+ #undef SYBASE_DEBUG
+diff -urN libgda-1.2.3.org/configure.in libgda-1.2.3/configure.in
+--- libgda-1.2.3.org/configure.in	2005-10-27 11:18:24.000000000 +0200
++++ libgda-1.2.3/configure.in	2006-12-25 13:43:06.423502000 +0100
+@@ -440,7 +440,7 @@
+ 		AC_MSG_WARN(tds backend not used)
+ 	else
+ 		AC_MSG_CHECKING(for freetds version)
+-		freetdsvercheck="`grep VERSION ${includedir}/tdsver.h | sed 's|^.*"\(.*\)"|\1|'`"
++		freetdsvercheck=$(grep VERSION ${includedir}/tdsver.h | sed 's|^.*"\(.*\)"|\1|')
+ 		if test "x$freetdsvercheck" = "x"
+ 		then
+ 			AC_MSG_WARN(freetds version check failed - backend not used)
+@@ -460,7 +460,15 @@
+ 					FREETDS_LIBS="-L${freetdsdir}/lib -ltds"
+ 					AC_DEFINE(HAVE_FREETDS, 1, [Have freetds])
+ 					;;
+-				*v0.6[[3-9]]*) AC_MSG_RESULT($freetdsvercheck - using v0.63 api)
++				*v0.6[[4-9]]*) AC_MSG_RESULT($freetdsvercheck - using v0.64 api)
++					AC_DEFINE(HAVE_FREETDS_VER0_63, 1, [Have freetds v0.63 API])
++					AC_DEFINE(HAVE_FREETDS_VER0_64, 1, [Have freetds v0.64 API])
++					AC_DEFINE(HAVE_FREETDS_VER0_6X, 1, [Have freetds v0.6x API])
++					FREETDS_CFLAGS="-I${includedir}"
++					FREETDS_LIBS="-L${libdir} -ltds"
++					AC_DEFINE(HAVE_FREETDS, 1, [Have freetds])
++					;;
++				*v0.63) AC_MSG_RESULT($freetdsvercheck - using v0.63 api)
+ 					AC_DEFINE(HAVE_FREETDS_VER0_63, 1, [Have freetds v0.63 API])
+ 					AC_DEFINE(HAVE_FREETDS_VER0_6X, 1, [Have freetds v0.6x API])
+ 					FREETDS_CFLAGS="-I${includedir}"
+diff -urN libgda-1.2.3.org/providers/freetds/gda-freetds-provider.c libgda-1.2.3/providers/freetds/gda-freetds-provider.c
+--- libgda-1.2.3.org/providers/freetds/gda-freetds-provider.c	2004-12-28 14:26:11.000000000 +0100
++++ libgda-1.2.3/providers/freetds/gda-freetds-provider.c	2006-12-25 13:46:10.390999250 +0100
+@@ -253,7 +253,11 @@
+ 
+ 	/* Version 0.60 api uses context additionaly */
+ #if defined(HAVE_FREETDS_VER0_6X) || defined(HAVE_FREETDS_VER0_60)
++#if defined(HAVE_FREETDS_VER0_64)
++	tds_cnc->ctx = tds_alloc_context(NULL);
++#else
+ 	tds_cnc->ctx = tds_alloc_context();
++#endif
+ 	if (! tds_cnc->ctx) {
+ 		gda_log_error (_("Allocating tds context failed."));
+ 		gda_freetds_free_connection_data (tds_cnc);
+@@ -1058,9 +1062,15 @@
+ 	                      TDS_SUCCEED);
+ 
+ 	msg = g_strdup_printf(_("Msg %d, Level %d, State %d, Server %s, Line %d\n%s\n"),
++#if defined(HAVE_FREETDS_VER0_64)
++			      msg_info->msgno,
++			      msg_info->severity,
++			      msg_info->state,
++#else
+ 	                      msg_info->msg_number,
+ 	                      msg_info->msg_level,
+ 	                      msg_info->msg_state,
++#endif
+ 	                      (msg_info->server ? msg_info->server : ""),
+ 	                      msg_info->line_number,
+ 	                      msg_info->message ? msg_info->message : "");
+@@ -1070,7 +1080,11 @@
+ 		if (cnc != NULL) {
+ 			error = gda_error_new ();
+ 			gda_error_set_description (error, msg);
++#if defined(HAVE_FREETDS_VER0_64)
++			gda_error_set_number (error, msg_info->msgno);
++#else
+ 			gda_error_set_number (error, msg_info->msg_number);
++#endif
+ 			gda_error_set_source (error, "gda-freetds");
+ 			if (msg_info->sql_state != NULL) {
+ 				gda_error_set_sqlstate (error,
+diff -urN libgda-1.2.3.org/providers/freetds/gda-freetds-recordset.c libgda-1.2.3/providers/freetds/gda-freetds-recordset.c
+--- libgda-1.2.3.org/providers/freetds/gda-freetds-recordset.c	2004-12-28 14:26:11.000000000 +0100
++++ libgda-1.2.3/providers/freetds/gda-freetds-recordset.c	2006-12-25 13:46:39.940846000 +0100
+@@ -378,7 +378,13 @@
+ 				g_object_unref (recset);
+ 				recset = NULL;
+ 				return NULL;
+-			} else if (tds_cnc->rc != TDS_NO_MORE_ROWS) {
++			} else if (tds_cnc->rc != 
++#if defined(HAVE_FREETDS_VER0_64)
++					TDS_NO_MORE_RESULTS
++#else
++					TDS_NO_MORE_ROWS
++#endif
++					) {
+ 				error = gda_freetds_make_error(tds_cnc->tds,
+ 				                               _("Unexpected freetds return code in tds_process_row_tokens().\n"));
+ 				gda_connection_add_error (cnc, error);
