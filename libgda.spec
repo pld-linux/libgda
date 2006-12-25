@@ -23,7 +23,7 @@ Summary:	GNU Data Access library
 Summary(pl):	Biblioteka GNU Data Access
 Name:		libgda
 Version:	2.99.2
-Release:	1
+Release:	2
 License:	LGPL v2/GPL v2
 Group:		Applications/Databases
 Source0:	http://ftp.gnome.org/pub/gnome/sources/libgda/2.99/%{name}-%{version}.tar.bz2
@@ -32,6 +32,7 @@ Patch0:		%{name}-mdb.patch
 Patch1:		%{name}-xbase.patch
 Patch2:		%{name}-configure.patch
 Patch3:		%{name}-link.patch
+Patch4:		%{name}-freetds.patch
 %{?with_firebird:BuildRequires:	Firebird-devel}
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.8
@@ -39,7 +40,7 @@ BuildRequires:	bison
 BuildRequires:	db-devel
 %{!?with_gamin:BuildRequires:	fam-devel}
 BuildRequires:	flex
-%{?with_freetds:BuildRequires:	freetds-devel >= 0.63}
+%{?with_freetds:BuildRequires:	freetds-devel >= 0.64}
 %{?with_gamin:BuildRequires:	gamin-devel}
 BuildRequires:	glib2-devel >= 1:2.12.0
 BuildRequires:	gnome-common >= 2.12.0
@@ -248,6 +249,7 @@ Pakiet dostarczaj±cy dane z xBase (dBase, Clippera, FoxPro) dla GDA.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %if ! %{with gamin}
 sed -i -e 's#\(PKG_CHECK_MODULES(GAMIN.*\)#\#\1#g' configure.in
