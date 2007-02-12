@@ -20,7 +20,7 @@
 %undefine	with_firebird
 %endif
 Summary:	GNU Data Access library
-Summary(pl):	Biblioteka GNU Data Access
+Summary(pl.UTF-8):   Biblioteka GNU Data Access
 Name:		libgda
 Version:	2.99.2
 Release:	2
@@ -74,18 +74,18 @@ access your data.
 libgda was part of the GNOME-DB project but has been separated from it
 to allow non-GNOME applications to be developed based on it.
 
-%description -l pl
-GNU Data Access to próba zapewnienia jednolitego dostêpu do ró¿nych
-¼róde³ danych (bazy danych, serwery informacji, katalogi z poczt±
-itp.). Jest kompletn± architektur± dostarczaj±c± wszystko, czego
-potrzebujesz do dostêpu do danych.
+%description -l pl.UTF-8
+GNU Data Access to prÃ³ba zapewnienia jednolitego dostÄ™pu do rÃ³Å¼nych
+ÅºrÃ³deÅ‚ danych (bazy danych, serwery informacji, katalogi z pocztÄ…
+itp.). Jest kompletnÄ… architekturÄ… dostarczajÄ…cÄ… wszystko, czego
+potrzebujesz do dostÄ™pu do danych.
 
-libgda by³a czê¶ci± projektu GNOME-DB, ale zosta³a wydzielona, aby
-pozwoliæ na u¿ywanie przez niegnomowe aplikacje.
+libgda byÅ‚a czÄ™Å›ciÄ… projektu GNOME-DB, ale zostaÅ‚a wydzielona, aby
+pozwoliÄ‡ na uÅ¼ywanie przez niegnomowe aplikacje.
 
 %package devel
 Summary:	GNU Data Access development
-Summary(pl):	Dla programistów GNU Data Access
+Summary(pl.UTF-8):   Dla programistÃ³w GNU Data Access
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 %{!?with_gamin:Requires:	fam-devel}
@@ -102,88 +102,88 @@ kinds of data sources (databases, information servers, mail spools,
 etc). It is a complete architecture that provides all you need to
 access your data. This subpackage contains development files.
 
-%description devel -l pl
-GNU Data Access to próba zapewnienia jednolitego dostêpu do ró¿nych
-¼róde³ danych (bazy danych, serwery informacji, katalogi z poczt±
-itp.). Jest kompletn± architektur± dostarczaj±c± wszystko, czego
-potrzebujesz do dostêpu do danych. Ten podpakiet zawiera pliki dla
-programistów u¿ywaj±cych libgda.
+%description devel -l pl.UTF-8
+GNU Data Access to prÃ³ba zapewnienia jednolitego dostÄ™pu do rÃ³Å¼nych
+ÅºrÃ³deÅ‚ danych (bazy danych, serwery informacji, katalogi z pocztÄ…
+itp.). Jest kompletnÄ… architekturÄ… dostarczajÄ…cÄ… wszystko, czego
+potrzebujesz do dostÄ™pu do danych. Ten podpakiet zawiera pliki dla
+programistÃ³w uÅ¼ywajÄ…cych libgda.
 
 %package static
 Summary:	GNU Data Access static libraries
-Summary(pl):	Statyczne biblioteki GNU Data Access
+Summary(pl.UTF-8):   Statyczne biblioteki GNU Data Access
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
 GNU Data Access static libraries.
 
-%description static -l pl
+%description static -l pl.UTF-8
 Statyczne biblioteki GNU Data Access.
 
 %package -n gda-db
 Summary:	GDA Berkeley DB provider
-Summary(pl):	¬ród³o danych Berkeley DB dla GDA
+Summary(pl.UTF-8):   Å¹rÃ³dÅ‚o danych Berkeley DB dla GDA
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
 %description -n gda-db
 This package contains the GDA Berkeley DB provider.
 
-%description -n gda-db -l pl
-Pakiet dostaczaj±cy dane z Berkeley DB dla GDA.
+%description -n gda-db -l pl.UTF-8
+Pakiet dostaczajÄ…cy dane z Berkeley DB dla GDA.
 
 %package -n gda-firebird
 Summary:	GDA Firebird provider
-Summary(pl):	¬ród³o danych Firebird dla GDA
+Summary(pl.UTF-8):   Å¹rÃ³dÅ‚o danych Firebird dla GDA
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
 %description -n gda-firebird
 This package contains the GDA Firebird provider.
 
-%description -n gda-firebird -l pl
-Pakiet dostarczaj±cy dane z Firebird dla GDA.
+%description -n gda-firebird -l pl.UTF-8
+Pakiet dostarczajÄ…cy dane z Firebird dla GDA.
 
 %package -n gda-freetds
 Summary:	GDA FreeTDS provider
-Summary(pl):	¬ród³o danych FreeTDS dla GDA
+Summary(pl.UTF-8):   Å¹rÃ³dÅ‚o danych FreeTDS dla GDA
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
 %description -n gda-freetds
 This package contains the GDA FreeTDS provider.
 
-%description -n gda-freetds -l pl
-Pakiet dostarczaj±cy dane z FreeTDS dla GDA.
+%description -n gda-freetds -l pl.UTF-8
+Pakiet dostarczajÄ…cy dane z FreeTDS dla GDA.
 
 %package -n gda-ldap
 Summary:	GDA LDAP provider
-Summary(pl):	¬ród³o danych LDAP dla GDA
+Summary(pl.UTF-8):   Å¹rÃ³dÅ‚o danych LDAP dla GDA
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
 %description -n gda-ldap
 This package contains the GDA LDAP provider.
 
-%description -n gda-ldap -l pl
-Pakiet dostarczaj±cy dane z LDAP dla GDA
+%description -n gda-ldap -l pl.UTF-8
+Pakiet dostarczajÄ…cy dane z LDAP dla GDA
 
 %package -n gda-mdb
 Summary:	GDA MDB provider
-Summary(pl):	¬ród³o danych MDB
+Summary(pl.UTF-8):   Å¹rÃ³dÅ‚o danych MDB
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
 %description -n gda-mdb
 This package contains the GDA MDB provider.
 
-%description -n gda-mdb -l pl
-Pakiet dostarczaj±cy dane z MDB dla GDA.
+%description -n gda-mdb -l pl.UTF-8
+Pakiet dostarczajÄ…cy dane z MDB dla GDA.
 
 %package -n gda-mysql
 Summary:	GDA MySQL provider
-Summary(pl):	¬ród³o danych MySQL dla GDA
+Summary(pl.UTF-8):   Å¹rÃ³dÅ‚o danych MySQL dla GDA
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 Obsoletes:	libgda-mysql0
@@ -191,24 +191,24 @@ Obsoletes:	libgda-mysql0
 %description -n gda-mysql
 This package contains the GDA MySQL provider.
 
-%description -n gda-mysql -l pl
-Pakiet dostarczaj±cy dane z MySQL dla GDA.
+%description -n gda-mysql -l pl.UTF-8
+Pakiet dostarczajÄ…cy dane z MySQL dla GDA.
 
 %package -n gda-odbc
 Summary:	GDA ODBC provider
-Summary(pl):	¬ród³o danych ODBC dla GDA
+Summary(pl.UTF-8):   Å¹rÃ³dÅ‚o danych ODBC dla GDA
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
 %description -n gda-odbc
 This package contains the GDA ODBC provider.
 
-%description -n gda-odbc -l pl
-Pakiet dostarczaj±cy dane z ODBC dla GDA.
+%description -n gda-odbc -l pl.UTF-8
+Pakiet dostarczajÄ…cy dane z ODBC dla GDA.
 
 %package -n gda-postgres
 Summary:	GDA PostgreSQL provider
-Summary(pl):	¬ród³o danych PostgreSQL dla GDA
+Summary(pl.UTF-8):   Å¹rÃ³dÅ‚o danych PostgreSQL dla GDA
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 Obsoletes:	libgda-postgres0
@@ -216,32 +216,32 @@ Obsoletes:	libgda-postgres0
 %description -n gda-postgres
 This package contains the GDA PostgreSQL provider.
 
-%description -n gda-postgres -l pl
-Pakiet dostarczaj±cy dane z PostgreSQL dla GDA.
+%description -n gda-postgres -l pl.UTF-8
+Pakiet dostarczajÄ…cy dane z PostgreSQL dla GDA.
 
 %package -n gda-sqlite
 Summary:	GDA SQLite provider
-Summary(pl):	¬ród³o danych SQLite dla GDA
+Summary(pl.UTF-8):   Å¹rÃ³dÅ‚o danych SQLite dla GDA
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
 %description -n gda-sqlite
 This package contains the GDA SQLite provider.
 
-%description -n gda-sqlite -l pl
-Pakiet dostarczaj±cy dane z SQLite dla GDA.
+%description -n gda-sqlite -l pl.UTF-8
+Pakiet dostarczajÄ…cy dane z SQLite dla GDA.
 
 %package -n gda-xbase
 Summary:	GDA xBase provider
-Summary(pl):	¬ród³o danych xBase dla GDA
+Summary(pl.UTF-8):   Å¹rÃ³dÅ‚o danych xBase dla GDA
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
 %description -n gda-xbase
 This package contains the GDA xBase (dBase, Clipper, FoxPro) provider.
 
-%description -n gda-xbase -l pl
-Pakiet dostarczaj±cy dane z xBase (dBase, Clippera, FoxPro) dla GDA.
+%description -n gda-xbase -l pl.UTF-8
+Pakiet dostarczajÄ…cy dane z xBase (dBase, Clippera, FoxPro) dla GDA.
 
 %prep
 %setup -q
