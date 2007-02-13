@@ -16,7 +16,7 @@
 %undefine	with_firebird
 %endif
 Summary:	GNU Data Access library
-Summary(pl.UTF-8):   Biblioteka GNU Data Access
+Summary(pl.UTF-8):	Biblioteka GNU Data Access
 Name:		libgda
 Version:	1.2.3
 Release:	5
@@ -84,7 +84,7 @@ pozwolić na używanie przez niegnomowe aplikacje.
 
 %package devel
 Summary:	GNU Data Access development
-Summary(pl.UTF-8):   Dla programistów GNU Data Access
+Summary(pl.UTF-8):	Dla programistów GNU Data Access
 Group:		Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 Requires:	glib2-devel >= 1:2.12.1
@@ -107,7 +107,7 @@ programistów używających libgda.
 
 %package static
 Summary:	GNU Data Access static libraries
-Summary(pl.UTF-8):   Statyczne biblioteki GNU Data Access
+Summary(pl.UTF-8):	Statyczne biblioteki GNU Data Access
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
 
@@ -119,7 +119,7 @@ Statyczne biblioteki GNU Data Access.
 
 %package -n gda-db
 Summary:	GDA Berkeley DB provider
-Summary(pl.UTF-8):   Źródło danych Berkeley DB dla GDA
+Summary(pl.UTF-8):	Źródło danych Berkeley DB dla GDA
 Group:		Applications/Databases
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
@@ -131,7 +131,7 @@ Pakiet dostaczający dane z Berkeley DB dla GDA.
 
 %package -n gda-firebird
 Summary:	GDA Firebird provider
-Summary(pl.UTF-8):   Źródło danych Firebird dla GDA
+Summary(pl.UTF-8):	Źródło danych Firebird dla GDA
 Group:		Applications/Databases
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
@@ -143,7 +143,7 @@ Pakiet dostarczający dane z Firebird dla GDA.
 
 %package -n gda-freetds
 Summary:	GDA FreeTDS provider
-Summary(pl.UTF-8):   Źródło danych FreeTDS dla GDA
+Summary(pl.UTF-8):	Źródło danych FreeTDS dla GDA
 Group:		Applications/Databases
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
@@ -155,7 +155,7 @@ Pakiet dostarczający dane z FreeTDS dla GDA.
 
 %package -n gda-ldap
 Summary:	GDA LDAP provider
-Summary(pl.UTF-8):   Źródło danych LDAP dla GDA
+Summary(pl.UTF-8):	Źródło danych LDAP dla GDA
 Group:		Applications/Databases
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
@@ -167,7 +167,7 @@ Pakiet dostarczający dane z LDAP dla GDA
 
 %package -n gda-mdb
 Summary:	GDA MDB provider
-Summary(pl.UTF-8):   Źródło danych MDB
+Summary(pl.UTF-8):	Źródło danych MDB
 Group:		Applications/Databases
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
@@ -179,7 +179,7 @@ Pakiet dostarczający dane z MDB dla GDA.
 
 %package -n gda-mysql
 Summary:	GDA MySQL provider
-Summary(pl.UTF-8):   Źródło danych MySQL dla GDA
+Summary(pl.UTF-8):	Źródło danych MySQL dla GDA
 Group:		Applications/Databases
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 Obsoletes:	libgda-mysql0
@@ -192,7 +192,7 @@ Pakiet dostarczający dane z MySQL dla GDA.
 
 %package -n gda-odbc
 Summary:	GDA ODBC provider
-Summary(pl.UTF-8):   Źródło danych ODBC dla GDA
+Summary(pl.UTF-8):	Źródło danych ODBC dla GDA
 Group:		Applications/Databases
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
@@ -204,7 +204,7 @@ Pakiet dostarczający dane z ODBC dla GDA.
 
 %package -n gda-postgres
 Summary:	GDA PostgreSQL provider
-Summary(pl.UTF-8):   Źródło danych PostgreSQL dla GDA
+Summary(pl.UTF-8):	Źródło danych PostgreSQL dla GDA
 Group:		Applications/Databases
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 Obsoletes:	libgda-postgres0
@@ -217,7 +217,7 @@ Pakiet dostarczający dane z PostgreSQL dla GDA.
 
 %package -n gda-sqlite
 Summary:	GDA SQLite provider
-Summary(pl.UTF-8):   Źródło danych SQLite dla GDA
+Summary(pl.UTF-8):	Źródło danych SQLite dla GDA
 Group:		Applications/Databases
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
@@ -229,7 +229,7 @@ Pakiet dostarczający dane z SQLite dla GDA.
 
 %package -n gda-xbase
 Summary:	GDA xBase provider
-Summary(pl.UTF-8):   Źródło danych xBase dla GDA
+Summary(pl.UTF-8):	Źródło danych xBase dla GDA
 Group:		Applications/Databases
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
@@ -241,7 +241,7 @@ Pakiet dostarczający dane z xBase (dBase, Clippera, FoxPro) dla GDA.
 
 %package apidocs
 Summary:	libgda API documentation
-Summary(pl.UTF-8):   Dokumentacja API libgda
+Summary(pl.UTF-8):	Dokumentacja API libgda
 Group:		Documentation
 Requires:	gtk-doc-common
 
