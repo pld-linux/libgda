@@ -1,4 +1,5 @@
 #
+# TODO: merge as libgda.spec or libgda3.spec?
 # TODO: package dotnet-gda-sharp
 #
 # Conditional build:
@@ -22,17 +23,15 @@
 Summary:	GNU Data Access library
 Summary(pl.UTF-8):   Biblioteka GNU Data Access
 Name:		libgda
-Version:	2.99.2
-Release:	2
+Version:	3.0.1
+Release:	1
 License:	LGPL v2/GPL v2
 Group:		Applications/Databases
-Source0:	http://ftp.gnome.org/pub/gnome/sources/libgda/2.99/%{name}-%{version}.tar.bz2
-# Source0-md5:	e8756d0796b1b147733eb4ff1864cac9
+Source0:	http://ftp.gnome.org/pub/gnome/sources/libgda/3.0/%{name}-%{version}.tar.bz2
+# Source0-md5:	1aaf23c27ba94d0b231f2b123350110a
 Patch0:		%{name}-mdb.patch
 Patch1:		%{name}-xbase.patch
 Patch2:		%{name}-configure.patch
-Patch3:		%{name}-link.patch
-Patch4:		%{name}-freetds.patch
 %{?with_firebird:BuildRequires:	Firebird-devel}
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.8
@@ -57,7 +56,7 @@ BuildRequires:	popt-devel
 %{?with_pgsql:BuildRequires:	postgresql-devel}
 BuildRequires:	readline-devel >= 5.0
 BuildRequires:	rpmbuild(macros) >= 1.213
-%{?with_sqlite:BuildRequires:	sqlite3-devel}
+#%{?with_sqlite:BuildRequires:	sqlite3-devel >= 3.3.100}
 %{?with_odbc:BuildRequires:	unixODBC-devel}
 %{?with_xbase:BuildRequires:	xbase-devel >= 2.0.0}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -248,11 +247,9 @@ Pakiet dostarczający dane z xBase (dBase, Clippera, FoxPro) dla GDA.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
-%patch4 -p1
 
 %if ! %{with gamin}
-sed -i -e 's#\(PKG_CHECK_MODULES(GAMIN.*\)#\#\1#g' configure.in
+sed -i -e 's#\(PKG_CHECK_MODULES(GAMIN.*\)#dnl \1#g' configure.in
 %endif
 
 %build
@@ -262,7 +259,6 @@ CXXFLAGS="%{rpmcxxflags} -fno-rtti -fno-exceptions"
 %{__aclocal}
 %{__autoconf}
 %{__automake}
-LDFLAGS="%{rpmldflags} -Wl,--as-needed"
 %configure \
 	%{?with_doc:--enable-gtk-doc} \
 	%{!?with_static_libs:--enable-static=no} \
@@ -302,39 +298,44 @@ rm -rf $RPM_BUILD_ROOT
 %files -f %{name}-3.0.lang
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README
-%attr(755,root,root) %{_bindir}/gda-config-tool
-%attr(755,root,root) %{_libdir}/libgda*3*.so.*.*
-%attr(755,root,root) %{_libdir}/libgdasql.so.*.*
-%attr(755,root,root) %{_libdir}/libsqltransaction.so.*.*
+%attr(755,root,root) %{_bindir}/gda-config-tool-3.0
+%attr(755,root,root) %{_libdir}/libgda-3.0.so.*.*.*
+%attr(755,root,root) %{_libdir}/libgda-report-3.0.so.*.*.*
+%attr(755,root,root) %{_libdir}/libgdasql-3.0.so.*.*.*
 %dir %{_libdir}/%{_libgdadir}
 %dir %{_providersdir}
-%{_datadir}/libgda
-%dir %{_sysconfdir}/libgda
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/libgda/config
-%{_mandir}/man1/gda-config-tool.1*
-%{_mandir}/man5/*
+%{_datadir}/libgda-3.0
+%dir %{_sysconfdir}/libgda-3.0
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/libgda-3.0/config
+%{_mandir}/man1/gda-config-tool-3.0.1*
+%{_mandir}/man5/gda-config-3.0.5*
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/gda-diagnose
-%attr(755,root,root) %{_bindir}/gda-*-dict-*
-%attr(755,root,root) %{_bindir}/gda-list-config
-%attr(755,root,root) %{_bindir}/gda-report-test
-%attr(755,root,root) %{_bindir}/gda-run
-%attr(755,root,root) %{_bindir}/gda-test-*
-%attr(755,root,root) %{_libdir}/libgda*3*.so
-%attr(755,root,root) %{_libdir}/libgdasql.so
-%{_libdir}/libgda*3*.la
-%{_libdir}/libgdasql.la
-%{_libdir}/libsqltransaction.la
+%attr(755,root,root) %{_bindir}/gda-author-dict-file-3.0
+%attr(755,root,root) %{_bindir}/gda-diagnose-3.0
+%attr(755,root,root) %{_bindir}/gda-inspect-dict-file-3.0
+%attr(755,root,root) %{_bindir}/gda-list-config-3.0
+%attr(755,root,root) %{_bindir}/gda-report-test-3.0
+%attr(755,root,root) %{_bindir}/gda-run-3.0
+%attr(755,root,root) %{_bindir}/gda-test-connection-3.0
+%attr(755,root,root) %{_libdir}/libgda-3.0.so
+%attr(755,root,root) %{_libdir}/libgda-report-3.0.so
+%attr(755,root,root) %{_libdir}/libgdasql-3.0.so
+%{_libdir}/libgda-3.0.la
+%{_libdir}/libgda-report-3.0.la
+%{_libdir}/libgdasql-3.0.la
 %{_includedir}/libgda-*
-%{_pkgconfigdir}/*
-%{?with_doc:%{_gtkdocdir}/*}
+%{_pkgconfigdir}/libgda-3.0.pc
+%{_pkgconfigdir}/libgda-*-3.0.pc
+%{?with_doc:%{_gtkdocdir}/libgda-3.0}
 
 %if %{with static_libs}
 %files static
 %defattr(644,root,root,755)
-%{_libdir}/lib*.a
+%{_libdir}/libgda-3.0.a
+%{_libdir}/libgda-report-3.0.a
+%{_libdir}/libgdasql-3.0.a
 %endif
 
 %files -n gda-db
