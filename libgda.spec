@@ -1,6 +1,6 @@
 #
 # Conditional build:
-%bcond_with	firebird	# build without firebird plugin
+%bcond_without	firebird	# build without firebird plugin
 %bcond_without	freetds		# build without freetds plugin
 %bcond_without	ldap		# build without ldap plugin
 %bcond_without	mdb		# build without MDB plugin
@@ -18,19 +18,17 @@
 Summary:	GNU Data Access library
 Summary(pl.UTF-8):	Biblioteka GNU Data Access
 Name:		libgda
-Version:	1.2.3
-Release:	5
+Version:	1.2.4
+Release:	1
 Epoch:		1
 License:	LGPL v2/GPL v2
 Group:		Applications/Databases
 Source0:	http://ftp.gnome.org/pub/gnome/sources/libgda/1.2/%{name}-%{version}.tar.bz2
-# Source0-md5:	eb9c31c3102d542de728f5f55674d511
-Patch0:		%{name}-gcc34.patch
-Patch1:		%{name}-mdb.patch
-Patch2:		%{name}-freetds063.patch
-Patch3:		%{name}-sqlite.patch
-Patch4:		%{name}-configure.patch
-Patch5:		%{name}-freetds064.patch
+# Source0-md5:	512a8ed842ce98eb432e69bd6867f437
+Patch0:		%{name}-mdb.patch
+Patch1:		%{name}-sqlite.patch
+Patch2:		%{name}-configure.patch
+Patch3:		%{name}-freetds064.patch
 %{?with_firebird:BuildRequires:	Firebird-devel}
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.8
@@ -253,14 +251,12 @@ Dokumentacja API libgda.
 
 %prep
 %setup -q
-%patch0 -p1
 %if !%{with mdb06}
-%patch1 -p1
+%patch0 -p1
 %endif
+%patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
-%patch5 -p1
 
 %build
 CXXFLAGS="%{rpmcxxflags} -fno-rtti -fno-exceptions"
@@ -293,8 +289,6 @@ rm -rf $RPM_BUILD_ROOT
 
 # modules dlopened by *.so through libgmodule
 rm -f $RPM_BUILD_ROOT%{_libdir}/libgda/providers/*.{a,la}
-
-rm -r $RPM_BUILD_ROOT%{_datadir}/locale/no
 
 %find_lang %{name} --with-gnome --all-name
 
@@ -338,15 +332,17 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libgda-report-2.la
 %{_libdir}/libgdasql.la
 %{_includedir}/libgda-1.2
-%{_pkgconfigdir}/*
+%{_pkgconfigdir}/libgda.pc
 
 %files static
 %defattr(644,root,root,755)
-%{_libdir}/lib*.a
+%{_libdir}/libgda-2.a
+%{_libdir}/libgda-report-2.a
+%{_libdir}/libgdasql.a
 
 %files apidocs
 %defattr(644,root,root,755)
-%{_gtkdocdir}/*
+%{_gtkdocdir}/libgda
 
 %files -n gda-db
 %defattr(644,root,root,755)
