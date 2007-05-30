@@ -92,7 +92,7 @@ diff -aurN libgda-1.2.3.orig/configure.in libgda-1.2.3/configure.in
  	else
  		AC_MSG_CHECKING(for freetds version)
 -		freetdsvercheck="`grep \"^#define \(VERSION_NO \|TDS_VERSION_NO \)\" $freetds_incdir/tdsver.h|sed 's|^.*"\(.*\)"|\1|'`"
-+		freetdsvercheck="`grep VERSION ${includedir}/tdsver.h | sed 's|^.*"\(.*\)"|\1|'`"
++		freetdsvercheck="$(grep "^#define \(VERSION_NO \|TDS_VERSION_NO \)" ${includedir}/tdsver.h | sed 's|^.*"\(.*\)"|\1|')"
  		if test "x$freetdsvercheck" = "x"
  		then
  			AC_MSG_WARN(freetds version check failed - backend not used)
