@@ -13,15 +13,6 @@ diff -urN libgda-1.2.3.org/acconfig.h libgda-1.2.3/acconfig.h
 diff -urN libgda-1.2.3.org/configure.in libgda-1.2.3/configure.in
 --- libgda-1.2.3.org/configure.in	2005-10-27 11:18:24.000000000 +0200
 +++ libgda-1.2.3/configure.in	2006-12-25 13:43:06.423502000 +0100
-@@ -440,7 +440,7 @@
- 		AC_MSG_WARN(tds backend not used)
- 	else
- 		AC_MSG_CHECKING(for freetds version)
--		freetdsvercheck="`grep VERSION ${includedir}/tdsver.h | sed 's|^.*"\(.*\)"|\1|'`"
-+		freetdsvercheck=$(grep VERSION ${includedir}/tdsver.h | sed 's|^.*"\(.*\)"|\1|')
- 		if test "x$freetdsvercheck" = "x"
- 		then
- 			AC_MSG_WARN(freetds version check failed - backend not used)
 @@ -460,7 +460,15 @@
  					FREETDS_LIBS="-L${freetdsdir}/lib -ltds"
  					AC_DEFINE(HAVE_FREETDS, 1, [Have freetds])
