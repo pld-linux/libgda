@@ -170,6 +170,8 @@ Summary:	GDA MDB provider
 Summary(pl.UTF-8):	Źródło danych MDB
 Group:		Applications/Databases
 Requires:	%{name} = %{epoch}:%{version}-%{release}
+%{!?with_mdb05:Requires:	mdbtools-libs >= 0.6}
+%{?with_mdb05:Requires:	mdbtools-libs < 0.6}
 
 %description -n gda-mdb
 This package contains the GDA MDB provider.
