@@ -4,13 +4,13 @@
 %bcond_without	freetds		# build without freetds plugin
 %bcond_without	ldap		# build without ldap plugin
 %bcond_without	mdb		# build without MDB plugin
+%bcond_with	mdb05		# build with mdb < 0.6pre1
 %bcond_without	mysql		# build without MySQL plugin
 %bcond_without	odbc		# build without unixODBC
 %bcond_without	pgsql		# build without PostgreSQL plugin
 %bcond_without	sqlite		# build without sqlite plugin
 %bcond_without	xbase		# build without xbase plugin
 
-%bcond_without	mdb06		# build without mdb-0.6pre1
 
 %ifnarch %{ix86} %{x8664} sparc sparcv9 alpha ppc
 %undefine	with_firebird
@@ -29,6 +29,8 @@ Patch0:		%{name}-mdb.patch
 Patch1:		%{name}-sqlite.patch
 Patch2:		%{name}-configure.patch
 Patch3:		%{name}-freetds064.patch
+Patch4:		%{name}-xbase.patch
+Patch5:		%{name}-mdb2.patch
 %{?with_firebird:BuildRequires:	Firebird-devel}
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.8
@@ -44,8 +46,8 @@ BuildRequires:	libtool
 BuildRequires:	libxml2-devel >= 1:2.6.26
 BuildRequires:	libxslt-devel >= 1.1.17
 %if %{with_mdb}
-%{?with_mdb06:BuildRequires:	mdbtools-devel >= 0.6}
-%{!?with_mdb06:BuildRequires:	mdbtools-devel < 0.6}
+%{!?with_mdb05:BuildRequires:	mdbtools-devel >= 0.6}
+%{?with_mdb05:BuildRequires:	mdbtools-devel < 0.6}
 %endif
 %{?with_mysql:BuildRequires:	mysql-devel}
 %{?with_ldap:BuildRequires:	openldap-devel}
@@ -251,12 +253,14 @@ Dokumentacja API libgda.
 
 %prep
 %setup -q
-%if !%{with mdb06}
+%if %{with mdb05}
 %patch0 -p1
 %endif
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
+%patch5 -p1
 
 %build
 CXXFLAGS="%{rpmcxxflags} -fno-rtti -fno-exceptions"
