@@ -30,9 +30,21 @@ diff -urN libgda-1.2.3.org/configure.in libgda-1.2.3/configure.in
  					AC_DEFINE(HAVE_FREETDS_VER0_63, 1, [Have freetds v0.63 API])
  					AC_DEFINE(HAVE_FREETDS_VER0_6X, 1, [Have freetds v0.6x API])
  					FREETDS_CFLAGS="-I${includedir}"
-diff -urN libgda-1.2.3.org/providers/freetds/gda-freetds-provider.c libgda-1.2.3/providers/freetds/gda-freetds-provider.c
---- libgda-1.2.3.org/providers/freetds/gda-freetds-provider.c	2004-12-28 14:26:11.000000000 +0100
-+++ libgda-1.2.3/providers/freetds/gda-freetds-provider.c	2006-12-25 13:46:10.390999250 +0100
+--- libgda-1.2.4/providers/freetds/gda-freetds-provider.c.orig	2007-01-09 13:50:54.000000000 +0100
++++ libgda-1.2.4/providers/freetds/gda-freetds-provider.c	2007-05-31 23:00:11.774634419 +0200
+@@ -117,10 +117,10 @@
+ 						    void *bStruct,
+                                                     const gboolean is_err_msg);
+ #if defined(HAVE_FREETDS_VER0_6X) || defined(HAVE_FREETDS_VER0_60)
+-  static int gda_freetds_provider_tds_handle_info_msg (TDSCONTEXT *,
++  static int gda_freetds_provider_tds_handle_info_msg (const TDSCONTEXT *,
+                                                        TDSSOCKET *,
+                                                        TDSMSGINFO *);
+-  static int gda_freetds_provider_tds_handle_err_msg (TDSCONTEXT *,
++  static int gda_freetds_provider_tds_handle_err_msg (const TDSCONTEXT *,
+                                                       TDSSOCKET *,
+                                                       TDSMSGINFO *);
+ #else
 @@ -253,7 +253,11 @@
  
  	/* Version 0.60 api uses context additionaly */
@@ -45,7 +57,18 @@ diff -urN libgda-1.2.3.org/providers/freetds/gda-freetds-provider.c libgda-1.2.3
  	if (! tds_cnc->ctx) {
  		gda_log_error (_("Allocating tds context failed."));
  		gda_freetds_free_connection_data (tds_cnc);
-@@ -1058,9 +1062,15 @@
+@@ -804,7 +808,9 @@
+ 	}
+ 
+ 	/* there should not be any result tokens */
+-#if defined(HAVE_FREETDS_VER0_63)
++#if defined(HAVE_FREETDS_VER0_64)
++	while ((tds_cnc->rc = tds_process_tokens (tds_cnc->tds, &tds_cnc->result_type, NULL, TDS_RETURN_ROWFMT | TDS_RETURN_COMPUTEFMT | TDS_RETURN_DONE | TDS_STOPAT_ROW | TDS_STOPAT_COMPUTE | TDS_RETURN_PROC))
++#elif defined(HAVE_FREETDS_VER0_63)
+ 	while ((tds_cnc->rc = tds_process_result_tokens (tds_cnc->tds, &tds_cnc->result_type, NULL))
+ #elif defined(HAVE_FREETDS_VER0_6X)
+ 	while ((tds_cnc->rc = tds_process_result_tokens (tds_cnc->tds, &tds_cnc->result_type))
+@@ -1062,9 +1068,15 @@
  	                      TDS_SUCCEED);
  
  	msg = g_strdup_printf(_("Msg %d, Level %d, State %d, Server %s, Line %d\n%s\n"),
@@ -61,7 +84,7 @@ diff -urN libgda-1.2.3.org/providers/freetds/gda-freetds-provider.c libgda-1.2.3
  	                      (msg_info->server ? msg_info->server : ""),
  	                      msg_info->line_number,
  	                      msg_info->message ? msg_info->message : "");
-@@ -1070,7 +1080,11 @@
+@@ -1074,7 +1086,11 @@
  		if (cnc != NULL) {
  			error = gda_error_new ();
  			gda_error_set_description (error, msg);
@@ -73,10 +96,47 @@ diff -urN libgda-1.2.3.org/providers/freetds/gda-freetds-provider.c libgda-1.2.3
  			gda_error_set_source (error, "gda-freetds");
  			if (msg_info->sql_state != NULL) {
  				gda_error_set_sqlstate (error,
-diff -urN libgda-1.2.3.org/providers/freetds/gda-freetds-recordset.c libgda-1.2.3/providers/freetds/gda-freetds-recordset.c
---- libgda-1.2.3.org/providers/freetds/gda-freetds-recordset.c	2004-12-28 14:26:11.000000000 +0100
-+++ libgda-1.2.3/providers/freetds/gda-freetds-recordset.c	2006-12-25 13:46:39.940846000 +0100
-@@ -378,7 +378,13 @@
+@@ -1102,7 +1118,7 @@
+ #if defined(HAVE_FREETDS_VER0_6X) || defined(HAVE_FREETDS_VER0_60)
+ /* FIXME: rewrite tds_handle_message as well/use new parameters here */
+ static int
+-gda_freetds_provider_tds_handle_info_msg (TDSCONTEXT *ctx, TDSSOCKET *tds,
++gda_freetds_provider_tds_handle_info_msg (const TDSCONTEXT *ctx, TDSSOCKET *tds,
+                                           TDSMSGINFO *msg)
+ {
+ 	return gda_freetds_provider_tds_handle_message ((void *) tds,
+@@ -1124,7 +1140,7 @@
+ #if defined(HAVE_FREETDS_VER0_6X) || defined(HAVE_FREETDS_VER0_60)
+ /* FIXME: rewrite tds_handle_message as well/use new parameters here */
+ static int
+-gda_freetds_provider_tds_handle_err_msg (TDSCONTEXT *ctx, TDSSOCKET *tds,
++gda_freetds_provider_tds_handle_err_msg (const TDSCONTEXT *ctx, TDSSOCKET *tds,
+                                          TDSMSGINFO *msg)
+ {
+ 	return gda_freetds_provider_tds_handle_message ((void *) tds,
+--- libgda-1.2.4/providers/freetds/gda-freetds-recordset.c.orig	2007-01-09 13:50:54.000000000 +0100
++++ libgda-1.2.4/providers/freetds/gda-freetds-recordset.c	2007-05-31 22:57:55.998897000 +0200
+@@ -339,7 +339,18 @@
+ 	recset->priv->tds_cnc = tds_cnc;
+ 	recset->priv->res = tds_cnc->tds->res_info;
+ 
+-#ifdef HAVE_FREETDS_VER0_63
++#ifdef HAVE_FREETDS_VER0_64
++	while ((tds_cnc->rc = tds_process_tokens (tds_cnc->tds,
++							 &tds_cnc->result_type, NULL,
++							 TDS_RETURN_ROWFMT | TDS_RETURN_COMPUTEFMT |
++							 TDS_RETURN_DONE | TDS_STOPAT_ROW |
++							 TDS_STOPAT_COMPUTE | TDS_RETURN_PROC))
++	      == TDS_SUCCEED) {
++	       if (tds_cnc->result_type == TDS_ROW_RESULT) {
++		       gint row_type, compute_id;
++
++		       while ((tds_cnc->rc = tds_process_tokens(tds_cnc->tds, &row_type, &compute_id, TDS_STOPAT_ROWFMT | TDS_RETURN_DONE | TDS_RETURN_ROW | TDS_RETURN_COMPUTE))
++#elif defined(HAVE_FREETDS_VER0_63)
+        while ((tds_cnc->rc = tds_process_result_tokens (tds_cnc->tds,
+ 	                                          &tds_cnc->result_type, NULL))
+               == TDS_SUCCEED) {
+@@ -386,7 +397,13 @@
  				g_object_unref (recset);
  				recset = NULL;
  				return NULL;
