@@ -1,0 +1,11 @@
+--- libgda-1.2.4/providers/mdb/gda-mdb-provider.c.orig	2007-01-09 13:50:56.000000000 +0100
++++ libgda-1.2.4/providers/mdb/gda-mdb-provider.c	2007-05-31 23:32:16.656327175 +0200
+@@ -754,7 +754,7 @@
+ 
+ 		bound_data[c] = (gchar *) malloc (MDB_BIND_SIZE);
+ 		bound_data[c][0] = '\0';
+-		mdbsql_bind_column (mdb_SQL, c + 1, bound_data[c]);
++		mdb_sql_bind_column (mdb_SQL, c + 1, bound_data[c]);
+ 
+ 		/* set description for the field */
+ 		sqlcol = g_ptr_array_index (mdb_SQL->columns, c);
