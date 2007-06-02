@@ -31,6 +31,7 @@ Patch2:		%{name}-configure.patch
 Patch3:		%{name}-freetds064.patch
 Patch4:		%{name}-xbase.patch
 Patch5:		%{name}-mdb2.patch
+URL:		http://www.gnome-db.org/
 %{?with_firebird:BuildRequires:	Firebird-devel}
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.8
