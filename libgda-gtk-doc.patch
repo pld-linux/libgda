@@ -1,0 +1,21 @@
+--- libgda-1.2.4/doc/C/Makefile.am.orig	2007-01-09 13:50:52.000000000 +0100
++++ libgda-1.2.4/doc/C/Makefile.am	2007-06-02 16:53:33.939064084 +0200
+@@ -2,7 +2,6 @@
+ 
+ # The name of the module, e.g. 'glib'.
+ DOC_MODULE=libgda
+-HTML_DIR=$(datadir)/gtk-doc/html
+ 
+ # The top-level SGML file. Change it if you want.
+ DOC_MAIN_SGML_FILE=$(DOC_MODULE)-docs.sgml
+--- libgda-1.2.4/doc/libgda-C.omf.in.orig	2007-01-09 13:50:53.000000000 +0100
++++ libgda-1.2.4/doc/libgda-C.omf.in	2007-06-02 16:52:59.404079605 +0200
+@@ -16,7 +16,7 @@
+     </description>
+     <type>user's guide</type>
+     <format mime="text/html"/>
+-    <identifier url="file:@prefix@/share/gtk-doc/html/libgda/index.html"/>
++    <identifier url="file:@HTML_DIR@/libgda/index.html"/>
+     <language code="C"/>
+     <relation seriesid="ebe4f574-a94d-11d6-8bc3-bd1f202a92f8"/>
+     <rights type="GNU FDL" license.version="1.1"/>
