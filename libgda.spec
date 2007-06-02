@@ -1,4 +1,3 @@
-# TODO: fix gtk-doc path in .omf file
 #
 # Conditional build:
 %bcond_without	firebird	# build without firebird plugin
@@ -19,7 +18,7 @@ Summary:	GNU Data Access library
 Summary(pl.UTF-8):	Biblioteka GNU Data Access
 Name:		libgda
 Version:	1.2.4
-Release:	1
+Release:	2
 Epoch:		1
 License:	LGPL v2/GPL v2
 Group:		Applications/Databases
@@ -31,6 +30,7 @@ Patch2:		%{name}-configure.patch
 Patch3:		%{name}-freetds064.patch
 Patch4:		%{name}-xbase.patch
 Patch5:		%{name}-mdb2.patch
+Patch6:		%{name}-gtk-doc.patch
 URL:		http://www.gnome-db.org/
 %{?with_firebird:BuildRequires:	Firebird-devel}
 BuildRequires:	autoconf >= 2.59
@@ -264,6 +264,7 @@ Pakiet dostarczający dane z xBase (dBase, Clippera, FoxPro) dla GDA.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %build
 CXXFLAGS="%{rpmcxxflags} -fno-rtti -fno-exceptions"
@@ -291,8 +292,7 @@ CXXFLAGS="%{rpmcxxflags} -fno-rtti -fno-exceptions"
 rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT \
-	HTML_DIR=%{_gtkdocdir} 
+	DESTDIR=$RPM_BUILD_ROOT
 
 # modules dlopened by *.so through libgmodule
 rm -f $RPM_BUILD_ROOT%{_libdir}/libgda/providers/*.{a,la}
