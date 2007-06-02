@@ -1,3 +1,4 @@
+# TODO: fix gtk-doc path in .omf file
 #
 # Conditional build:
 %bcond_without	firebird	# build without firebird plugin
@@ -10,8 +11,7 @@
 %bcond_without	pgsql		# build without PostgreSQL plugin
 %bcond_without	sqlite		# build without sqlite plugin
 %bcond_without	xbase		# build without xbase plugin
-
-
+#
 %ifnarch %{ix86} %{x8664} sparc sparcv9 alpha ppc
 %undefine	with_firebird
 %endif
@@ -60,8 +60,6 @@ BuildRequires:	scrollkeeper
 %{?with_sqlite:BuildRequires:	sqlite3-devel}
 %{?with_odbc:BuildRequires:	unixODBC-devel}
 %{?with_xbase:BuildRequires:	xbase-devel >= 2.0.0}
-Requires(post,postun):	scrollkeeper
-Requires:	scrollkeeper
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -116,6 +114,20 @@ GNU Data Access static libraries.
 
 %description static -l pl.UTF-8
 Statyczne biblioteki GNU Data Access.
+
+%package apidocs
+Summary:	libgda API documentation
+Summary(pl.UTF-8):	Dokumentacja API libgda
+Group:		Documentation
+Requires(post,postun):	scrollkeeper
+Requires:	gtk-doc-common
+Requires:	scrollkeeper
+
+%description apidocs
+libgda API documentation.
+
+%description apidocs -l pl.UTF-8
+Dokumentacja API libgda.
 
 %package -n gda-db
 Summary:	GDA Berkeley DB provider
@@ -241,18 +253,6 @@ This package contains the GDA xBase (dBase, Clipper, FoxPro) provider.
 %description -n gda-xbase -l pl.UTF-8
 Pakiet dostarczający dane z xBase (dBase, Clippera, FoxPro) dla GDA.
 
-%package apidocs
-Summary:	libgda API documentation
-Summary(pl.UTF-8):	Dokumentacja API libgda
-Group:		Documentation
-Requires:	gtk-doc-common
-
-%description apidocs
-libgda API documentation.
-
-%description apidocs -l pl.UTF-8
-Dokumentacja API libgda.
-
 %prep
 %setup -q
 %if %{with mdb05}
@@ -301,12 +301,13 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/libgda/providers/*.{a,la}
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post
-/sbin/ldconfig
+%post	-p /sbin/ldconfig
+%postun	-p /sbin/ldconfig
+
+%post apidocs
 %scrollkeeper_update_post
 
-%postun
-/sbin/ldconfig
+%postun apidocs
 %scrollkeeper_update_postun
 
 %files -f %{name}.lang
@@ -320,7 +321,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/libgda/providers
 %attr(755,root,root) %{_libdir}/libgda/providers/libgda-xml.so
 %{_datadir}/libgda
-%{_omf_dest_dir}/%{name}
 %dir %{_sysconfdir}/libgda
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/libgda/config
 %{_mandir}/man1/gda-config-tool.1*
@@ -349,6 +349,7 @@ rm -rf $RPM_BUILD_ROOT
 %files apidocs
 %defattr(644,root,root,755)
 %{_gtkdocdir}/libgda
+%{_omf_dest_dir}/%{name}
 
 %files -n gda-db
 %defattr(644,root,root,755)
