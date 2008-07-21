@@ -1,7 +1,7 @@
 #
 # Conditional build:
 %bcond_without	firebird	# build without firebird plugin
-%bcond_without	freetds		# build without freetds plugin
+%bcond_with	freetds		# build without freetds plugin
 %bcond_without	ldap		# build without ldap plugin
 %bcond_without	mdb		# build without MDB plugin
 %bcond_with	mdb05		# build with mdb < 0.6pre1
@@ -18,7 +18,7 @@ Summary:	GNU Data Access library
 Summary(pl.UTF-8):	Biblioteka GNU Data Access
 Name:		libgda
 Version:	1.2.4
-Release:	4
+Release:	5
 Epoch:		1
 License:	LGPL v2/GPL v2
 Group:		Applications/Databases
@@ -38,7 +38,7 @@ BuildRequires:	automake >= 1:1.8
 BuildRequires:	bison
 BuildRequires:	db-devel
 BuildRequires:	flex
-%{?with_freetds:BuildRequires:	freetds-devel >= 0.63}
+%{?with_freetds:BuildRequires:	freetds-devel = 0.64}
 BuildRequires:	glib2-devel >= 1:2.12.1
 BuildRequires:	gnome-common >= 2.12.0
 BuildRequires:	gtk-doc >= 1.7
