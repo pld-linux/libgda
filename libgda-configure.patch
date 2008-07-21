@@ -1,6 +1,6 @@
-diff -aurN libgda-1.2.3.orig/configure.in libgda-1.2.3/configure.in
---- libgda-1.2.3.orig/configure.in	2005-10-27 11:18:24.000000000 +0200
-+++ libgda-1.2.3/configure.in	2006-08-11 20:01:19.815866962 +0200
+diff -urN libgda-1.2.4/configure.in libgda-1.2.4.new/configure.in
+--- libgda-1.2.4/configure.in	2007-01-09 13:51:03.000000000 +0100
++++ libgda-1.2.4.new/configure.in	2008-07-21 19:57:57.000000000 +0200
 @@ -149,8 +149,8 @@
  			AC_MSG_WARN(Berkeley DB backend not used)
  		else
@@ -143,24 +143,25 @@ diff -aurN libgda-1.2.3.orig/configure.in libgda-1.2.3/configure.in
  	fi
  fi
  
-@@ -584,13 +584,13 @@
+@@ -584,14 +584,12 @@
  		AC_MSG_WARN(Sybase backend not used)
  	else
  		SYBASE_DIR=${sybasedir}
 -		SYBASE_CFLAGS="-I${sybasedir}/include"
+-		SYBASE_LIBS="-lnsl -ldl -lm"
 +		SYBASE_CFLAGS="-I${includedir}"
- 		SYBASE_LIBS="-lnsl -ldl -lm"
  		AC_MSG_CHECKING(for Sybase host system type)
  		AC_MSG_RESULT($host)
  		case "$host" in
 -		*linux*) sybase_ctlibs="-L${sybasedir}/lib -lct -lcs -lsybtcl -lcomn -lintl"
 -			sybase_blklibs="-L${sybasedir}/lib -lblk ${sybase_ctlibs}"
-+		*linux*) sybase_ctlibs="-L${libdir} -lct -lcs -lsybtcl -lcomn -lintl"
-+			sybase_blklibs="-L${libdir} -lblk ${sybase_ctlibs}"
- 			SYBASE_LIBS="${SYBASE_LIBS} ${sybase_blklibs}"
+-			SYBASE_LIBS="${SYBASE_LIBS} ${sybase_blklibs}"
++		*linux*)
++			SYBASE_LIBS="-lct"
  			AC_CHECK_LIB(ct,tdsdump_on,[
  			AC_MSG_WARN(linking against freetds libct)
-@@ -712,8 +712,8 @@
+ 			AC_DEFINE(HAVE_SYBASE, 1, [Have Sybase])
+@@ -712,8 +710,8 @@
  		AC_MSG_WARN(FireBird backend not used)
  	else
  		AC_DEFINE(HAVE_FIREBIRD, 1, [Have FireBird])
@@ -171,7 +172,7 @@ diff -aurN libgda-1.2.3.orig/configure.in libgda-1.2.3/configure.in
  	fi
  fi
  
-@@ -750,8 +750,8 @@
+@@ -750,8 +748,8 @@
  	then
  		AC_MSG_WARN(Xbase backend not used)
  	else
@@ -182,7 +183,7 @@ diff -aurN libgda-1.2.3.orig/configure.in libgda-1.2.3/configure.in
  		AC_DEFINE(HAVE_XBASE, 1, [Have Xbase])
  	fi
  fi
-@@ -789,7 +789,7 @@
+@@ -789,7 +787,7 @@
  	then
  		AC_MSG_WARN(sqlite backend not used)
  	else
@@ -191,7 +192,7 @@ diff -aurN libgda-1.2.3.orig/configure.in libgda-1.2.3/configure.in
  		SQLITE_LIBS="-L${sqlite}/lib -lsqlite3"
  		AC_DEFINE(HAVE_SQLITE, 1, [Have sqlite])
  	fi
-@@ -817,7 +817,7 @@
+@@ -817,7 +815,7 @@
  	mdbdir=""
  	for d in $dir /usr /usr/local /opt/gnome
  	do
@@ -200,7 +201,7 @@ diff -aurN libgda-1.2.3.orig/configure.in libgda-1.2.3/configure.in
  		then
  			AC_MSG_RESULT(found MDB Tools in $d)
  			mdbdir=$d
-@@ -828,8 +828,8 @@
+@@ -828,8 +826,8 @@
  	then
  		AC_MSG_WARN(MDB backend not used)
  	else
@@ -211,7 +212,7 @@ diff -aurN libgda-1.2.3.orig/configure.in libgda-1.2.3/configure.in
  		AC_DEFINE(HAVE_MDB, 1, [Have MDB])
  	fi
  fi
-@@ -867,8 +867,8 @@
+@@ -867,8 +865,8 @@
  	then
  		AC_MSG_WARN(LDAP backend not used)
  	else
