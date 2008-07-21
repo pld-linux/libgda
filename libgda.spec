@@ -9,6 +9,7 @@
 %bcond_without	odbc		# build without unixODBC
 %bcond_without	pgsql		# build without PostgreSQL plugin
 %bcond_without	sqlite		# build without sqlite plugin
+%bcond_without	sybase		# build without sybase plugin
 %bcond_without	xbase		# build without xbase plugin
 #
 %ifnarch %{ix86} %{x8664} sparc sparcv9 alpha ppc
@@ -18,11 +19,11 @@ Summary:	GNU Data Access library
 Summary(pl.UTF-8):	Biblioteka GNU Data Access
 Name:		libgda
 Version:	1.2.4
-Release:	5
+Release:	6
 Epoch:		1
 License:	LGPL v2/GPL v2
 Group:		Applications/Databases
-Source0:	http://ftp.gnome.org/pub/gnome/sources/libgda/1.2/%{name}-%{version}.tar.bz2
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/libgda/1.2/%{name}-%{version}.tar.bz2
 # Source0-md5:	512a8ed842ce98eb432e69bd6867f437
 Patch0:		%{name}-mdb.patch
 Patch1:		%{name}-sqlite.patch
@@ -31,6 +32,7 @@ Patch3:		%{name}-freetds064.patch
 Patch4:		%{name}-xbase.patch
 Patch5:		%{name}-mdb2.patch
 Patch6:		%{name}-gtk-doc.patch
+Patch7:		%{name}-sybase.patch
 URL:		http://www.gnome-db.org/
 %{?with_firebird:BuildRequires:	Firebird-devel}
 BuildRequires:	autoconf >= 2.59
@@ -47,9 +49,10 @@ BuildRequires:	libtool
 BuildRequires:	libxml2-devel >= 1:2.6.26
 BuildRequires:	libxslt-devel >= 1.1.17
 %if %{with_mdb}
-%{!?with_mdb05:BuildRequires:	mdbtools-devel >= 0.6}
 %{?with_mdb05:BuildRequires:	mdbtools-devel < 0.6}
+%{!?with_mdb05:BuildRequires:	mdbtools-devel >= 0.6}
 %endif
+%{?with_sybase:BuildRequires:	freetds-devel >= 0.82}
 %{?with_mysql:BuildRequires:	mysql-devel}
 %{?with_ldap:BuildRequires:	openldap-devel >= 2.4.6}
 BuildRequires:	perl-base
@@ -183,8 +186,8 @@ Summary:	GDA MDB provider
 Summary(pl.UTF-8):	Źródło danych MDB
 Group:		Applications/Databases
 Requires:	%{name} = %{epoch}:%{version}-%{release}
-%{!?with_mdb05:Requires:	mdbtools-libs >= 0.6}
 %{?with_mdb05:Requires:	mdbtools-libs < 0.6}
+%{!?with_mdb05:Requires:	mdbtools-libs >= 0.6}
 
 %description -n gda-mdb
 This package contains the GDA MDB provider.
@@ -242,6 +245,18 @@ This package contains the GDA SQLite provider.
 %description -n gda-sqlite -l pl.UTF-8
 Pakiet dostarczający dane z SQLite dla GDA.
 
+%package -n gda-sybase
+Summary:	GDA Sybase provider
+Summary(pl.UTF-8):	Źródło danych Sybase dla GDA
+Group:		Applications/Databases
+Requires:	%{name} = %{epoch}:%{version}-%{release}
+
+%description -n gda-sybase
+This package contains the GDA Sybase provider.
+
+%description -n gda-sybase -l pl.UTF-8
+Pakiet dostarczający dane z Sybase dla GDA.
+
 %package -n gda-xbase
 Summary:	GDA xBase provider
 Summary(pl.UTF-8):	Źródło danych xBase dla GDA
@@ -265,6 +280,7 @@ Pakiet dostarczający dane z xBase (dBase, Clippera, FoxPro) dla GDA.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 %build
 CXXFLAGS="%{rpmcxxflags} -fno-rtti -fno-exceptions"
@@ -285,6 +301,7 @@ CXXFLAGS="%{rpmcxxflags} -fno-rtti -fno-exceptions"
 	--with%{!?with_sqlite:out}-sqlite \
 	--with%{!?with_freetds:out}-tds \
 	--with%{!?with_xbase:out}-xbase \
+	%{?with_sybase:--with-sybase=/usr} \
 	--without-oracle
 %{__make} -j1
 
@@ -323,7 +340,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libgda/providers/libgda-xml.so
 %{_datadir}/libgda
 %dir %{_sysconfdir}/libgda
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/libgda/config
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/libgda/config
 %{_mandir}/man1/gda-config-tool.1*
 %{_mandir}/man5/*
 
@@ -402,6 +419,12 @@ rm -rf $RPM_BUILD_ROOT
 %files -n gda-sqlite
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libgda/providers/libgda-sqlite.so
+%endif
+
+%if %{with sybase}
+%files -n gda-sybase
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libgda/providers/libgda-sybase.so
 %endif
 
 %if %{with xbase}
