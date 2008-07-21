@@ -1,0 +1,14 @@
+diff -urN libgda-1.2.4/providers/sybase/gda-sybase-provider.c libgda-1.2.4.new/providers/sybase/gda-sybase-provider.c
+--- libgda-1.2.4/providers/sybase/gda-sybase-provider.c	2007-01-09 13:50:54.000000000 +0100
++++ libgda-1.2.4.new/providers/sybase/gda-sybase-provider.c	2008-07-21 19:55:25.000000000 +0200
+@@ -33,6 +33,10 @@
+ #include "gda-sybase-recordset.h"
+ #include "gda-sybase-types.h"
+ 
++#ifndef CS_MAX_CHAR
++#  define CS_MAX_CHAR 256
++#endif
++
+ #define PARENT_TYPE GDA_TYPE_SERVER_PROVIDER
+ 
+ static void gda_sybase_provider_class_init (GdaSybaseProviderClass *klass);
