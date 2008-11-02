@@ -1,0 +1,20 @@
+--- libgda-1.2.4/providers/firebird/gda-firebird-recordset.c.org	2008-11-02 21:58:32.146601203 +0100
++++ libgda-1.2.4/providers/firebird/gda-firebird-recordset.c	2008-11-02 22:00:58.103685613 +0100
+@@ -435,7 +435,7 @@
+ 	GdaBlob *blob = NULL;
+ 	struct tm *a_date_time;
+ 	gpointer tmp_big, field_data;
+-	struct vary *var_text;
++	struct paramvary *var_text;
+ 	gdouble i64_n;
+ 	XSQLDA *sql_result;
+ 	
+@@ -511,7 +511,7 @@
+ 			break;
+ 		case SQL_VARYING:
+ 		case SQL_VARYING+1:
+-			var_text = (struct vary *) field_data;
++			var_text = (struct paramvary *) field_data;
+ 			var_text->vary_string[var_text->vary_length] = '\0';
+ 
+ 			gda_value_set_string (gda_value, (const gchar *) var_text->vary_string);
