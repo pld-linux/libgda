@@ -40,8 +40,10 @@ BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.8
 BuildRequires:	bison
 BuildRequires:	db-devel
+BuildRequires:	docbook-dtd412-xml
 BuildRequires:	flex
 %{?with_freetds:BuildRequires:	freetds-devel = 0.64}
+BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel >= 1:2.12.1
 BuildRequires:	gnome-common >= 2.12.0
 BuildRequires:	gtk-doc >= 1.7
@@ -57,6 +59,7 @@ BuildRequires:	libxslt-devel >= 1.1.17
 %{?with_mysql:BuildRequires:	mysql-devel}
 %{?with_ldap:BuildRequires:	openldap-devel >= 2.4.6}
 BuildRequires:	perl-base
+BuildRequires:	pkgconfig
 BuildRequires:	popt-devel
 %{?with_pgsql:BuildRequires:	postgresql-devel}
 BuildRequires:	readline-devel >= 5.0
