@@ -5,7 +5,7 @@
  		bound_data[c] = (gchar *) malloc (MDB_BIND_SIZE);
  		bound_data[c][0] = '\0';
 -		mdbsql_bind_column (mdb_SQL, c + 1, bound_data[c]);
-+		mdb_sql_bind_column (mdb_SQL, c + 1, bound_data[c]);
++		mdb_sql_bind_column (mdb_SQL, c + 1, bound_data[c], MDB_BIND_SIZE-1);
  
  		/* set description for the field */
  		sqlcol = g_ptr_array_index (mdb_SQL->columns, c);
