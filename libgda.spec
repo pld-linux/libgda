@@ -19,7 +19,7 @@ Summary:	GNU Data Access library
 Summary(pl.UTF-8):	Biblioteka GNU Data Access
 Name:		libgda
 Version:	1.2.4
-Release:	16
+Release:	17
 Epoch:		1
 License:	LGPL v2/GPL v2
 Group:		Applications/Databases
