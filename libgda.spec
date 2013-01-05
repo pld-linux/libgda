@@ -19,7 +19,7 @@ Summary:	GNU Data Access library
 Summary(pl.UTF-8):	Biblioteka GNU Data Access
 Name:		libgda
 Version:	1.2.4
-Release:	18
+Release:	19
 Epoch:		1
 License:	LGPL v2/GPL v2
 Group:		Applications/Databases
@@ -35,6 +35,7 @@ Patch6:		%{name}-gtk-doc.patch
 Patch7:		%{name}-sybase.patch
 Patch8:		%{name}-firebird.patch
 Patch9:		glib.patch
+Patch10:	%{name}-xml.patch
 URL:		http://www.gnome-db.org/
 %{?with_firebird:BuildRequires:	Firebird-devel}
 BuildRequires:	autoconf >= 2.59
@@ -288,6 +289,7 @@ Pakiet dostarczający dane z xBase (dBase, Clippera, FoxPro) dla GDA.
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
+%patch10 -p1
 
 %build
 CXXFLAGS="%{rpmcxxflags} -fno-rtti -fno-exceptions"
@@ -319,7 +321,9 @@ rm -rf $RPM_BUILD_ROOT
 	DESTDIR=$RPM_BUILD_ROOT
 
 # modules dlopened by *.so through libgmodule
-rm -f $RPM_BUILD_ROOT%{_libdir}/libgda/providers/*.{a,la}
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/libgda/providers/*.{a,la}
+
+%{__mv} $RPM_BUILD_ROOT%{_datadir}/locale/{sr@Latn,sr@latin}
 
 %find_lang %{name} --with-gnome --all-name
 
@@ -352,7 +356,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/libgda
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/libgda/config
 %{_mandir}/man1/gda-config-tool.1*
-%{_mandir}/man5/*
+%{_mandir}/man5/gda-config.5*
 
 %files devel
 %defattr(644,root,root,755)

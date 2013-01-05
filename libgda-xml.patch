@@ -1,0 +1,11 @@
+--- libgda-1.2.4/libgda/gda-xql-utils.c.orig	2007-01-09 13:50:51.000000000 +0100
++++ libgda-1.2.4/libgda/gda-xql-utils.c	2013-01-05 20:01:24.392711485 +0100
+@@ -94,7 +94,7 @@
+ 	if (freedoc)
+ 		xmlFreeDoc (doc);
+ 
+-	buffer = g_strdup (outbuf->buffer->content);
++	buffer = g_strdup (xmlBufContent(outbuf->buffer));
+ 	xmlOutputBufferClose (outbuf);
+ 
+ 	return buffer;
