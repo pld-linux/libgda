@@ -36,6 +36,7 @@ Patch7:		%{name}-sybase.patch
 Patch8:		%{name}-firebird.patch
 Patch9:		glib.patch
 Patch10:	%{name}-xml.patch
+Patch11:	%{name}-format.patch
 URL:		http://www.gnome-db.org/
 %{?with_firebird:BuildRequires:	Firebird-devel}
 BuildRequires:	autoconf >= 2.59
@@ -290,6 +291,7 @@ Pakiet dostarczający dane z xBase (dBase, Clippera, FoxPro) dla GDA.
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1
+%patch11 -p1
 
 %build
 CXXFLAGS="%{rpmcxxflags} -fno-rtti -fno-exceptions"
@@ -343,12 +345,12 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README
 %attr(755,root,root) %{_bindir}/gda-config-tool
-%attr(755,root,root) %{_libdir}/libgda-2.so.*.*
-%attr(755,root,root) %{_libdir}/libgda-report-2.so.*.*
-%attr(755,root,root) %{_libdir}/libgdasql.so.*.*
-%ghost %{_libdir}/libgda-2.so.3
-%ghost %{_libdir}/libgda-report-2.so.3
-%ghost %{_libdir}/libgdasql.so.3
+%attr(755,root,root) %{_libdir}/libgda-2.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libgda-2.so.3
+%attr(755,root,root) %{_libdir}/libgda-report-2.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libgda-report-2.so.3
+%attr(755,root,root) %{_libdir}/libgdasql.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libgdasql.so.3
 %dir %{_libdir}/libgda
 %dir %{_libdir}/libgda/providers
 %attr(755,root,root) %{_libdir}/libgda/providers/libgda-xml.so

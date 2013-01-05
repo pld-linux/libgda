@@ -1,0 +1,25 @@
+--- libgda-1.2.4/providers/postgres/gda-postgres-provider.c.orig	2007-01-09 13:50:57.000000000 +0100
++++ libgda-1.2.4/providers/postgres/gda-postgres-provider.c	2013-01-05 20:50:03.335312531 +0100
+@@ -837,7 +837,7 @@
+ 	result = gda_postgres_provider_single_command (pg_prv, cnc, "BEGIN"); 
+ 	if (result&&isolation_level != NULL) {
+ 	        result=gda_postgres_provider_single_command (pg_prv, cnc, isolation_level) ;
+-		g_message (isolation_level);
++		g_message ("%s", isolation_level);
+ 	} 
+ 	g_free(isolation_level);
+ 
+--- libgda-1.2.4/tools/gda-config-tool.c.orig	2007-01-09 13:50:52.000000000 +0100
++++ libgda-1.2.4/tools/gda-config-tool.c	2013-01-05 21:46:55.702888382 +0100
+@@ -1396,9 +1396,9 @@
+ 	const char *paramInDsn = "DSN parameters:";
+ 
+ 	g_print ("Provider name: %s\n", info->id);
+-	g_print (desc);
++	g_print ("%s", desc);
+ 	pretty_print (info->description, strlen (desc));
+-	g_print (paramInDsn);
++	g_print ("%s", paramInDsn);
+ 	str = g_string_new (NULL);
+ 	g_list_foreach (info->gda_params, add_param_name_to_string, str);
+ 	pretty_print (str->str, strlen (paramInDsn) + 1);
