@@ -1,0 +1,11 @@
+--- libgda-1.2.4/providers/mdb/util.c~	2007-01-09 13:50:56.000000000 +0100
++++ libgda-1.2.4/providers/mdb/util.c	2013-11-30 22:09:52.004225663 +0100
+@@ -37,7 +37,7 @@
+ 	case MDB_NUMERIC : return GDA_VALUE_TYPE_NUMERIC;
+ 	case MDB_OLE : return GDA_VALUE_TYPE_BINARY;
+ 	case MDB_REPID : return GDA_VALUE_TYPE_BINARY;
+-	case MDB_SDATETIME : return GDA_VALUE_TYPE_TIMESTAMP;
++	case MDB_DATETIME : return GDA_VALUE_TYPE_TIMESTAMP;
+ 	case MDB_TEXT : return GDA_VALUE_TYPE_STRING;
+ 	}
+ 
