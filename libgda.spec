@@ -1,16 +1,17 @@
 #
 # Conditional build:
-%bcond_without	firebird	# build without firebird plugin
-%bcond_with	freetds		# build without freetds plugin
-%bcond_without	ldap		# build without ldap plugin
-%bcond_without	mdb		# build without MDB plugin
-%bcond_with	mdb05		# build with mdb < 0.6pre1
-%bcond_without	mysql		# build without MySQL plugin
-%bcond_without	odbc		# build without unixODBC
-%bcond_without	pgsql		# build without PostgreSQL plugin
-%bcond_without	sqlite		# build without sqlite plugin
-%bcond_without	sybase		# build without sybase plugin
-%bcond_without	xbase		# build without xbase plugin
+%bcond_without	firebird	# Firebird plugin
+%bcond_with	freetds		# FreeTDS plugin
+%bcond_without	ldap		# LDAP plugin
+%bcond_without	mdb		# MDB plugin
+%bcond_with	mdb05		# use mdb < 0.6pre1
+%bcond_without	mysql		# MySQL plugin
+%bcond_with	oci		# Oracle DB plugin
+%bcond_without	odbc		# unixODBC plugin
+%bcond_without	pgsql		# PostgreSQL plugin
+%bcond_without	sqlite		# SQLite plugin
+%bcond_without	sybase		# sybase plugin
+%bcond_without	xbase		# xbase plugin
 #
 %ifnarch %{ix86} %{x8664} sparc sparcv9 alpha ppc
 %undefine	with_firebird
@@ -21,7 +22,7 @@ Name:		libgda
 Version:	1.2.4
 Release:	21
 Epoch:		1
-License:	LGPL v2/GPL v2
+License:	LGPL v2+/GPL v2+
 Group:		Applications/Databases
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/libgda/1.2/%{name}-%{version}.tar.bz2
 # Source0-md5:	512a8ed842ce98eb432e69bd6867f437
@@ -47,6 +48,7 @@ BuildRequires:	db-devel
 BuildRequires:	docbook-dtd412-xml
 BuildRequires:	flex
 %{?with_freetds:BuildRequires:	freetds-devel = 0.64}
+%{?with_sybase:BuildRequires:	freetds-devel >= 0.82}
 BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel >= 1:2.12.1
 BuildRequires:	gnome-common >= 2.12.0
@@ -59,9 +61,9 @@ BuildRequires:	libxslt-devel >= 1.1.17
 %{?with_mdb05:BuildRequires:	mdbtools-devel < 0.6}
 %{!?with_mdb05:BuildRequires:	mdbtools-devel >= 0.6}
 %endif
-%{?with_sybase:BuildRequires:	freetds-devel >= 0.82}
 %{?with_mysql:BuildRequires:	mysql-devel}
 %{?with_ldap:BuildRequires:	openldap-devel >= 2.4.6}
+%{?with_oci:BuildRequires:	oracle-instantclient-devel}
 BuildRequires:	perl-base
 BuildRequires:	pkgconfig
 BuildRequires:	popt-devel
@@ -93,8 +95,8 @@ libgda była częścią projektu GNOME-DB, ale została wydzielona, aby
 pozwolić na używanie przez niegnomowe aplikacje.
 
 %package devel
-Summary:	GNU Data Access development
-Summary(pl.UTF-8):	Dla programistów GNU Data Access
+Summary:	GNU Data Access development files
+Summary(pl.UTF-8):	Pliki programistyczne biblioteki GNU Data Access
 Group:		Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 Requires:	glib2-devel >= 1:2.12.1
@@ -151,7 +153,7 @@ Requires:	%{name} = %{epoch}:%{version}-%{release}
 This package contains the GDA Berkeley DB provider.
 
 %description -n gda-db -l pl.UTF-8
-Pakiet dostaczający dane z Berkeley DB dla GDA.
+Pakiet dostarczający dane z Berkeley DB dla GDA.
 
 %package -n gda-firebird
 Summary:	GDA Firebird provider
@@ -227,6 +229,18 @@ This package contains the GDA ODBC provider.
 
 %description -n gda-odbc -l pl.UTF-8
 Pakiet dostarczający dane z ODBC dla GDA.
+
+%package -n gda-oracle
+Summary:	GDA Oracle provider
+Summary(pl.UTF-8):	Źródło danych Oracle dla GDA
+Group:		Libraries
+Requires:	%{name} = %{version}-%{release}
+
+%description -n gda-oracle
+This package contains the GDA Oracle provider.
+
+%description -n gda-oracle -l pl.UTF-8
+Pakiet dostarczający dane z bazy Oracle dla GDA.
 
 %package -n gda-postgres
 Summary:	GDA PostgreSQL provider
@@ -305,17 +319,17 @@ CXXFLAGS="%{rpmcxxflags} -fno-rtti -fno-exceptions"
 %configure \
 	--enable-gtk-doc \
 	--with-html-dir=%{_gtkdocdir} \
-	--with%{!?with_firebird:out}-firebird \
-	--with%{!?with_ldap:out}-ldap \
-	--with%{!?with_mdb:out}-mdb \
-	--with%{!?with_mysql:out}-mysql \
-	--with%{!?with_odbc:out}-odbc \
-	--with%{!?with_pgsql:out}-postgres \
-	--with%{!?with_sqlite:out}-sqlite \
-	--with%{!?with_freetds:out}-tds \
-	--with%{!?with_xbase:out}-xbase \
+	--with-firebird%{!?with_firebird:=no} \
+	--with-ldap%{!?with_ldap:=no} \
+	--with-mdb%{!?with_mdb:=no} \
+	--with-mysql%{!?with_mysql:=no} \
+	--with-odbc%{!?with_odbc:=no} \
+	--with-oracle%{!?with_oci:=no} \
+	--with-postgres%{!?with_pgsql:=no} \
+	--with-sqlite%{!?with_sqlite:=no} \
 	%{?with_sybase:--with-sybase=/usr} \
-	--without-oracle
+	--with-tds%{!?with_freetds:=no} \
+	--with-xbase%{!?with_xbase:=no}
 %{__make} -j1
 
 %install
@@ -425,6 +439,12 @@ rm -rf $RPM_BUILD_ROOT
 %files -n gda-odbc
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libgda/providers/libgda-odbc.so
+%endif
+
+%if %{with oci}
+%files -n gda-oracle
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libgda/providers/libgda-oracle.so
 %endif
 
 %if %{with pgsql}
