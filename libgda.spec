@@ -49,7 +49,7 @@ BuildRequires:	docbook-dtd412-xml
 BuildRequires:	flex
 %{?with_freetds:BuildRequires:	freetds-devel = 0.64}
 %{?with_sybase:BuildRequires:	freetds-devel >= 0.82}
-BuildRequires:	gettext-devel
+BuildRequires:	gettext-tools
 BuildRequires:	glib2-devel >= 1:2.12.1
 BuildRequires:	gnome-common >= 2.12.0
 BuildRequires:	gtk-doc >= 1.7
