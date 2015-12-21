@@ -1,0 +1,16 @@
+--- libgda-1.2.4/configure.in~	2015-12-21 19:35:22.000000000 +0100
++++ libgda-1.2.4/configure.in	2015-12-21 19:37:57.337256019 +0100
+@@ -105,10 +105,13 @@
+ 
+ dnl Test for lib64 architectures
+ dnl FIXME: should really check target
++lib=$__lib
++if [ -z "$lib" ]; then
+ case $host_cpu in
+ x86_64* | sparc64*) lib="lib64";;
+ *) lib="lib";;
+ esac
++fi
+ 
+ dnl Test for Berkeley DB
+ try_bdb=true

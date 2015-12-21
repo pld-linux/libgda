@@ -20,7 +20,7 @@ Summary:	GNU Data Access library
 Summary(pl.UTF-8):	Biblioteka GNU Data Access
 Name:		libgda
 Version:	1.2.4
-Release:	22
+Release:	23
 Epoch:		1
 License:	LGPL v2+/GPL v2+
 Group:		Applications/Databases
@@ -39,6 +39,7 @@ Patch9:		glib.patch
 Patch10:	%{name}-xml.patch
 Patch11:	%{name}-format.patch
 Patch12:	%{name}-mdb-0.7.patch
+Patch13:	x32.patch
 URL:		http://www.gnome-db.org/
 %{?with_firebird:BuildRequires:	Firebird-devel}
 BuildRequires:	autoconf >= 2.59
@@ -308,6 +309,7 @@ Pakiet dostarczający dane z xBase (dBase, Clippera, FoxPro) dla GDA.
 %patch10 -p1
 %patch11 -p1
 %patch12 -p1
+%patch13 -p1
 
 %build
 CXXFLAGS="%{rpmcxxflags} -fno-rtti -fno-exceptions"
@@ -317,6 +319,7 @@ CXXFLAGS="%{rpmcxxflags} -fno-rtti -fno-exceptions"
 %{__autoconf}
 %{__automake}
 %configure \
+	__lib=%{_lib} \
 	--enable-gtk-doc \
 	--with-html-dir=%{_gtkdocdir} \
 	--with-firebird%{!?with_firebird:=no} \
