@@ -12,7 +12,7 @@
 %bcond_without	sqlite		# SQLite plugin
 %bcond_without	sybase		# sybase plugin
 %bcond_without	xbase		# xbase plugin
-#
+
 %ifnarch %{ix86} %{x8664} sparc sparcv9 alpha ppc
 %undefine	with_firebird
 %endif
@@ -20,7 +20,7 @@ Summary:	GNU Data Access library
 Summary(pl.UTF-8):	Biblioteka GNU Data Access
 Name:		libgda
 Version:	1.2.4
-Release:	23
+Release:	24
 Epoch:		1
 License:	LGPL v2+/GPL v2+
 Group:		Applications/Databases
@@ -137,6 +137,9 @@ Group:		Documentation
 Requires(post,postun):	scrollkeeper
 Requires:	gtk-doc-common
 Requires:	scrollkeeper
+%if "%{_rpmversion}" >= "5"
+BuildArch:	noarch
+%endif
 
 %description apidocs
 libgda API documentation.
@@ -344,7 +347,7 @@ rm -rf $RPM_BUILD_ROOT
 # modules dlopened by *.so through libgmodule
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/libgda/providers/*.{a,la}
 
-%{__mv} $RPM_BUILD_ROOT%{_datadir}/locale/{sr@Latn,sr@latin}
+%{__mv} $RPM_BUILD_ROOT%{_localedir}/{sr@Latn,sr@latin}
 
 %find_lang %{name} --with-gnome --all-name
 
