@@ -137,9 +137,7 @@ Group:		Documentation
 Requires(post,postun):	scrollkeeper
 Requires:	gtk-doc-common
 Requires:	scrollkeeper
-%if "%{_rpmversion}" >= "5"
 BuildArch:	noarch
-%endif
 
 %description apidocs
 libgda API documentation.
